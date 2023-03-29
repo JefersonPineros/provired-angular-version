@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login.component';
 import { LoginRoutingModule } from './login-routing.module'
-
+import { CardComponentModule } from 'src/app/components/components.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +10,8 @@ import { LoginRoutingModule } from './login-routing.module'
   ],
   imports: [
     CommonModule,
-    LoginRoutingModule
+    LoginRoutingModule,
+    CardComponentModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
