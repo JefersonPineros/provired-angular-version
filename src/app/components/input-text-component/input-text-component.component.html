@@ -1,0 +1,17 @@
+<div class="col-12">
+  <span class="p-float-label">
+    <input
+      pInputText
+      type="text"
+      [attr.id]="nombre"
+      [disabled]="disabledInputText"
+      [(ngModel)]="model"
+      (ngModelChange)="modelChange.emit($event)"
+      class="col-12"
+      [pattern]="patron"
+      [attr.aria.required]="requerido"
+    />
+
+    <small id="username-help">Ingrese su nombre de usuario.</small>
+  </span>
+</div>

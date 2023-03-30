@@ -4,6 +4,14 @@
             <div class="col-6 col-offset-3">
                 <div class="mt-8">
                     <app-card-component></app-card-component>
+                    <div class="grid">
+                      <input-text
+                        placeHolder="Usuario"
+                        [(model)]="userName"
+                        (grupo)="(formLogin)"
+                        [requerido]="true"
+                      ></input-text>
+                    </div>
                 </div>
             </div>
         </div>
