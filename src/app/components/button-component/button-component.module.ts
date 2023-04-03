@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ButtonComponentComponent } from './button-component.component';
-import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 export * from './button-component.component';
 
@@ -13,7 +13,7 @@ export * from './button-component.component';
   ],
   imports: [
     CommonModule,
-    InputTextModule
+    ButtonModule
   ],
   exports: [
     ButtonComponentComponent

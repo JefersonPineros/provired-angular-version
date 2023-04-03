@@ -1,17 +1,58 @@
-<div class="col-12">
-  <span class="p-float-label">
+<div class="col-12 mt-3">
+  <span
+    [ngClass]="[
+      styleInput == 'icon' && iconOrientation == 'left'
+        ? 'p-input-icon-left'
+        : styleInput == 'icon' && iconOrientation == 'right'
+        ? 'p-input-icon-right'
+        : styleInput == 'help-text'
+        ? 'flex flex-column'
+        : styleInput == 'float'
+        ? 'p-float-label'
+        : ''
+    ]"
+  >
+    <i
+      *ngIf="styleInput == 'icon'"
+      class="pi {{icon}}"
+    ></i>
+    <label
+      *ngIf="styleInput == 'help-text'"
+      [attr.htmlFor]="nombre"
+    >{{placeHolder}}</label>
     <input
       pInputText
-      type="text"
+      type="{{tipo}}"
+      [placeholder]="
+        placeHolderActive?
+        styleInput == 'help-text' ? placeHolder : '': ''
+      "
       [attr.id]="nombre"
       [disabled]="disabledInputText"
       [(ngModel)]="model"
       (ngModelChange)="modelChange.emit($event)"
+      [ngClass]="[
+        valid ?
+        grupo.controls[nombre].errors?.['errorRequerido']? 'ng-invalid ng-dirty': '': ''
+      ]"
       class="col-12"
       [pattern]="patron"
       [attr.aria.required]="requerido"
     />
-
-    <small id="username-help">Ingrese su nombre de usuario.</small>
+    <label
+      [attr.htmlFor]="nombre"
+      *ngIf="styleInput == 'float'"
+      >
+      {{placeHolder}}
+    </label>
+    <small
+      *ngIf="styleInput == 'help-text'"
+      id="username-help"
+      [ngClass]="[
+        valid ?
+        grupo.controls[nombre].errors?.['errorRequerido']? 'error-invalid': '': ''
+      ]"
+      >Por favor ingrese su {{placeHolder}}.
+    </small>
   </span>
 </div>

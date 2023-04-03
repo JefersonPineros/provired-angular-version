@@ -1,10 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-button-component',
   templateUrl: './button-component.component.html',
   styleUrls: ['./button-component.component.scss']
 })
-export class ButtonComponentComponent {
+export class ButtonComponentComponent implements OnInit {
+
+  @Input() type: string = 'button';
+
+  @Output() eventEmiter: EventEmitter<any> = new EventEmitter<any>();
+
+  @Input() nameButton: string = '';
+
+  @Input() clase: string = '';
+
+  constructor() {}
+
+  ngOnInit(): void {
+
+  }
+
+  onEvent(event: any): void {
+    this.eventEmiter.emit(event);
+  }
 
 }

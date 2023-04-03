@@ -9,6 +9,8 @@ import { UtilService } from 'src/app/services/core/util.service';
 })
 export class InputTextComponentComponent implements OnInit, OnChanges {
 
+  @Input() placeHolderActive: boolean = false;
+
   @Input() placeHolder: string = '';
 
   @Input() model: string | undefined = '';
@@ -23,13 +25,19 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
 
   @Input() disabledInputText: boolean = false;
 
-  @Input() tipo: string = '';
+  @Input() tipo: string = 'text';
 
   @Input() valid: boolean = false;
 
   @Output() validChange: EventEmitter<any> = new EventEmitter();
 
   @Input() patron: RegExp = new RegExp('');
+
+  @Input() styleInput: string = "float";
+
+  @Input() iconOrientation: string = "left";
+
+  @Input() icon: string = "pi-search";
 
   constructor(private fb: FormBuilder) {}
 
