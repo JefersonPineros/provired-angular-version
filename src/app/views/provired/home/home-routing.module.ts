@@ -12,6 +12,17 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'inicio'
+      },
+      {
+        path: 'inicio',
+        loadChildren: () => import('./audiencia/audiencia.module').then((m) => m.AudienciaModule )
+      }
+    ]
   }
 ];
 

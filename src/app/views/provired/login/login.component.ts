@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     this.accessLogin.login(this.loginModel).subscribe({
 
       next: (resp) => {
-        this.route.navigate(['provired/home-provired/home']);
+        this.route.navigate(['provired/home-provired']);
       },
       error: (error) => {
         console.log(error);
