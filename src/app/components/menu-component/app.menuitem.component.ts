@@ -84,7 +84,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
 
   menuResetSubscription: Subscription;
 
-  key: string | undefined;
+  public key: string | undefined;
 
   selectedKey: boolean | undefined;
 
@@ -100,6 +100,8 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
     this.menuResetSubscription = this.menuService.resetSource$.subscribe(() => {
       this.active = false;
     });
+
+    // console.log(this.item.routerLink[0]);
 
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(params => {

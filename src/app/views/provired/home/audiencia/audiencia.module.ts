@@ -4,7 +4,6 @@ import { AudienciaComponent } from './audiencia.component';
 import { AudienciaRoutingModule } from './audiencia-routing.module';
 
 
-
 @NgModule({
   declarations: [
     AudienciaComponent

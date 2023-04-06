@@ -9,23 +9,23 @@ import { MenuService } from 'src/app/services/utils/app.menu.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  configDialogActive = false;
+  configDialogActive:any;
 
-  topbarItemClick: boolean = false;
+  topbarItemClick: boolean | undefined;
 
   activeTopbarItem: any;
 
-  menuHoverActive: boolean = false;
+  menuHoverActive: boolean | undefined;
 
-  topbarMenuActive: boolean = false;
+  topbarMenuActive: boolean | undefined;
 
-  overlayMenuActive: boolean = false;
+  overlayMenuActive: boolean | undefined;
 
-  menuClick: boolean = false;
+  menuClick: boolean | undefined;
 
-  configClick: boolean = false;
+  configClick: boolean | undefined;
 
-  overlayMenuMobileActive: boolean = false;
+  overlayMenuMobileActive: boolean | undefined;
 
   constructor(private menuService: MenuService, private primengConfig: PrimeNGConfig, public app: AppComponent) { }
 

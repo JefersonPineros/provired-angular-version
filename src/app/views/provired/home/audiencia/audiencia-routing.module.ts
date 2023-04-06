@@ -5,11 +5,6 @@ import { AudienciaComponent } from './audiencia.component';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'audiencia',
-    pathMatch: 'full'
-  },
-  {
     path: 'audiencia',
     component: AudienciaComponent,
   }

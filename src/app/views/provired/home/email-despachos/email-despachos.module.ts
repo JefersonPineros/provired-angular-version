@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { EmailDespachosRoutingModule } from './email-despachos-routing.module';
 import { EmailDespachosComponent } from './email-despachos.component';
 
 
-
 @NgModule({
-  declarations: [
-    EmailDespachosComponent
-  ],
+  declarations: [EmailDespachosComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    EmailDespachosRoutingModule
   ]
 })
 export class EmailDespachosModule { }

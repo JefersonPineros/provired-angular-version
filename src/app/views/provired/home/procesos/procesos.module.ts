@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProcesosComponent } from './procesos.component';
 
+import { ProcesosRoutingModule } from './procesos-routing.module';
+import { ProcesosComponent } from './procesos.component';
 
 
 @NgModule({
@@ -9,7 +10,8 @@ import { ProcesosComponent } from './procesos.component';
     ProcesosComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ProcesosRoutingModule
   ]
 })
 export class ProcesosModule { }
