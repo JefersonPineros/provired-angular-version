@@ -1,0 +1,66 @@
+<div class="grid">
+  <div class="col-12 ">
+    <div class="grid">
+      <div class="col-4 col-offset-4">
+
+        <div class="relative">
+          <div class="static mt-5">
+            <div class="absolute botton right-0 img-logo">
+            </div>
+          </div>
+        </div>
+
+        <div class="aling-box">
+          <app-card-component>
+            <ng-template pTemplate="header">
+              <div class="pt-5 pl-5">
+                <h2>Bienvenido a provired</h2>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="content">
+              <div class="grid p-4">
+                <div class="col-12">
+
+                  <input-text
+                    placeHolder="Usuario"
+                    [(model)]="loginModel.user"
+                    (grupo)="(formLogin)"
+                    [requerido]="true"
+                    styleInput="help-text"
+                    [placeHolderActive]="false"
+                  >
+                  </input-text>
+
+                  <input-text
+                    placeHolder="Contraseña"
+                    [(model)]="loginModel.password"
+                    (grupo)="(formLogin)"
+                    [requerido]="true"
+                    styleInput="help-text"
+                    [placeHolderActive]="false"
+                    tipo="password"
+                  >
+                  </input-text>
+
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <div class="grid">
+                  <div class="col-12">
+                    <div class="flex justify-content-center">
+                      <app-button-component
+                        nameButton="Ingresar"
+                        type="button"
+                        (eventEmiter)="login()"
+                      ></app-button-component>
+                    </div>
+                  </div>
+                </div>
+            </ng-template>
+          </app-card-component>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
