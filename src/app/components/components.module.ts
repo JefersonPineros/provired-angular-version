@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { ActionBarComponent } from './action-bar/action-bar.component';
 
 export * from './card-component/card-component.module';
 export * from './input-text-component/input-text-component.module';

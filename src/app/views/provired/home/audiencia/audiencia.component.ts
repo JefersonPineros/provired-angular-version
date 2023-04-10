@@ -19,5 +19,4 @@ export class AudienciaComponent implements OnInit {
       ]
     );
   }
-
 }

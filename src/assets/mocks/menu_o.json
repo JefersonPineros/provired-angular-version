@@ -1,0 +1,81 @@
+[
+  {
+    "label": "Mis audiencias",
+    "icon": "pi pi-fw pi-clone",
+    "routerLink": ["inicio/audiencia"]
+  },
+  {
+    "label": "Notificaciones",
+    "icon": "pi pi-fw pi-inbox",
+    "routerLink": ["notificaciones"]
+  },
+  {
+    "label": "Reportes",
+    "icon": "pi pi-fw pi-file-pdf",
+    "routerLink": ["reportes"],
+    "items": [
+      {
+        "label": "Listado procesos generales",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_generales"]
+      },
+      {
+        "label": "Listado procesos activos",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_activos"]
+      },
+      {
+        "label": "Eliminacion masiva de procesos",
+        "icon": "pi pi-fw pi-trash",
+        "routerLink": ["reportes/eliminar_procesos"]
+      },
+      {
+        "label": "Historial de procesos",
+        "icon": "pi pi-fw pi-book",
+        "routerLink": ["reportes/historial_procesos"]
+      },
+      {
+        "label": "Mis Solicitudes",
+        "icon": "pi pi-fw pi-envelope",
+        "routerLink": ["reportes/mis_solicitudes"]
+      },
+      {
+        "label": "Consulta impulso procesal",
+        "icon": "pi pi-fw pi-question-circle",
+        "routerLink": ["reportes/consulta_procesal"]
+      }
+    ]
+  },
+  {
+    "label": "Procesos",
+    "icon": "pi pi-fw pi-building",
+    "routerLink": ["procesos"]
+  },
+  {
+    "label": "Email despachos",
+    "icon": "pi pi-fw pi-briefcase",
+    "routerLink": ["email_despachos"]
+  },
+  {
+    "label": "Documentos",
+    "icon": "pi pi-fw pi-folder-open",
+    "routerLink": ["documentos"],
+    "items": [
+      {
+        "label": "Autorizaciones",
+        "icon": "pi pi-fw pi-check-circle",
+        "routerLink": ["documentos/autorizaciones"]
+      },
+      {
+        "label": "Tutoriales",
+        "icon": "pi pi-fw pi-comment",
+        "routerLink": ["documentos/tutoriales"]
+      },
+      {
+        "label": "Terminos y condiciones",
+        "icon": "pi pi-fw pi-verified",
+        "routerLink": ["documentos/terminos_condiciones"]
+      }
+    ]
+  }
+]

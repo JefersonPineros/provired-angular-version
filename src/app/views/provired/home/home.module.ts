@@ -9,6 +9,7 @@ import { ReportesComponent } from './reportes/reportes.component';
 import { BreadcrumbService } from 'src/app/services/utils/app.breadcrumb.service';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
+import { MenuServiceService } from 'src/app/services/menu/menu-service.service';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { AppComponent } from 'src/app/app.component';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     MenuService,
-    BreadcrumbService
+    BreadcrumbService,
+    MenuServiceService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AccessPermissionsGuard } from 'src/app/guards/access-permissions.guard';
 
 const routes: Routes = [
-  { 
-    path: '', 
+  {
+    path: '',
     redirectTo: 'access-provired',
     pathMatch:'full'
   },
@@ -13,6 +14,9 @@ const routes: Routes = [
   },
   {
     path: 'home-provired',
+    canActivate: [
+      AccessPermissionsGuard
+    ],
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule)
   }
 ];
