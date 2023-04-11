@@ -19,6 +19,28 @@ export class SessionStorageService {
     return this.userLogin;
   }
 
+  public createStorage(key: string, data: string): void {
+    sessionStorage.setItem(key, data);
+  }
+
+  public getStorage(key: string, tipo: string): any {
+    switch (tipo) {
+      case 'string':
+        return sessionStorage.getItem(key);
+
+      case 'number':
+        return parseInt(sessionStorage.getItem(key)!) ;
+
+      case 'boolean':
+
+        break;
+      case 'json':
+        return JSON.parse( sessionStorage.getItem("session")! );
+      default:
+        break;
+    }
+  }
+
   public clearAllSession(): void {
     sessionStorage.clear();
   }

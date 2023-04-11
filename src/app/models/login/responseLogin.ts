@@ -1,5 +1,6 @@
 export class ResponseLogin {
   constructor(
+    public user?: string,
     public status?: number,
     public redirect?: boolean,
     public tipousuario?: string,

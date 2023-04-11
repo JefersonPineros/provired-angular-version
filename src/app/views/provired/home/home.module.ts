@@ -10,6 +10,10 @@ import { BreadcrumbService } from 'src/app/services/utils/app.breadcrumb.service
 import { RouterModule } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { MenuServiceService } from 'src/app/services/menu/menu-service.service';
+import { UserServiceService } from 'src/app/services/user/user-service.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { UserInterceptorService } from 'src/app/services/interceptor/user/user-interceptor.service';
+import { LogOutService } from 'src/app/services/logOut/log-out.service';
 
 
 @NgModule({
@@ -31,7 +35,10 @@ import { MenuServiceService } from 'src/app/services/menu/menu-service.service';
   providers: [
     MenuService,
     BreadcrumbService,
-    MenuServiceService
+    MenuServiceService,
+    UserServiceService,
+    LogOutService,
+    { provide: HTTP_INTERCEPTORS ,useClass: UserInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })
