@@ -1,80 +1,82 @@
 [
   {
-    "label": "Mis audiencias",
+    "label": "Configuración",
     "icon": "pi pi-fw pi-clone",
     "routerLink": ["inicio/audiencia"]
   },
   {
-    "label": "Notificaciones",
+    "label": "Consultas",
     "icon": "pi pi-fw pi-inbox",
-    "routerLink": ["notificaciones"]
-  },
-  {
-    "label": "Reportes",
-    "icon": "pi pi-fw pi-file-pdf",
-    "routerLink": ["reportes"],
+    "routerLink": ["notificaciones"],
     "items": [
       {
-        "label": "Listado procesos generales",
+        "label": "Gestionar autos",
         "icon": "pi pi-fw pi-file",
         "routerLink": ["reportes/procesos_generales"]
       },
       {
-        "label": "Listado procesos activos",
+        "label": "Historial de procesos",
         "icon": "pi pi-fw pi-file",
         "routerLink": ["reportes/procesos_activos"]
-      },
-      {
-        "label": "Eliminacion masiva de procesos",
-        "icon": "pi pi-fw pi-trash",
-        "routerLink": ["reportes/eliminar_procesos"]
-      },
-      {
-        "label": "Historial de procesos",
-        "icon": "pi pi-fw pi-book",
-        "routerLink": ["reportes/historial_procesos"]
-      },
-      {
-        "label": "Mis Solicitudes",
-        "icon": "pi pi-fw pi-envelope",
-        "routerLink": ["reportes/mis_solicitudes"]
-      },
-      {
-        "label": "Consulta impulso procesal",
-        "icon": "pi pi-fw pi-question-circle",
-        "routerLink": ["reportes/consulta_procesal"]
       }
     ]
   },
   {
-    "label": "Procesos",
-    "icon": "pi pi-fw pi-building",
-    "routerLink": ["procesos"]
-  },
-  {
-    "label": "Email despachos",
-    "icon": "pi pi-fw pi-briefcase",
-    "routerLink": ["email_despachos"]
-  },
-  {
-    "label": "Documentos",
-    "icon": "pi pi-fw pi-folder-open",
-    "routerLink": ["documentos"],
+    "label": "Notificaciones",
+    "icon": "pi pi-fw pi-inbox",
+    "routerLink": ["notificaciones"],
     "items": [
       {
-        "label": "Autorizaciones",
-        "icon": "pi pi-fw pi-check-circle",
-        "routerLink": ["documentos/autorizaciones"]
+        "label": "Guia de captura",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_generales"]
       },
       {
-        "label": "Tutoriales",
-        "icon": "pi pi-fw pi-comment",
-        "routerLink": ["documentos/tutoriales"]
+        "label": "Digitar notificaciones",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_activos"]
       },
       {
-        "label": "Terminos y condiciones",
-        "icon": "pi pi-fw pi-verified",
-        "routerLink": ["documentos/terminos_condiciones"]
+        "label": "Listado juzgados activos",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_generales"]
+      },
+      {
+        "label": "Consulta Manual",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_activos"]
+      },
+      {
+        "label": "Validar radicados",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_activos"]
+      }
+    ]
+  },
+  {
+    "label": "Movimientos",
+    "icon": "pi pi-fw pi-file-pdf",
+    "routerLink": ["reportes"],
+    "items": [
+      {
+        "label": "Editar notificaciones",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_generales"]
+      },
+      {
+        "label": "Cargar autos/enviar alertas",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_activos"]
+      },
+      {
+        "label": "Reporte diario",
+        "icon": "pi pi-fw pi-trash",
+        "routerLink": ["reportes/eliminar_procesos"]
+      },
+      {
+        "label": "Sincronizar autos",
+        "icon": "pi pi-fw pi-book",
+        "routerLink": ["reportes/historial_procesos"]
       }
     ]
   }

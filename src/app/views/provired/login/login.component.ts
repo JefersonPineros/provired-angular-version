@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageService } from 'primeng/api';
 import { MessageModel } from 'src/app/models/login/utils/messageModel';
 import { SessionStorageService } from 'src/app/services/utils/session-storage.service';
+import { TerminosService } from 'src/app/services/login/terminos.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -23,12 +24,19 @@ export class LoginComponent implements OnInit {
 
   public error_login: ErrorLogin = new ErrorLogin();
 
+  public showModalTerminos: boolean = false;
+
+  public messageTerminos: string = "";
+
+  public aceptarTerminos: boolean = false;
+
   constructor(
     private accessLogin: LoginServiceService,
     private route: Router,
     private spinner: NgxSpinnerService,
     private message: MessageService,
-    private session: SessionStorageService
+    private session: SessionStorageService,
+    private terminos: TerminosService
   ) { }
 
   ngOnInit(): void {
@@ -38,12 +46,26 @@ export class LoginComponent implements OnInit {
   login(): void {
     this.spinner.show();
     this.accessLogin.login(this.loginModel).subscribe({
-
       next: (resp) => {
         this.spinner.hide();
-        setTimeout(() => {
-          this.route.navigate(['provired/home-provired']);
-        }, 500);
+        if (resp.tipousuario !== 'S') {
+          setTimeout(() => {
+            this.route.navigate(['provired/home-provired']);
+          }, 500);
+        } else {
+
+          if (!resp.terminos_ok) {
+            console.log(this.showModalTerminos);
+            this.aceptarTerminos = true;
+            this.showModalTerminos = true;
+            this.messageTerminos = resp.msg!;
+            this.session.clearAllSession();
+          } else {
+            setTimeout(() => {
+              this.route.navigate(['provired/home-provired']);
+            }, 500);
+          }
+        }
       },
       error: (error) => {
         if (error instanceof HttpErrorResponse) {
@@ -60,4 +82,21 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  actionAcept(): void {
+    this.spinner.show();
+    this.terminos.aceptarTerminos(this.loginModel.user!).subscribe({
+      next: (resp) => {
+        if (resp.status == 200) {
+          this.spinner.hide();
+          this.showModalTerminos = false;
+          this.aceptarTerminos = false;
+          this.login();
+        }
+      },
+      error: (error) => {
+        console.log(error);
+        this.spinner.hide();
+      }
+    });
+  }
 }

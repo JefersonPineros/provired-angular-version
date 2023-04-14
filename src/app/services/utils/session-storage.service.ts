@@ -35,7 +35,7 @@ export class SessionStorageService {
 
         break;
       case 'json':
-        return JSON.parse( sessionStorage.getItem("session")! );
+        return JSON.parse( sessionStorage.getItem(key)! );
       default:
         break;
     }

@@ -15,7 +15,8 @@ export class AccessPermissionsGuard implements CanActivate {
     if (this.getSession()) {
       return true;
     } else  {
-      alert('Es necesario iniciar sesion.');
+
+
       return false;
     }
   }
@@ -25,7 +26,7 @@ export class AccessPermissionsGuard implements CanActivate {
 
     if ( sessionActive ) {
       if(sessionActive.tipousuario == 'S') {
-        if (sessionActive.status == 200) {
+        if (sessionActive.status == 200 && sessionActive.terminos_ok) {
           return true;
         } else {
           return false;
@@ -34,16 +35,19 @@ export class AccessPermissionsGuard implements CanActivate {
         if (sessionActive.status == 200) {
           return true;
         } else {
+          alert('Es necesario iniciar sesion.');
           return false;
         }
       } else {
         if(sessionActive.status == 200) {
           return true;
         } else {
+          alert('Es necesario iniciar sesion.');
           return false;
         }
       }
     } else {
+      alert('Es necesario iniciar sesion.');
       return false;
     }
   }

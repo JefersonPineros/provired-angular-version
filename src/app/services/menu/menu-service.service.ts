@@ -17,15 +17,16 @@ export class MenuServiceService {
       case 'S':
         menu = 'menu_s.json'
         break;
-      case 'O':
+      case 'A':
         menu = 'menu_a.json'
         break;
-      case 'A':
+      case 'O':
         menu = 'menu_o.json'
         break;
       default:
         break;
     }
+
     return this.http.get( environment.baseMocks + menu );
   }
 }

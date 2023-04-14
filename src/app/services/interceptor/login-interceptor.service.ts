@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {SessionStorageService} from '../utils/session-storage.service';
+import { Token } from 'src/app/constans/token-const';
 
 @Injectable()
 export class LoginInterceptorService implements HttpInterceptor {
@@ -21,7 +22,22 @@ export class LoginInterceptorService implements HttpInterceptor {
         }
       }
     });
-    return next.handle(req);
+    if (req.method == 'POST') {
+      return next.handle(req);
+    }else {
+      return next.handle(this.addToken(req));
+    }
+
+  }
+
+  addToken(req: HttpRequest<any>) {
+    const token = Token.TOKEN_AUTHORIZATION.TOKEN;
+
+    return req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`
+      }
+    });
   }
 }
 
