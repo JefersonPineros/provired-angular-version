@@ -2,8 +2,11 @@
     <ng-template pTemplate="header">
         <ng-template [ngTemplateOutlet]="titulo"></ng-template>
     </ng-template>
-
-    <ng-template [ngTemplateOutlet]="contenido"></ng-template>
+    <div class="grid p-fluid">
+      <div class="col-12">
+        <ng-template [ngTemplateOutlet]="contenido"></ng-template>
+      </div>
+    </div>
 
     <ng-template pTemplate="footer">
       <ng-template [ngTemplateOutlet]="pie"></ng-template>

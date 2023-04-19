@@ -1,7 +1,88 @@
-<div class="grid">
-  <div class="col-12">
-    <h1>Hola mundo</h1>
+<div *ngIf="sessionReq.tipousuario == 'S'" class="grid">
+  <div class="col-12" *ngIf="vencimientosList.length > 0; else noContent">
+    <div class="grid">
+      <app-card-component class="lg:col-8 xl:col-8 col-12 sm:col-12 lg:col-offset-2 xl:col-offset-2">
+        <ng-template pTemplate="header">
+          <div class="grid">
+            <div class="col-12">
+              <div class="flex flex-column-reverse mt-4">
+                <div class="flex align-items-center justify-content-center">
+                  <h4>Audiencias y/o Vencimientos Próximos</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <div class="p-2">
+            <app-tabla-component
+              [cols]="[
+                { field: 'nameCiudad', header: 'Cidad' },
+                { field: 'despacho', header: 'Despacho' },
+                { field: 'fecha_vence_terminos', header: 'Fecha' }
+                ]"
+              [data]="vencimientosList"
+              [fixStyleTable]="true"
+              [stripedTable]="true"
+              >
+            </app-tabla-component>
+          </div>
+          <div class="mt-3 flex flex-column-reverse">
+            <div class="flex align-items-center justify-content-center">
+              <app-button-component
+                nameButton="Ver más"
+                (eventEmiter)="actionSeeMore()"
+              ></app-button-component>
+            </div>
+          </div>
+        </ng-template>
+      </app-card-component>
+    </div>
   </div>
+  <ng-template #noContent>
+    <div class="col-12 mt-4">
+      <div class="lg:col-8 xl:col-8 col-12 sm:col-12 lg:col-offset-2 xl:col-offset-2">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="grid">
+              <div class="col-12">
+                <div class="flex flex-column-reverse mt-4">
+                  <div class="flex align-items-center justify-content-center">
+                    <h4>Audiencias y/o Vencimientos Próximos</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid">
+              <div class="col-12 ml-4">
+                No tiene audiencias y/o vencimientos programados.
+              </div>
+            </div>
+            <div class="grid mt-5">
+              <div class="col-12 p-4">
+                <div class="text-justify">
+                  Ahora usted puede programar las fechas de audiencias y/o vencimientos de términos en la plataforma de
+                  Provired, dando click en el boton (PROGRAMAR) que aparece en el REPORTE DE NOTIFICACIONES y en el
+                  LISTADO DE PROCESOS ACTIVOS.
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+  </ng-template>
 </div>
 
-<!-- <ng-template [ngTemplateOutlet]="outlet" [ngOutletContext]="context"></ng-template> -->
+<p-toast></p-toast>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true">
+  <p style="color: white" > Loading... </p>
+</ngx-spinner>

@@ -1,0 +1,27 @@
+<div class="col-12">
+  <small>{{label}}</small>
+  <!-- <label for="{{nombre}}">Fecha: </label> -->
+  <p-calendar
+    [(ngModel)]="model"
+    (ngModelChange)="modelChange.emit($event)"
+    [showIcon]="true"
+    [disabled]="disabled"
+    [showIcon]="showIcon"
+    [attr.id]="nombre"
+    [placeholder]="placeholder"
+    [required]="requerido"
+    [dateFormat]="format"
+    [showButtonBar]="buttonBar"
+    [inputStyle]="{ width: 'calc(100% - 2.06em)' }"
+    [ngClass]="[
+        valid ?
+        grupo.controls[nombre].errors?.['errorRequerido']? 'ng-invalid ng-dirty': '': ''
+      ]">
+  </p-calendar>
+  <div *ngIf="valid">
+    <small [ngClass]="[
+    grupo.controls[nombre].errors?.['errorRequerido']? 'error-invalid': '']">
+    Este campo es requerido *
+  </small>
+  </div>
+</div>

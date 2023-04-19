@@ -4,7 +4,6 @@ export class UserAdmin {
   constructor(
     public id?: number,
     public username?: string,
-    public password_ok?: string,
     public tipousuario?: string,
     public registerdate?: Date,
     public lastvisitdate?: Date,

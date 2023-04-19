@@ -1,4 +1,115 @@
-<p>audiencia works!</p>
+<div class="grid">
+  <div class="col-12">
+    <div class="grid">
+      <div class="col-4">
+        <app-card-component>
+          <ng-template pTemplate="header" >
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color">Servicios</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="">
+              Hola mundo
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+      <div class="col-8">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color">Consultar mis audiencias y vencimientos</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid p-fluit">
+              <div class="col-12 xl:col-6 md:col-6">
+                <app-date-picker
+                  [(model)]="fechaDesde"
+                  nombre="fechaDesde"
+                  [grupo]="formConsultar"
+                  [showIcon]="true"
+                  (modelChange)="modelChange($event, 'fi')"
+                  placeholder="DD/MM/YY"
+                  [buttonBar]="true"
+                  label="Fecha desde: "
+                  [requerido]="true"
+                ></app-date-picker>
+              </div>
+              <div class="col-12 xl:col-6 md:col-6">
+                <app-date-picker
+                  [(model)]="fechaHasta"
+                  [grupo]="formConsultar"
+                  nombre="fechaHasta"
+                  [showIcon]="true"
+                  (modelChange)="modelChange($event, 'ff')"
+                  placeholder="DD/MM/YY"
+                  [buttonBar]="true"
+                  label="Fecha hasta: "
+                  [requerido]="true"
+                ></app-date-picker>
+              </div>
+              <div class="col-12">
+                <div>
+                  <app-button-component
+                    nameButton="Consultar"
+                    (eventEmiter)="consultarAudiencia()"
+                  ></app-button-component>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+    <div class="grid p-fluit mt-2">
+      <div class="col-12" *ngIf="listAudiencias.length > 0">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color">Listado de audienciencias y vencimientos</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <app-tabla-component
+              [cols]="[
+                { field: 'nameCiudad', header: 'Cidad' },
+                { field: 'nameDespacho', header: 'Despacho' },
+                { field: 'radicacion', header: 'Radicación' },
+                { field: 'proceso', header: 'Proceso' },
+                { field: 'demandante', header: 'Demandante' },
+                { field: 'demandado', header: 'Demandado' },
+                { field: 'descripcion_vence_terminos', header: 'Descripción del vencimiento' },
+                { field: 'fecha_registro', header: 'Fecha' },
+              ]"
+              [data]="listAudiencias"
+              [fixStyleTable]="true"
+              [stripedTable]="true"
+            ></app-tabla-component>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true">
+  <p style="color: white" > Loading... </p>
+</ngx-spinner>
 
 <!--
   se coloca si es necesario enrutar a una nueva ruta

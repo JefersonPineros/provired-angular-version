@@ -6,6 +6,7 @@ export * from './menu-component/menu-component.module'
 export * from './topbar/topbar.module';
 export * from './action-bar/action-bar.module';
 export * from './modal-component/modal-component.module';
+export * from './tabla-component/tabla-component.module';
 
 @NgModule({
   declarations: [
