@@ -29,12 +29,18 @@ export class AudienciaComponent implements OnInit {
 
   public listAudiencias: Array<Audiencias> = new Array<Audiencias>();
 
+  public visibleModal: boolean = false;
+
+  public formAudiencia: FormGroup = new FormGroup({});
+
+  public audiencia: Audiencias = new Audiencias();
+
   constructor(
     public breadCrumService: BreadcrumbService,
     private sessionService: SessionStorageService,
     private audiencias: AudienciaService,
     private spinner: NgxSpinnerService,
-    private message: MessageService,
+    private message: MessageService
     ) {
     this.sesion = this.sessionService.getSession();
   }
@@ -82,4 +88,84 @@ export class AudienciaComponent implements OnInit {
       }
     );
   }
+
+  eliminarRegistro(event: any): void {
+    this.spinner.show();
+    this.audiencias.deleteAudiencia({ username: event.username, id_vencimiento: event.id_vencimiento}).subscribe(
+      {
+        next:(res) => {
+          this.spinner.hide();
+          console.log(res);
+          let message_model: MessageModel = new MessageModel(
+            'success',
+            `Exito!`,
+            `Se ha realizado la accion de manera exitosa.`
+          );
+          this.consultarAudiencia();
+          this.message.add(message_model);
+        },
+        error: (error) => {
+          console.log(error);
+
+          this.spinner.hide();
+          let message_model: MessageModel = new MessageModel(
+            'error',
+            `Error ${error.error.status} `,
+            `${error.error.msg}`
+          );
+          this.message.add(message_model);
+        }
+      }
+    );
+  }
+
+  openRegistro(element: any): void {
+    this.audiencia = element;
+    this.visibleModal = true;
+  }
+
+  actualizarRegistro(): void {
+    this.spinner.show();
+    let updateItem = {
+      username: '',
+      fecha_vence_terminos: new Date(),
+      id_vencimiento: 0,
+      descripcion_vence_terminos: ''
+    };
+    updateItem.username = this.audiencia.username!;
+    updateItem.fecha_vence_terminos = this.audiencia.fecha_vence_terminos!;
+    updateItem.id_vencimiento = this.audiencia.id_vencimiento!;
+    updateItem.descripcion_vence_terminos = this.audiencia.descripcion_vence_terminos!;
+
+    this.audiencias.updateAudiencia(updateItem).subscribe(
+      {
+        next: (res) => {
+          this.spinner.hide();
+          let message_model: MessageModel = new MessageModel(
+            'success',
+            `Exito!`,
+            `${res.msg}`
+          );
+          this.message.add(message_model);
+          this.consultarAudiencia();
+          this.visibleModal = false;
+        },
+        error: (error) => {
+          this.spinner.hide();
+          let message_model: MessageModel = new MessageModel(
+            'error',
+            `Error ${error.error.status}`,
+            `${error.error.msg}`
+          );
+          this.message.add(message_model);
+        }
+      }
+    );
+
+  }
+
+  cancelarModal():void {
+    this.visibleModal = false;
+  }
+
 }

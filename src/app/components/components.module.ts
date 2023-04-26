@@ -7,6 +7,9 @@ export * from './topbar/topbar.module';
 export * from './action-bar/action-bar.module';
 export * from './modal-component/modal-component.module';
 export * from './tabla-component/tabla-component.module';
+export * from './text-area/text-area.module';
+export * from './side-menu/side-menu.module';
+export * from './dropdown-component/dropdown-component.module';
 
 @NgModule({
   declarations: [

@@ -24,9 +24,6 @@ import { LogOutService } from 'src/app/services/logOut/log-out.service';
     CommonModule,
     HomeRoutingModule,
     RouterModule,
-    FormsModule,
-
-    ReactiveFormsModule,
     MenuComponentModule,
     TopbarModule,
     ActionBarModule,

@@ -13,7 +13,15 @@ export class ButtonComponentComponent implements OnInit {
 
   @Input() nameButton: string = '';
 
-  @Input() clase: string = '';
+  @Input() clase: string = 'p-button-raised';
+
+  @Input() icon: boolean = false;
+
+  @Input() iconClass: string = '';
+
+  @Input() showTooltip: boolean = false;
+
+  @Input() messageTooltip: string = '';
 
   constructor() {}
 

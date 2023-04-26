@@ -8,6 +8,8 @@ import { PrimeTemplate } from 'primeng/api';
 })
 export class CardComponentComponent implements OnInit, AfterContentInit {
 
+  @Input() footer: boolean = false;
+
   @ContentChildren(PrimeTemplate) plantillas: QueryList<PrimeTemplate> | undefined;
 
   public titulo: any;

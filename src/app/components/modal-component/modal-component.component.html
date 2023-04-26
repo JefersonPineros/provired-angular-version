@@ -1,8 +1,18 @@
-<p-dialog header="Header" [(visible)]="visible" (visibleChange)="changeVisible()" [style]="{ width: '50vw' }">
+<p-dialog header="Header"
+  [(visible)]="visible"
+  (visibleChange)="changeVisible()"
+  [style]="{ width: '50vw' }">
+
   <ng-template pTemplate="header">
     <ng-template [ngTemplateOutlet]="title" ></ng-template>
   </ng-template>
-  <ng-template [ngTemplateOutlet]="content" ></ng-template>
+
+  <div class="grid p-fluit">
+    <div class="col-12">
+      <ng-template [ngTemplateOutlet]="content" ></ng-template>
+    </div>
+  </div>
+
   <ng-template pTemplate="footer">
     <div class="mt-2">
       <ng-template [ngTemplateOutlet]="footer"></ng-template>

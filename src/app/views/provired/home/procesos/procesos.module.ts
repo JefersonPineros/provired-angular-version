@@ -3,6 +3,16 @@ import { CommonModule } from '@angular/common';
 
 import { ProcesosRoutingModule } from './procesos-routing.module';
 import { ProcesosComponent } from './procesos.component';
+import {
+  ButtonComponentModule,
+  CardComponentModule,
+  DropdownComponentModule,
+  InputTextComponentModule,
+  SideMenuModule,
+  TextAreaModule
+} from 'src/app/components/components.module';
+import { DatePickerModule } from 'src/app/components/date-picker/date-picker.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +21,18 @@ import { ProcesosComponent } from './procesos.component';
   ],
   imports: [
     CommonModule,
-    ProcesosRoutingModule
+    ProcesosRoutingModule,
+
+    FormsModule,
+    ReactiveFormsModule,
+
+    DropdownComponentModule,
+    DatePickerModule,
+    SideMenuModule,
+    CardComponentModule,
+    ButtonComponentModule,
+    InputTextComponentModule,
+    TextAreaModule
   ]
 })
 export class ProcesosModule { }

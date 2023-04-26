@@ -1,11 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges,LOCALE_ID} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilService } from 'src/app/services/core/util.service';
+import localeEs from '@angular/common/locales/es'
+import { registerLocaleData } from '@angular/common';
+import { PrimeNGConfig } from 'primeng/api';
 
+registerLocaleData(localeEs);
 @Component({
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
-  styleUrls: ['./date-picker.component.scss']
+  styleUrls: ['./date-picker.component.scss'],
+  providers: [{provide:LOCALE_ID, useValue: 'es'}]
 })
 export class DatePickerComponent implements OnInit, OnChanges {
 
@@ -35,12 +40,22 @@ export class DatePickerComponent implements OnInit, OnChanges {
 
   @Output() validChange: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private confing: PrimeNGConfig) {
 
   }
   ngOnInit(): void {
     this.generateFormat();
     this.generarControl();
+
+    this.confing.setTranslation(
+      {
+        dayNames: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
+        dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+        dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+        monthNames: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agostos","Septiembre","Octubre","Noviembre","Diciembre"],
+        monthNamesShort: ["Ene", "Feb", "Mar", "ABr", "May", "Jun","Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+      }
+    );
   }
 
   ngOnChanges(change: any): void {

@@ -1,6 +1,7 @@
 export class Audiencias {
   constructor(
     public ciudad?: string,
+    public nameCiudad?: string,
     public demandado?: string,
     public demandante?: string,
     public descripcion_vence_terminos?: string,

@@ -1,1 +1,161 @@
-<p>procesos works!</p>
+<div class="grid">
+  <div class="col-12">
+    <div class="grid">
+      <div class="col-3">
+        <app-card-component>
+          <ng-template pTemplate="header" >
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color mt-3">Servicios</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid p-fluid">
+              <div class="col-12">
+                <div class="grid p-fluid">
+                  <app-side-menu
+                    class="col-12 mt-2"
+                    [itemsMenu]="[{
+                      'label': 'Autorizaciones',
+                      'icon': 'pi pi-fw pi-clone',
+                      'routerLink': '/provired/home-provired/home/documentos/autorizaciones'
+                    }]"
+                  ></app-side-menu>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+      <div class="col-9">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color mt-3">Registro de nuevos procesos</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid p-fluit mt-2">
+              <div class="col-12 xl:col-6 md:col-6">
+                <app-dropdown-component
+                  [(model)]="ciudadModel"
+                  [options]="listDep"
+                  name="departamento"
+                  placeholder="Departamento"
+                  selectLabel="Seleccionar departamento"
+                  keyOptionName="ciudad"
+                  (grupo)="(formProceso)"
+                  [showClear]="true"
+                ></app-dropdown-component>
+              </div>
+
+              <div class="col-12 xl:col-6 md:col-6">
+                <app-dropdown-component
+                  name="municipio"
+                  (grupo)="(formProceso)"
+                  placeholder="Municipio"
+                ></app-dropdown-component>
+              </div>
+            </div>
+            <div class="grid p-fluit mt-2">
+              <div class="col-12 xl:col-6 md:col-6">
+                <app-dropdown-component
+                  placeholder="Corporacion por especialidad"
+                  (grupo)="(formProceso)"
+                ></app-dropdown-component>
+              </div>
+              <div class="col-12 xl:col-6 md:col-6">
+                <app-dropdown-component
+                  (grupo)="(formProceso)"
+                  placeholder="Despachos"
+                ></app-dropdown-component>
+              </div>
+            </div>
+            <div class="grid p-fluit">
+              <div class="col-12 xl:col-6 md:col-6">
+                <input-text
+                  (grupo)="(formProceso)"
+                  placeHolder="Radicacion"
+                  styleInput="help-text"
+                  [placeHolderActive]="true"
+                ></input-text>
+              </div>
+            </div>
+            <div class="grid p-fluit">
+              <div class="col-12">
+                <app-text-area
+                  (grupo)="(formProceso)"
+                  placeholder="Juzgado Origen / Número Radicado Anterior"
+                ></app-text-area>
+              </div>
+            </div>
+            <div class="grid p-fluit">
+              <div class="col-12 xl:col-6 md:col-6">
+                <input-text
+                  (grupo)="(formProceso)"
+                  placeHolder="Radicado (23 Digitos)"
+                  [placeHolderActive]="true"
+                  styleInput="help-text"
+                ></input-text>
+              </div>
+              <div class="col-12 xl:col-6 md:col-6">
+                <input-text
+                  (grupo)="(formProceso)"
+                  placeHolder="Tipo de Proceso"
+                  [placeHolderActive]="true"
+                  styleInput="help-text"
+                ></input-text>
+              </div>
+            </div>
+            <div class="grid p-fluit">
+              <div class="col-12">
+                <app-text-area
+                  (grupo)="(formProceso)"
+                  placeholder="Demandante"
+                ></app-text-area>
+              </div>
+            </div>
+            <div class="grid p-fluit">
+              <div class="col-12">
+                <app-text-area
+                  (grupo)="(formProceso)"
+                  placeholder="Demandando"
+                ></app-text-area>
+              </div>
+            </div>
+            <div class="grid p-fluit">
+              <div class="col-12 xl:col-6 md:col-6">
+                <input-text
+                  (grupo)="(formProceso)"
+                  placeHolder="Etiqueta"
+                  [placeHolderActive]="true"
+                  styleInput="help-text"
+                ></input-text>
+              </div>
+            </div>
+
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <app-button-component
+              nameButton="Cancelar"
+              clase="p-button-outlined p-button-danger"
+              (eventEmiter)="clearFormulario()"
+            ></app-button-component>
+
+            <app-button-component
+              nameButton="Crear nuevo proceso"
+              clase="ml-2 p-button-outlined p-button-success"
+              (eventEmiter)="crearProceso($event)"
+            ></app-button-component>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+    <div class="grid p-fluit mt-2">
+
+    </div>
+  </div>
+</div>
