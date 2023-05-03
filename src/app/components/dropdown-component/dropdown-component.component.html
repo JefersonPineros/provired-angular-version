@@ -8,7 +8,10 @@
       (ngModelChange)="modelChange.emit($event)"
       [optionLabel]="keyOptionName"
       [showClear]="showClear"
-      [attr.inputId]="name">
+      [attr.inputId]="name"
+      [filter]="filter"
+      [filterBy]="keyOptionName"
+      [lazy]="false">
     </p-dropdown>
     <label class="ml-2" [attr.for]="name">{{placeholder}}</label>
   </span>

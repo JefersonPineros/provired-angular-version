@@ -42,11 +42,12 @@
               <div class="col-12 xl:col-6 md:col-6">
                 <app-dropdown-component
                   [(model)]="ciudadModel"
-                  [options]="listDep"
+                  [options]="listDepartamentos"
+                  (modelChange)="departamentoChange()"
                   name="departamento"
                   placeholder="Departamento"
                   selectLabel="Seleccionar departamento"
-                  keyOptionName="ciudad"
+                  keyOptionName="departamento"
                   (grupo)="(formProceso)"
                   [showClear]="true"
                 ></app-dropdown-component>
@@ -54,23 +55,43 @@
 
               <div class="col-12 xl:col-6 md:col-6">
                 <app-dropdown-component
-                  name="municipio"
+                  [(model)]="municipioModel"
                   (grupo)="(formProceso)"
+                  [options]="listMunicipios"
+                  name="municipio"
                   placeholder="Municipio"
+                  keyOptionName="municipio"
+                  selectLabel="Seleccionar municipio"
+                  [showClear]="true"
+                  (modelChange)="municipioChange()"
                 ></app-dropdown-component>
               </div>
             </div>
             <div class="grid p-fluit mt-2">
               <div class="col-12 xl:col-6 md:col-6">
                 <app-dropdown-component
-                  placeholder="Corporacion por especialidad"
+                  [(model)]="corporacionesModel"
                   (grupo)="(formProceso)"
+                  [options]="listCorporaciones"
+                  name="corporacioes"
+                  placeholder="Corporacion por especialidad"
+                  keyOptionName="corporacion"
+                  selectLabel="Seleccionar corporacion"
+                  [showClear]="true"
+                  (modelChange)="corporacionesChange()"
                 ></app-dropdown-component>
               </div>
               <div class="col-12 xl:col-6 md:col-6">
                 <app-dropdown-component
+                  [(model)]="despachosModel"
                   (grupo)="(formProceso)"
+                  [options]="listDespachos"
+                  name="despachos"
                   placeholder="Despachos"
+                  keyOptionName="despacho"
+                  selectLabel="Seleccionar despacho"
+                  [showClear]="true"
+                  [filter]="true"
                 ></app-dropdown-component>
               </div>
             </div>
@@ -78,6 +99,7 @@
               <div class="col-12 xl:col-6 md:col-6">
                 <input-text
                   (grupo)="(formProceso)"
+                  [(model)]="newProceso.radicacion"
                   placeHolder="Radicacion"
                   styleInput="help-text"
                   [placeHolderActive]="true"
@@ -88,6 +110,7 @@
               <div class="col-12">
                 <app-text-area
                   (grupo)="(formProceso)"
+                  [(model)]="newProceso.juzgado"
                   placeholder="Juzgado Origen / Número Radicado Anterior"
                 ></app-text-area>
               </div>
@@ -99,6 +122,7 @@
                   placeHolder="Radicado (23 Digitos)"
                   [placeHolderActive]="true"
                   styleInput="help-text"
+                  [(model)]="newProceso.rad_23"
                 ></input-text>
               </div>
               <div class="col-12 xl:col-6 md:col-6">
@@ -107,6 +131,7 @@
                   placeHolder="Tipo de Proceso"
                   [placeHolderActive]="true"
                   styleInput="help-text"
+                  [(model)]="newProceso.tipo_proceso"
                 ></input-text>
               </div>
             </div>
@@ -115,6 +140,7 @@
                 <app-text-area
                   (grupo)="(formProceso)"
                   placeholder="Demandante"
+                  [(model)]="newProceso.demandante"
                 ></app-text-area>
               </div>
             </div>
@@ -123,6 +149,7 @@
                 <app-text-area
                   (grupo)="(formProceso)"
                   placeholder="Demandando"
+                  [(model)]="newProceso.demandado"
                 ></app-text-area>
               </div>
             </div>
@@ -133,6 +160,7 @@
                   placeHolder="Etiqueta"
                   [placeHolderActive]="true"
                   styleInput="help-text"
+                  [(model)]="newProceso.etiqueta"
                 ></input-text>
               </div>
             </div>

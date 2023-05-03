@@ -27,6 +27,8 @@ export class DropdownComponentComponent implements OnInit, OnChanges{
 
   @Input() selectLabel: string = '';
 
+  @Input() filter: boolean = false;
+
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
