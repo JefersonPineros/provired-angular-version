@@ -3,7 +3,7 @@
     <div class="grid">
       <div class="col-3">
         <app-card-component>
-          <ng-template pTemplate="header" >
+          <ng-template pTemplate="header">
             <div class="flex flex-column-reverse">
               <div class="flex align-items-center justify-content-center mt-2">
                 <h4 class="title-color mt-3">Servicios</h4>
@@ -16,11 +16,14 @@
                 <div class="grid p-fluid">
                   <app-side-menu
                     class="col-12 mt-2"
-                    [itemsMenu]="[{
-                      'label': 'Autorizaciones',
-                      'icon': 'pi pi-fw pi-clone',
-                      'routerLink': '/provired/home-provired/home/documentos/autorizaciones'
-                    }]"
+                    [itemsMenu]="[
+                      {
+                        label: 'Autorizaciones',
+                        icon: 'pi pi-fw pi-clone',
+                        routerLink:
+                          '/provired/home-provired/home/documentos/autorizaciones'
+                      }
+                    ]"
                   ></app-side-menu>
                 </div>
               </div>
@@ -164,7 +167,6 @@
                 ></input-text>
               </div>
             </div>
-
           </ng-template>
           <ng-template pTemplate="footer">
             <app-button-component
@@ -182,8 +184,6 @@
         </app-card-component>
       </div>
     </div>
-    <div class="grid p-fluit mt-2">
-
-    </div>
+    <div class="grid p-fluit mt-2"></div>
   </div>
 </div>

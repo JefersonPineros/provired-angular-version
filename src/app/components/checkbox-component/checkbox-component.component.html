@@ -1,0 +1,9 @@
+<div class="flex align-items-center gap-1">
+  <p-checkbox
+    [attr.name]="name"
+    [value]="label"
+    [(ngModel)]="model"
+    [attr.inputId]="name"
+  ></p-checkbox>
+  <label [attr.for]="name">{{ label }}</label>
+</div>

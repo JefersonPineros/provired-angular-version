@@ -41,12 +41,12 @@ export class ProcesosComponent implements OnInit {
     private municipio: MunicipiosService,
     private corporaciones: CorporacionesService,
     private despacho: DespachosService
-    ) {}
+  ) { }
 
   ngOnInit(): void {
     this.breadCrumService.setItems(
       [
-        {label: 'Procesos'}
+        { label: 'Procesos' }
       ]
     );
 
@@ -68,7 +68,6 @@ export class ProcesosComponent implements OnInit {
 
   clearFormulario(): void {
     console.log('Limpiar formulario');
-
   }
 
   departamentoChange(): void {
@@ -114,7 +113,7 @@ export class ProcesosComponent implements OnInit {
   }
 
   corporacionesChange(): void {
-    if(this.corporacionesModel !== null) {
+    if (this.corporacionesModel !== null) {
       this.despacho.getDespachoPorCorp(this.corporacionesModel.IdCorp).subscribe(
         {
           next: (res) => {

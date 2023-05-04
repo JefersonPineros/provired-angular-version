@@ -1,11 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NotificacionesComponent } from './notificaciones.component';
+import { ReportNotificacionesComponent } from './report-notificaciones/report-notificaciones.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: NotificacionesComponent
+    children: [
+      {
+        path: '',
+        redirectTo: 'report-notifications',
+        pathMatch: 'full'
+      },
+      {
+        path: 'report-notifications',
+        component: ReportNotificacionesComponent
+      }
+    ]
   }
 ];
 

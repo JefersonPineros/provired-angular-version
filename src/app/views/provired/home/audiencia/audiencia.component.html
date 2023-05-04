@@ -3,7 +3,7 @@
     <div class="grid">
       <div class="col-3">
         <app-card-component>
-          <ng-template pTemplate="header" >
+          <ng-template pTemplate="header">
             <div class="flex flex-column-reverse">
               <div class="flex align-items-center justify-content-center mt-2">
                 <h4 class="title-color">Servicios</h4>
@@ -16,16 +16,19 @@
                 <div class="grid p-fluid">
                   <app-side-menu
                     class="col-12 mt-2"
-                    [itemsMenu]="[{
-                      'label': 'Autorizaciones',
-                      'icon': 'pi pi-fw pi-clone',
-                      'routerLink': '/provired/home-provired/home/documentos/autorizaciones'
-                    },
-                    {
-                      'label': 'Nuevos procesos',
-                      'icon': 'pi pi-fw pi-clone',
-                      'routerLink': '/provired/home-provired/home/procesos'
-                    }]"
+                    [itemsMenu]="[
+                      {
+                        label: 'Autorizaciones',
+                        icon: 'pi pi-fw pi-clone',
+                        routerLink:
+                          '/provired/home-provired/home/documentos/autorizaciones'
+                      },
+                      {
+                        label: 'Nuevos procesos',
+                        icon: 'pi pi-fw pi-clone',
+                        routerLink: '/provired/home-provired/home/procesos'
+                      }
+                    ]"
                   ></app-side-menu>
                 </div>
               </div>
@@ -38,7 +41,9 @@
           <ng-template pTemplate="header">
             <div class="flex flex-column-reverse">
               <div class="flex align-items-center justify-content-center mt-2">
-                <h4 class="title-color">Consultar mis audiencias y vencimientos</h4>
+                <h4 class="title-color">
+                  Consultar mis audiencias y vencimientos
+                </h4>
               </div>
             </div>
           </ng-template>
@@ -89,7 +94,9 @@
           <ng-template pTemplate="header">
             <div class="flex flex-column-reverse">
               <div class="flex align-items-center justify-content-center mt-2">
-                <h4 class="title-color">Listado de audienciencias y vencimientos</h4>
+                <h4 class="title-color">
+                  Listado de audienciencias y vencimientos
+                </h4>
               </div>
             </div>
           </ng-template>
@@ -102,8 +109,11 @@
                 { field: 'proceso', header: 'Proceso' },
                 { field: 'demandante', header: 'Demandante' },
                 { field: 'demandado', header: 'Demandado' },
-                { field: 'descripcion_vence_terminos', header: 'Descripción del vencimiento' },
-                { field: 'fecha_registro', header: 'Fecha', isFecha: true },
+                {
+                  field: 'descripcion_vence_terminos',
+                  header: 'Descripción del vencimiento'
+                },
+                { field: 'fecha_registro', header: 'Fecha', isFecha: true }
               ]"
               [data]="listAudiencias"
               [fixStyleTable]="true"
@@ -144,16 +154,13 @@
   </div>
 </div>
 
-<modal-component
-  [visible]="visibleModal"
-  (closeModal)="visibleModal = false"
->
+<modal-component [visible]="visibleModal" (closeModal)="visibleModal = false">
   <ng-template pTemplate="title">
     <h4>EDITAR VENCIMIENTO / CAMBIAR PROGRAMACION AUDIENCIA</h4>
   </ng-template>
   <ng-template pTemplate="content">
-    <div class="grid ">
-      <div class=" col-12 lg:col-6 xl:col-6">
+    <div class="grid">
+      <div class="col-12 lg:col-6 xl:col-6">
         <input-text
           placeHolder="Ciudad"
           [(model)]="audiencia.nameCiudad"
@@ -164,7 +171,7 @@
           [disabledInputText]="true"
         ></input-text>
       </div>
-      <div class=" col-12 lg:col-6 xl:col-6">
+      <div class="col-12 lg:col-6 xl:col-6">
         <input-text
           placeHolder="Despacho"
           [(model)]="audiencia.nameDespacho"
@@ -260,16 +267,15 @@
 </modal-component>
 <p-toast></p-toast>
 
-
 <ngx-spinner
   bdColor="rgba(0, 0, 0, 0.8)"
   size="medium"
   color="#fff"
   type="ball-clip-rotate-multiple"
-  [fullScreen]="true">
-  <p style="color: white" > Loading... </p>
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
-
 
 <!--
   se coloca si es necesario enrutar a una nueva ruta
