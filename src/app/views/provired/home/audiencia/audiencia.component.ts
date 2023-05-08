@@ -41,20 +41,20 @@ export class AudienciaComponent implements OnInit {
     private audiencias: AudienciaService,
     private spinner: NgxSpinnerService,
     private message: MessageService
-    ) {
+  ) {
     this.sesion = this.sessionService.getSession();
   }
 
   ngOnInit(): void {
     this.breadCrumService.setItems(
       [
-        {label: 'Mis audienciencias y vencimientos'}
+        { label: 'Mis audienciencias y vencimientos' }
       ]
     );
   }
 
   modelChange(even: any, model: string): void {
-    if(model == 'fi'){
+    if (model == 'fi') {
       this.consultarAud.fi = this.fechaDesde;
     } else {
       this.consultarAud.ff = this.fechaHasta;
@@ -68,9 +68,8 @@ export class AudienciaComponent implements OnInit {
       {
         next: (res) => {
           this.spinner.hide()
-          if(res.length > 0){
+          if (res.length > 0) {
             this.listAudiencias = res;
-            console.log(this.listAudiencias);
           } else {
             this.listAudiencias = [];
             let message_model: MessageModel = new MessageModel(
@@ -91,9 +90,9 @@ export class AudienciaComponent implements OnInit {
 
   eliminarRegistro(event: any): void {
     this.spinner.show();
-    this.audiencias.deleteAudiencia({ username: event.username, id_vencimiento: event.id_vencimiento}).subscribe(
+    this.audiencias.deleteAudiencia({ username: event.username, id_vencimiento: event.id_vencimiento }).subscribe(
       {
-        next:(res) => {
+        next: (res) => {
           this.spinner.hide();
           console.log(res);
           let message_model: MessageModel = new MessageModel(
@@ -164,7 +163,7 @@ export class AudienciaComponent implements OnInit {
 
   }
 
-  cancelarModal():void {
+  cancelarModal(): void {
     this.visibleModal = false;
   }
 

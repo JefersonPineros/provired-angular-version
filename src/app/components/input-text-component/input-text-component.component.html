@@ -1,4 +1,4 @@
-<div class="col-12 mt-3">
+<div class="col-12">
   <span
     [ngClass]="[
       styleInput == 'icon' && iconOrientation == 'left'
@@ -12,20 +12,15 @@
         : ''
     ]"
   >
-    <i
-      *ngIf="styleInput == 'icon'"
-      class="pi {{icon}}"
-    ></i>
-    <label
-      *ngIf="styleInput == 'help-text'"
-      [attr.htmlFor]="nombre"
-    >{{placeHolder}}</label>
+    <i *ngIf="styleInput == 'icon'" class="pi {{ icon }}"></i>
+    <label *ngIf="styleInput == 'help-text'" [attr.htmlFor]="nombre">{{
+      placeHolder
+    }}</label>
     <input
       pInputText
-      type="{{tipo}}"
+      type="{{ tipo }}"
       [placeholder]="
-        placeHolderActive?
-        styleInput == 'help-text' ? placeHolder : '': ''
+        placeHolderActive ? (styleInput == 'help-text' ? placeHolder : '') : ''
       "
       [attr.id]="nombre"
       [disabled]="disabledInputText"
@@ -39,11 +34,8 @@
       [pattern]="patron"
       [attr.aria.required]="requerido"
     />
-    <label
-      [attr.htmlFor]="nombre"
-      *ngIf="styleInput == 'float'"
-      >
-      {{placeHolder}}
+    <label [attr.htmlFor]="nombre" *ngIf="styleInput == 'float'">
+      {{ placeHolder }}
     </label>
     <small
       *ngIf="styleInput == 'help-text'"
@@ -52,7 +44,7 @@
         valid ?
         grupo.controls[nombre].errors?.['errorRequerido']? 'error-invalid': '': ''
       ]"
-      >Por favor ingrese su {{placeHolder}}.
+      >Por favor ingrese su {{ placeHolder }}.
     </small>
   </span>
 </div>

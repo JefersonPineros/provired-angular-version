@@ -1,1 +1,117 @@
-<p>historial-procesos works!</p>
+<div class="grid">
+  <div class="col-12">
+    <div class="grid">
+      <div class="col-3">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color mt-3">Servicios</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid p-fluid">
+              <div class="col-12">
+                <div class="grid p-fluid">
+                  <app-side-menu
+                    class="col-12 mt-2"
+                    [itemsMenu]="[
+                      {
+                        label: 'Autorizaciones',
+                        icon: 'pi pi-fw pi-clone',
+                        routerLink:
+                          '/provired/home-provired/home/documentos/autorizaciones'
+                      }
+                    ]"
+                  ></app-side-menu>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+      <div class="col-9">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color mt-3">
+                  Seleccione el proceso que desea consultar
+                </h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid p-fluit mt-2">
+              <div class="col-12 xl:col-6 md:col-6">
+                <app-dropdown-component
+                  [(model)]="ciudadModel"
+                  [options]="listDepartamentos"
+                  (modelChange)="departamentoChange()"
+                  name="departamento"
+                  placeholder="Departamento"
+                  selectLabel="Seleccionar departamento"
+                  keyOptionName="departamento"
+                  (grupo)="(fb)"
+                  [showClear]="true"
+                ></app-dropdown-component>
+              </div>
+
+              <div class="col-12 xl:col-6 md:col-6">
+                <app-dropdown-component
+                  [(model)]="municipioModel"
+                  (grupo)="(fb)"
+                  [options]="listMunicipios"
+                  name="municipio"
+                  placeholder="Municipio"
+                  keyOptionName="municipio"
+                  selectLabel="Seleccionar municipio"
+                  [showClear]="true"
+                  (modelChange)="municipioChange()"
+                ></app-dropdown-component>
+              </div>
+            </div>
+            <div class="grid p-fluit mt-2">
+              <div class="col-12 xl:col-6 md:col-6">
+                <app-dropdown-component
+                  [(model)]="corporacionesModel"
+                  (grupo)="(fb)"
+                  [options]="listCorporaciones"
+                  name="corporacioes"
+                  placeholder="Corporacion por especialidad"
+                  keyOptionName="corporacion"
+                  selectLabel="Seleccionar corporacion"
+                  [showClear]="true"
+                  (modelChange)="corporacionesChange()"
+                ></app-dropdown-component>
+              </div>
+              <div class="col-12 xl:col-6 md:col-6">
+                <app-dropdown-component
+                  [(model)]="despachosModel"
+                  (grupo)="(fb)"
+                  [options]="listDespachos"
+                  name="despachos"
+                  placeholder="Despachos"
+                  keyOptionName="despacho"
+                  selectLabel="Seleccionar despacho"
+                  [showClear]="true"
+                  [filter]="true"
+                ></app-dropdown-component>
+              </div>
+            </div>
+            <div class="grid">
+              <div class="col-12">
+                <app-button-component
+                  nameButton="Consultar"
+                  (eventEmiter)="consultarHistorial($event)"
+                ></app-button-component>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+    <div class="grid p-fluit mt-2"></div>
+  </div>
+</div>
