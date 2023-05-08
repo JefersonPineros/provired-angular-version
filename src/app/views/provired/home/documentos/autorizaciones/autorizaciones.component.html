@@ -1,1 +1,111 @@
-<p>autorizaciones works!</p>
+<div class="grid p-fluit">
+  <div class="col-12">
+    <div class="grid">
+      <div class="col-3">
+        <app-card-component>
+          <ng-template pTemplate="header" >
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-4">
+                <h4 class="title-color">Servicios</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid p-fluid">
+              <div class="col-12">
+                <div class="grid p-fluid">
+                  <app-side-menu
+                    class="col-12 mt-2"
+                    [itemsMenu]="[
+                    {
+                      'label': 'Nuevos procesos',
+                      'icon': 'pi pi-fw pi-clone',
+                      'routerLink': '/provired/home-provired/home/procesos'
+                    }]"
+                  ></app-side-menu>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+      <div class="col-9">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-4">
+                <h4 class="title-color">Autorizaciones</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="col-12">
+              <div class="grid">
+                <div class="col-12">
+                  En cada ícono encontrará los formatos de autorización general y autorización expresa, requerido por el despacho para acceder al expediente. Por favor imprimirlo y enviarlo a la dirección que se indique. Debe ser remitido con presentación personal.
+                </div>
+              </div>
+              <div class="grid mt-4">
+                <div class="col-6 p-4">
+                  <app-card-component>
+                    <ng-template pTemplate="header">
+                      <div class="flex flex-column-reverse">
+                        <div class="flex align-items-center justify-content-center mt-4">
+                          <h4 class="title-color">Autorizaciones</h4>
+                        </div>
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="content">
+                      <div class="element-dowload">
+                        <i class="pi pi-file"></i>
+                      </div>
+                      <div class="grid">
+                        <div class="col-12 mt-5">
+                          <div class="p-5">
+                            <app-button-component
+                              clase="p-button-rounded"
+                              nameButton="Descargar"
+                              (eventEmiter)="download(links.FILES.AUTORIZACIONES,'Autorizaciones.doc')"
+                            ></app-button-component>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </app-card-component>
+                </div>
+                <div class="col-6 p-4">
+                  <app-card-component>
+                    <ng-template pTemplate="header">
+                      <div class="flex flex-column-reverse">
+                        <div class="flex align-items-center justify-content-center mt-4">
+                          <h4 class="title-color">Autorizaciones Expresas</h4>
+                        </div>
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="content">
+                      <div class="element-dowload">
+                        <i class="pi pi-file"></i>
+                      </div>
+                      <div class="grid">
+                        <div class="col-12 mt-5">
+                          <div class="p-5">
+                            <app-button-component
+                              clase="p-button-rounded"
+                              nameButton="Descargar"
+                              (eventEmiter)="download(links.FILES.AUTORIZACIONES_EXPRESAS,'Autorizaciones Expresas.doc')"
+                            ></app-button-component>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </app-card-component>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+  </div>
+</div>
+

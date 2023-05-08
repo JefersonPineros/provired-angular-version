@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
   name: 'dev',
-  apiBaseUrl: 'http://localhost:4000/api/'
+  apiBaseUrl: 'http://dev.proviredcolombia.com/api/',
+  baseMocks: '../../../assets/mocks/'
 };

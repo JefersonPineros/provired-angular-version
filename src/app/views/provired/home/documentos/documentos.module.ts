@@ -6,6 +6,7 @@ import { DocumentosComponent } from './documentos.component';
 import { AutorizacionesComponent } from './autorizaciones/autorizaciones.component';
 import { TutorialesComponent } from './tutoriales/tutoriales.component';
 import { TerminosComponent } from './terminos/terminos.component';
+import { ButtonComponentModule, CardComponentModule, SideMenuModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -17,7 +18,10 @@ import { TerminosComponent } from './terminos/terminos.component';
   ],
   imports: [
     CommonModule,
-    DocumentosRoutingModule
+    DocumentosRoutingModule,
+    CardComponentModule,
+    SideMenuModule,
+    ButtonComponentModule
   ]
 })
 export class DocumentosModule { }

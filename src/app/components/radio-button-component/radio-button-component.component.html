@@ -1,0 +1,21 @@
+<div
+  class="flex flex-wrap gap-3"
+  [ngClass]="[
+    orientation == 'horizontal'
+      ? 'flex-wrap'
+      : orientation == 'vertical'
+      ? 'flex-column'
+      : ''
+  ]"
+>
+  <div *ngFor="let category of listRadioButtons" class="field-checkbox">
+    <p-radioButton
+      [inputId]="category.key"
+      name="category"
+      [value]="category"
+      [(ngModel)]="model"
+      (ngModelChange)="modelChange.emit($event)"
+    ></p-radioButton>
+    <label [for]="category.key" class="ml-2">{{ category.name }}</label>
+  </div>
+</div>

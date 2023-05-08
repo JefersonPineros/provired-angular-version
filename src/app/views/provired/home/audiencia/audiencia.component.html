@@ -1,4 +1,281 @@
-<p>audiencia works!</p>
+<div class="grid">
+  <div class="col-12">
+    <div class="grid">
+      <div class="col-3">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color">Servicios</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid p-fluid">
+              <div class="col-12">
+                <div class="grid p-fluid">
+                  <app-side-menu
+                    class="col-12 mt-2"
+                    [itemsMenu]="[
+                      {
+                        label: 'Autorizaciones',
+                        icon: 'pi pi-fw pi-clone',
+                        routerLink:
+                          '/provired/home-provired/home/documentos/autorizaciones'
+                      },
+                      {
+                        label: 'Nuevos procesos',
+                        icon: 'pi pi-fw pi-clone',
+                        routerLink: '/provired/home-provired/home/procesos'
+                      }
+                    ]"
+                  ></app-side-menu>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+      <div class="col-9">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color">
+                  Consultar mis audiencias y vencimientos
+                </h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid p-fluit">
+              <div class="col-12 xl:col-6 md:col-6">
+                <app-date-picker
+                  [(model)]="fechaDesde"
+                  nombre="fechaDesde"
+                  [grupo]="formConsultar"
+                  [showIcon]="true"
+                  (modelChange)="modelChange($event, 'fi')"
+                  placeholder="DD/MM/YY"
+                  [buttonBar]="true"
+                  label="Fecha desde: "
+                  [requerido]="true"
+                ></app-date-picker>
+              </div>
+              <div class="col-12 xl:col-6 md:col-6">
+                <app-date-picker
+                  [(model)]="fechaHasta"
+                  [grupo]="formConsultar"
+                  nombre="fechaHasta"
+                  [showIcon]="true"
+                  (modelChange)="modelChange($event, 'ff')"
+                  placeholder="DD/MM/YY"
+                  [buttonBar]="true"
+                  label="Fecha hasta:"
+                  [requerido]="true"
+                ></app-date-picker>
+              </div>
+              <div class="col-12">
+                <div>
+                  <app-button-component
+                    nameButton="Consultar"
+                    (eventEmiter)="consultarAudiencia()"
+                  ></app-button-component>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+    <div class="grid p-fluit mt-2">
+      <div class="col-12" *ngIf="listAudiencias.length > 0">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color">
+                  Listado de audienciencias y vencimientos
+                </h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <app-tabla-component
+              [cols]="[
+                { field: 'nameCiudad', header: 'Cidad' },
+                { field: 'nameDespacho', header: 'Despacho' },
+                { field: 'radicacion', header: 'Radicación' },
+                { field: 'proceso', header: 'Proceso' },
+                { field: 'demandante', header: 'Demandante' },
+                { field: 'demandado', header: 'Demandado' },
+                {
+                  field: 'descripcion_vence_terminos',
+                  header: 'Descripción del vencimiento'
+                },
+                { field: 'fecha_registro', header: 'Fecha', isFecha: true }
+              ]"
+              [data]="listAudiencias"
+              [fixStyleTable]="true"
+              [stripedTable]="true"
+              idElement="id_vencimiento"
+              [actionsShow]="true"
+              [paginador]="true"
+            >
+              <ng-template pTemplate="actions" let-rowData="elemento">
+                <div class="grid p-fluit">
+                  <div class="col-6">
+                    <app-button-component
+                      [icon]="true"
+                      [showTooltip]="true"
+                      messageTooltip="Eliminar registro"
+                      iconClass="pi pi-times"
+                      clase="p-button-rounded p-button-danger p-button-text"
+                      (eventEmiter)="eliminarRegistro(rowData)"
+                    ></app-button-component>
+                  </div>
+                  <div class="col-6">
+                    <app-button-component
+                      [icon]="true"
+                      [showTooltip]="true"
+                      messageTooltip="Actualizar registro"
+                      iconClass="pi pi-file-edit"
+                      clase="p-button-rounded p-button-text"
+                      (eventEmiter)="openRegistro(rowData)"
+                    ></app-button-component>
+                  </div>
+                </div>
+              </ng-template>
+            </app-tabla-component>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+  </div>
+</div>
+
+<modal-component [visible]="visibleModal" (closeModal)="visibleModal = false">
+  <ng-template pTemplate="title">
+    <h4>EDITAR VENCIMIENTO / CAMBIAR PROGRAMACION AUDIENCIA</h4>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="grid">
+      <div class="col-12 lg:col-6 xl:col-6">
+        <input-text
+          placeHolder="Ciudad"
+          [(model)]="audiencia.nameCiudad"
+          (grupo)="(formAudiencia)"
+          [requerido]="true"
+          styleInput="help-text"
+          [placeHolderActive]="false"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-6">
+        <input-text
+          placeHolder="Despacho"
+          [(model)]="audiencia.nameDespacho"
+          (grupo)="(formAudiencia)"
+          [requerido]="true"
+          styleInput="help-text"
+          [placeHolderActive]="false"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12 lg:col-6 xl:col-6">
+        <input-text
+          placeHolder="Radicación"
+          [(model)]="audiencia.radicacion"
+          (grupo)="(formAudiencia)"
+          [requerido]="true"
+          styleInput="help-text"
+          [placeHolderActive]="false"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-6">
+        <input-text
+          placeHolder="Proceso"
+          [(model)]="audiencia.proceso"
+          (grupo)="(formAudiencia)"
+          [requerido]="true"
+          styleInput="help-text"
+          [placeHolderActive]="false"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12 lg:col-6 xl:col-6">
+        <app-text-area
+          [(model)]="audiencia.demandante"
+          [grupo]="formAudiencia"
+          placeholder="Demandante"
+          [disabled]="true"
+        ></app-text-area>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-6">
+        <app-text-area
+          [(model)]="audiencia.demandado"
+          [grupo]="formAudiencia"
+          placeholder="Demandado"
+          [disabled]="true"
+        ></app-text-area>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12">
+        <app-text-area
+          [(model)]="audiencia.descripcion_vence_terminos"
+          [grupo]="formAudiencia"
+          placeholder="Detalle audiencia vencimiento"
+        ></app-text-area>
+      </div>
+    </div>
+    <div class="grid p-fluit">
+      <div class="col-12 sm:col-6 lg:col-6 xl:col-6">
+        <app-date-picker
+          [(model)]="audiencia.fecha_vence_terminos"
+          nombre="fechaDesde"
+          [grupo]="formAudiencia"
+          [showIcon]="true"
+          (modelChange)="modelChange($event, 'fi')"
+          placeholder="yyyy-MM-dd"
+          [buttonBar]="true"
+          label="Fecha audiencia / Vencimiento "
+          [requerido]="true"
+          format="yy-mm-dd"
+        ></app-date-picker>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <app-button-component
+      nameButton="Cancelar"
+      clase="p-button-outlined p-button-danger"
+      (eventEmiter)="cancelarModal()"
+    ></app-button-component>
+
+    <app-button-component
+      nameButton="Actualizar registro"
+      clase="p-button-outlined p-button-success"
+      (eventEmiter)="actualizarRegistro()"
+    ></app-button-component>
+  </ng-template>
+</modal-component>
+<p-toast></p-toast>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
 
 <!--
   se coloca si es necesario enrutar a una nueva ruta

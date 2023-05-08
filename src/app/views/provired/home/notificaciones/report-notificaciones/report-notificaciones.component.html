@@ -1,0 +1,109 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="grid">
+      <div class="col-3">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color mt-3">Servicios</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid p-fluid">
+              <div class="col-12">
+                <div class="grid p-fluid">
+                  <app-side-menu
+                    class="col-12 mt-2"
+                    [itemsMenu]="[
+                      {
+                        label: 'Autorizaciones',
+                        icon: 'pi pi-fw pi-clone',
+                        routerLink:
+                          '/provired/home-provired/home/documentos/autorizaciones'
+                      },
+                      {
+                        label: 'Nuevos procesos',
+                        icon: 'pi pi-fw pi-clone',
+                        routerLink: '/provired/home-provired/home/procesos'
+                      }
+                    ]"
+                  ></app-side-menu>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+      <div class="col-9">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color mt-3">Reporte de notificaciones</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid p-fluid">
+              <div class="col-12">
+                <div class="grid p-fluid">
+                  <div class="col-12 mt-3">
+                    <div class="grid">
+                      <div class="col-12">
+                        <h5 class="ml-3">Ultimos:</h5>
+                      </div>
+                    </div>
+                    <div class="grid">
+                      <div class="col-12">
+                        <div class="flex p-3">
+                          <app-radio-button
+                            [listRadioButtons]="[
+                              { name: 'Mis procesos de hoy', key: 'T' },
+                              { name: 'Consultar a una fecha', key: 'D' }
+                            ]"
+                            [defaultValue]="1"
+                          ></app-radio-button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="grid p-fluit p-3">
+                      <div class="col-12 xl:col-6 md:col-6">
+                        <app-date-picker
+                          nombre="fechaDesde"
+                          [showIcon]="true"
+                          placeholder="DD/MM/YY"
+                          [buttonBar]="true"
+                          label="Fecha desde: "
+                          [requerido]="true"
+                        ></app-date-picker>
+                      </div>
+                      <div class="col-12 xl:col-6 md:col-6">
+                        <app-date-picker
+                          nombre="fechaHasta"
+                          [showIcon]="true"
+                          placeholder="DD/MM/YY"
+                          [buttonBar]="true"
+                          label="Fecha hasta: "
+                          [requerido]="true"
+                        ></app-date-picker>
+                      </div>
+                      <div class="col-12">
+                        <div>
+                          <app-button-component
+                            nameButton="Consultar"
+                          ></app-button-component>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+  </div>
+</div>

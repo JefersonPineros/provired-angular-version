@@ -1,0 +1,19 @@
+<div class="grid p-fluit p-2">
+  <span class="p-float-label col-12">
+    <p-dropdown
+      class=""
+      [options]="options"
+      [(ngModel)]="model"
+      [placeholder]="selectLabel"
+      (ngModelChange)="modelChange.emit($event)"
+      [optionLabel]="keyOptionName"
+      [showClear]="showClear"
+      [attr.inputId]="name"
+      [filter]="filter"
+      [filterBy]="keyOptionName"
+      [lazy]="false">
+    </p-dropdown>
+    <label class="ml-2" [attr.for]="name">{{placeholder}}</label>
+  </span>
+</div>
+

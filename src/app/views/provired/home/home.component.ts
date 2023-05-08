@@ -1,14 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { AppComponent } from 'src/app/app.component';
+import { LogOutService } from 'src/app/services/logOut/log-out.service';
+import { UserServiceService } from 'src/app/services/user/user-service.service';
 import { MenuService } from 'src/app/services/utils/app.menu.service';
+import { SessionStorageService } from 'src/app/services/utils/session-storage.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   configDialogActive:any;
 
   topbarItemClick: boolean | undefined;
@@ -27,7 +31,36 @@ export class HomeComponent {
 
   overlayMenuMobileActive: boolean | undefined;
 
-  constructor(private menuService: MenuService, private primengConfig: PrimeNGConfig, public app: AppComponent) { }
+  constructor(
+    private menuService: MenuService,
+    private primengConfig: PrimeNGConfig,
+    public app: AppComponent,
+    private userService: UserServiceService,
+    private session: SessionStorageService,
+    private logOutSession: LogOutService,
+    private route: Router
+    ) { }
+
+  ngOnInit(): void {
+    this.userService.getUser().subscribe(
+      {
+        next: (res) => {
+          this.session.createStorage('user', JSON.stringify(res));
+        }
+      }
+    );
+  }
+
+  logOutEvent(): void {
+    this.logOutSession.logOutSession().subscribe(
+      {
+        next: (resp) => {
+          console.log(resp, 'Hola mundo');
+          this.route.navigate(['provired/']);
+        }
+      }
+    );
+  }
 
   onRippleChange(event: any) {
     this.app.ripple = event.checked;

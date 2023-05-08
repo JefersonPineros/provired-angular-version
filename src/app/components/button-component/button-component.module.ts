@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ButtonComponentComponent } from './button-component.component';
 import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 
 export * from './button-component.component';
 
@@ -13,7 +14,8 @@ export * from './button-component.component';
   ],
   imports: [
     CommonModule,
-    ButtonModule
+    ButtonModule,
+    TooltipModule
   ],
   exports: [
     ButtonComponentComponent

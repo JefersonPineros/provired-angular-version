@@ -1,1 +1,92 @@
-<p>eliminar-procesos works!</p>
+<div class="grid">
+  <div class="col-12">
+    <div class="grid">
+      <div class="col-3">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color">Servicios</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid p-fluid">
+              <div class="col-12">
+                <div class="grid p-fluid">
+                  <app-side-menu
+                    class="col-12 mt-2"
+                    [itemsMenu]="[
+                      {
+                        label: 'Autorizaciones',
+                        icon: 'pi pi-fw pi-clone',
+                        routerLink:
+                          '/provired/home-provired/home/documentos/autorizaciones'
+                      },
+                      {
+                        label: 'Nuevos procesos',
+                        icon: 'pi pi-fw pi-clone',
+                        routerLink: '/provired/home-provired/home/procesos'
+                      }
+                    ]"
+                  ></app-side-menu>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+      <div class="col-9">
+        <div class="grid">
+          <div class="col-12">
+            <app-card-component>
+              <ng-template pTemplate="header">
+                <div class="flex flex-column-reverse">
+                  <div
+                    class="flex align-items-center justify-content-center mt-2"
+                  >
+                    <h4 class="title-color">Ver mis procesos</h4>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="content">
+                <div class="grid p-fluit">
+                  <div class="col-12 xl:col-6 md:col-6">
+                    <input-text
+                      placeHolder="Demandante/Demandado"
+                      [(model)]="formSearchProcess.demandante"
+                      [grupo]="fb"
+                      [requerido]="true"
+                      styleInput="help-text"
+                      [placeHolderActive]="false"
+                      [disabledInputText]="false"
+                    ></input-text>
+                  </div>
+                  <div class="col-12 xl:col-6 md:col-6">
+                    <input-text
+                      placeHolder="Radicado"
+                      [(model)]="formSearchProcess.radicado"
+                      [grupo]="fb"
+                      [requerido]="true"
+                      styleInput="help-text"
+                      [placeHolderActive]="false"
+                      [disabledInputText]="false"
+                    ></input-text>
+                  </div>
+                  <div class="col-12">
+                    <div>
+                      <app-button-component
+                        nameButton="Consultar"
+                        (eventEmiter)="consultarProcesos()"
+                      ></app-button-component>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </app-card-component>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

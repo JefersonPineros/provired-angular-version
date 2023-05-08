@@ -1,7 +1,7 @@
 <div class="layout-topbar">
   <div href="#" class="layout-topbar-logo">
       <a [routerLink]="['/provired/home-provired/home/page-red/start']"  >
-          <img class="logo" src="assets/layout/images/logo.png" alt="prestige-layout"/>
+          <img class="logo" width="110px" height="120px" src="assets/images/logo_provired.png" alt="prestige-layout"/>
       </a>
   </div>
   <a class="layout-menu-button" href="#" (click)="app.onMenuButtonClick($event)">
@@ -20,7 +20,7 @@
                   </a>
                   <div class="layout-quickmenu-tooltip">
                       <div class="layout-quickmenu-tooltip-arrow"></div>
-                      <div class="layout-quickmenu-tooltip-text">Sign Out</div>
+                      <div class="layout-quickmenu-tooltip-text" (click)="this.app.logOutEvent()">Sign Out</div>
                   </div>
               </li>
           </ul>
@@ -34,21 +34,21 @@
       <li #profile class="user-profile" role="menuitem" [ngClass]="{'active-topmenuitem':app.activeTopbarItem === profile}">
           <a href="#" (click)="app.onTopbarItemClick($event,profile)">
               <div class="user-profile-info profile-link">
-                  <span class="user-profile-name">Ava Gregoraci</span>
-                  <span class="user-profile-role">Design Ops</span>
+                  <span class="user-profile-name">{{this.user}}</span>
+                  <span class="user-profile-role">{{this.tipo == 'A'? 'Administrador': this.tipo == 'O'? 'Operativo': this.tipo == 'S'? 'Suscriptor': ''}}</span>
               </div>
-              <img class="logo" src="assets/layout/images/avatar/avatar-ava.jpg" alt="prestige-layout" />
+              <img class="logo" src="assets/layout/images/avatar/avatar-pedro.jpg" alt="prestige-layout" />
           </a>
           <ul class="fadeInDown">
               <li class="profile-detail">
                   <div class="user-profile-info">
-                      <img class="logo" src="assets/layout/images/avatar/avatar-ava.jpg" alt="prestige-layout" />
+                      <img class="logo" src="assets/layout/images/avatar/avatar-pedro.jpg" alt="prestige-layout" />
                       <div class="profile-info">
-                          <span class="user-profile-name">Ava Gregoraci</span>
-                          <span class="user-profile-role">Design Ops</span>
+                          <span class="user-profile-name">{{this.user}}</span>
+                          <span class="user-profile-role">{{this.tipo == 'A'? 'Administrador': this.tipo == 'O'? 'Operativo': this.tipo == 'S'? 'Suscriptor': ''}}</span>
                       </div>
                       <a href="#" class="profile-detail-icon" (click)="app.onTopbarSubItemClick($event)">
-                          <i class="pi pi-sign-out"></i>
+                          <i class="pi pi-sign-out" (click)="this.app.logOutEvent()"></i>
                       </a>
                   </div>
               </li>

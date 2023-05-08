@@ -1,0 +1,83 @@
+[
+  {
+    "label": "Configuración",
+    "icon": "pi pi-fw pi-clone",
+    "routerLink": ["inicio/audiencia"]
+  },
+  {
+    "label": "Consultas",
+    "icon": "pi pi-fw pi-inbox",
+    "routerLink": ["notificaciones"],
+    "items": [
+      {
+        "label": "Gestionar autos",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_generales"]
+      },
+      {
+        "label": "Historial de procesos",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_activos"]
+      }
+    ]
+  },
+  {
+    "label": "Notificaciones",
+    "icon": "pi pi-fw pi-inbox",
+    "routerLink": ["notificaciones"],
+    "items": [
+      {
+        "label": "Guia de captura",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_generales"]
+      },
+      {
+        "label": "Digitar notificaciones",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_activos"]
+      },
+      {
+        "label": "Listado juzgados activos",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_generales"]
+      },
+      {
+        "label": "Consulta Manual",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_activos"]
+      },
+      {
+        "label": "Validar radicados",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_activos"]
+      }
+    ]
+  },
+  {
+    "label": "Movimientos",
+    "icon": "pi pi-fw pi-file-pdf",
+    "routerLink": ["reportes"],
+    "items": [
+      {
+        "label": "Editar notificaciones",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_generales"]
+      },
+      {
+        "label": "Cargar autos/enviar alertas",
+        "icon": "pi pi-fw pi-file",
+        "routerLink": ["reportes/procesos_activos"]
+      },
+      {
+        "label": "Reporte diario",
+        "icon": "pi pi-fw pi-trash",
+        "routerLink": ["reportes/eliminar_procesos"]
+      },
+      {
+        "label": "Sincronizar autos",
+        "icon": "pi pi-fw pi-book",
+        "routerLink": ["reportes/historial_procesos"]
+      }
+    ]
+  }
+]

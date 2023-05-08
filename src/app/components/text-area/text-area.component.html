@@ -1,0 +1,17 @@
+<div class="col-12 mt-3">
+  <span class="p-float-label">
+    <textarea
+      [(ngModel)]="model"
+      (ngModelChange)="modelChange.emit($event)"
+      [attr.id]="nombre"
+      rows="5"
+      cols="30"
+      [disabled]="disabled"
+      [ngStyle]="
+        {'max-height.px': tamanio, 'width': '100%'}
+      "
+      pInputTextarea>
+    </textarea>
+    <label [attr.for]="nombre">{{placeholder}}</label>
+  </span>
+</div>

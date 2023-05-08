@@ -1,0 +1,41 @@
+<div class="grid">
+  <div class="col-12">
+    <small
+      class="mb-2"
+      [ngClass]="
+        valid ? (!grupo.controls[nombre].valid ? 'p-invalid' : '') : ''
+      "
+      >{{ label }}</small
+    >
+
+    <p-calendar
+      [(ngModel)]="model"
+      (ngModelChange)="modelChange.emit($event)"
+      [showIcon]="true"
+      [disabled]="disabled"
+      [showIcon]="showIcon"
+      [attr.id]="nombre"
+      [placeholder]="placeholder"
+      [required]="requerido"
+      [dateFormat]="format"
+      [showButtonBar]="buttonBar"
+      [inputStyle]="{ width: 'calc(100% - 2.06em)' }"
+      [ngClass]="[
+        valid
+          ? !grupo.controls[nombre].valid
+            ? 'ng-invalid ng-dirty'
+            : ''
+          : ''
+      ]"
+    >
+    </p-calendar>
+    <div *ngIf="valid">
+      <small
+        [ngClass]="[
+        grupo.controls[nombre].errors?.['errorRequerido']? 'p-invalid': '']"
+      >
+        Este campo es requerido *
+      </small>
+    </div>
+  </div>
+</div>
