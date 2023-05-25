@@ -20,9 +20,17 @@ registerLocaleData(localeEs);
   selector: 'app-tabla-component',
   templateUrl: './tabla-component.component.html',
   styleUrls: ['./tabla-component.component.scss'],
-  providers: [{provide:LOCALE_ID, useValue: 'es'}]
+  providers: [{ provide: LOCALE_ID, useValue: 'es' }]
 })
 export class TablaComponentComponent implements OnInit, OnChanges, AfterContentInit {
+
+  @Input() rowsPerPage: Array<any> = [10, 20, 30];
+
+  @Input() totalRecords: number = 0;
+
+  @Input() rows: number = 10;
+
+  @Input() lazy: boolean = false;
 
   @Input() isSortTable: boolean = false;
 
@@ -48,6 +56,8 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
 
   @Output() selected: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output() onChangePage: EventEmitter<any> = new EventEmitter<any>();
+
   @ContentChildren(PrimeTemplate) plantillas: QueryList<PrimeTemplate> | undefined;
 
   public selectedElement: Array<any> = [];
@@ -56,7 +66,7 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
 
   public actions: any;
 
-  constructor() {}
+  constructor() { }
 
 
   ngOnInit(): void {
@@ -64,12 +74,12 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
 
   ngOnChanges(changes: any): void {
 
-    if(changes.selectedElement) {
+    if (changes.selectedElement) {
       this.selected.emit(this.selectedElement);
     }
   }
 
-  onRowSelect(event:any) {
+  onRowSelect(event: any) {
     this.selected.emit(this.selectedElement);
   }
 
@@ -92,5 +102,13 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
 
   clear(table: Table) {
     table.clear();
-}
+  }
+
+  loadCustom(even: any) {
+    console.log(even);
+  }
+
+  onPageChange(event: any) {
+    this.onChangePage.emit(event);
+  }
 }

@@ -17,6 +17,7 @@ import { DepartamentosService } from 'src/app/services/utils/departamentos.servi
 import { MunicipiosService } from 'src/app/services/utils/municipios.service';
 import { CorporacionesService } from 'src/app/services/utils/corporaciones.service';
 import { DespachosService } from 'src/app/services/utils/despachos.service';
+import { ProcesosService } from 'src/app/services/home/procesos/procesos.service';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { DespachosService } from 'src/app/services/utils/despachos.service';
     DepartamentosService,
     MunicipiosService,
     CorporacionesService,
-    DespachosService
+    DespachosService,
+    ProcesosService
   ]
 })
 export class ProcesosModule { }

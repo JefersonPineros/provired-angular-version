@@ -113,7 +113,7 @@
               <div class="col-12">
                 <app-text-area
                   (grupo)="(formProceso)"
-                  [(model)]="newProceso.juzgado"
+                  [(model)]="newProceso.juzgado_origen"
                   placeholder="Juzgado Origen / Número Radicado Anterior"
                 ></app-text-area>
               </div>
@@ -125,7 +125,7 @@
                   placeHolder="Radicado (23 Digitos)"
                   [placeHolderActive]="true"
                   styleInput="help-text"
-                  [(model)]="newProceso.rad_23"
+                  [(model)]="newProceso.codigo23"
                 ></input-text>
               </div>
               <div class="col-12 xl:col-6 md:col-6">
@@ -134,7 +134,7 @@
                   placeHolder="Tipo de Proceso"
                   [placeHolderActive]="true"
                   styleInput="help-text"
-                  [(model)]="newProceso.tipo_proceso"
+                  [(model)]="newProceso.proceso"
                 ></input-text>
               </div>
             </div>
