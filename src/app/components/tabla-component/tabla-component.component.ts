@@ -32,6 +32,11 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
 
   @Input() lazy: boolean = false;
 
+  /**
+   * @var posible values are top, botton or both
+   */
+  @Input() paginationPosition: string = 'bottom'
+
   @Input() isSortTable: boolean = false;
 
   @Input() multipleSort: boolean = false;
@@ -54,6 +59,14 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
 
   @Input() actionsShow: boolean = false;
 
+  @Input() nameActionsLeft: string = '';
+
+  @Input() actionsRightShow: boolean = false;
+
+  @Input() nameActionsRight: string = '';
+
+  @Input() loading: boolean = false;
+
   @Output() selected: EventEmitter<any> = new EventEmitter<any>();
 
   @Output() onChangePage: EventEmitter<any> = new EventEmitter<any>();
@@ -65,6 +78,8 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
   public checkElement: any;
 
   public actions: any;
+
+  public actions_right: any;
 
   constructor() { }
 
@@ -89,6 +104,9 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
         case 'actions':
           this.actions = plantilla.template;
           break;
+        case 'actions-left':
+          this.actions_right = plantilla.template;
+          break;
 
         default:
           break;
@@ -102,10 +120,6 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
 
   clear(table: Table) {
     table.clear();
-  }
-
-  loadCustom(even: any) {
-    console.log(even);
   }
 
   onPageChange(event: any) {

@@ -9,7 +9,17 @@ import { DigitarNotificacionesComponent } from './digitar-notificaciones/digitar
 import { EditarNotificacionesComponent } from './editar-notificaciones/editar-notificaciones.component';
 import { EstadoElectronicoComponent } from './estado-electronico/estado-electronico.component';
 import { ReportNotificacionesComponent } from './report-notificaciones/report-notificaciones.component';
-import { ButtonComponentModule, CardComponentModule, CheckboxComponentModule, RadioButtonComponentModule, SideMenuModule, TablaComponentModule } from 'src/app/components/components.module';
+import {
+  ButtonComponentModule,
+  CardComponentModule,
+  CheckboxComponentModule,
+  InputTextComponentModule,
+  ModalComponentModule,
+  RadioButtonComponentModule,
+  SideMenuModule,
+  TablaComponentModule,
+  TextAreaModule
+} from 'src/app/components/components.module';
 import { DatePickerModule } from 'src/app/components/date-picker/date-picker.module';
 import { ToastModule } from 'primeng/toast';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -38,6 +48,9 @@ import { ReporteNotificacionesService } from 'src/app/services/home/notificacion
     DatePickerModule,
     ButtonComponentModule,
     TablaComponentModule,
+    ModalComponentModule,
+    InputTextComponentModule,
+    TextAreaModule,
 
     ToastModule,
     NgxSpinnerModule

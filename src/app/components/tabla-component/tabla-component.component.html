@@ -6,13 +6,15 @@
   [rows]="rows"
   [showCurrentPageReport]="true"
   [rowsPerPageOptions]="rowsPerPage"
+  [paginatorPosition]="paginationPosition"
   [styleClass]="stripedTable ? 'p-datatable-striped' : ''"
   [tableStyle]="fixStyleTable ? { 'min-width': '50rem' } : ''"
   [ngClass]="[stripedTable ? 'p-datatable-striped' : '']"
   [(selection)]="selectedElement"
   [dataKey]="idElement"
   [lazy]="lazy"
-  (onLazyLoad)="loadCustom($event)"
+  [scrollable]="true"
+  [loading]="loading"
   (onPage)="onPageChange($event)"
   (selectionChange)="onRowSelect($event)"
   [sortMode]="multipleSort ? 'multiple' : 'single'"
@@ -42,11 +44,12 @@
       <th style="width: 4rem" *ngIf="multiSelect">
         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
       </th>
-      <th *ngIf="actionsShow">Acciones</th>
+      <th *ngIf="actionsShow">{{ nameActionsLeft }}</th>
       <th pSortableColumn="{{ col.header }}" *ngFor="let col of columns">
         {{ col.header }}
         <p-sortIcon *ngIf="isSortTable" [field]="col.header"></p-sortIcon>
       </th>
+      <th *ngIf="actionsRightShow">{{ nameActionsRight }}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
@@ -60,15 +63,30 @@
           [ngTemplateOutletContext]="{ elemento: rowData }"
         ></ng-template>
       </td>
-      <td *ngFor="let col of columns">
+      <td
+        *ngFor="let col of columns"
+        style="max-width: 300px; word-wrap: break-word"
+      >
         <div *ngIf="!col.isFecha; else esFecha">
-          {{ rowData[col.field] }}
+          {{
+            rowData[col.field] == "" ||
+            rowData[col.field] == null ||
+            rowData[col.field] == undefined
+              ? "N / A"
+              : rowData[col.field]
+          }}
         </div>
         <ng-template #esFecha>
           <div>
             {{ rowData[col.field] | date : "dd-MMM-yyyy" | titlecase }}
           </div>
         </ng-template>
+      </td>
+      <td *ngIf="actionsRightShow">
+        <ng-template
+          [ngTemplateOutlet]="actions_right"
+          [ngTemplateOutletContext]="{ elemento: rowData }"
+        ></ng-template>
       </td>
     </tr>
   </ng-template>
