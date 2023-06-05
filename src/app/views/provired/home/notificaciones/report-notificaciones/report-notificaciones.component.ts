@@ -8,7 +8,11 @@ import { FilterDateModel } from 'src/app/models/home/notificaciones/filterDate';
 import { ReporteNotificacionesService } from 'src/app/services/home/notificaciones/reporte-notificaciones.service';
 import { ReporteNotificaciones } from 'src/app/models/home/notificaciones/ReporteNotificacion';
 import { MessageModel } from 'src/app/models/login/utils/messageModel';
-
+import { AudienciaService } from 'src/app/services/home/audiencia/audiencia.service';
+import { Audiencias } from 'src/app/models/audiencias/audiencias';
+import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
+import { FilterReport } from 'src/app/models/home/notificaciones/filterReport';
 @Component({
   selector: 'app-report-notificaciones',
   templateUrl: './report-notificaciones.component.html',
@@ -36,12 +40,17 @@ export class ReportNotificacionesComponent implements OnInit {
 
   public detailModal: ReporteNotificaciones = new ReporteNotificaciones();
 
+  public audiencia: Audiencias = new Audiencias();
+
+  public filterReport: FilterReport = new FilterReport();
+
   constructor(
     public breadCrumService: BreadcrumbService,
     private sessionService: SessionStorageService,
     private spinner: NgxSpinnerService,
     private reporte: ReporteNotificacionesService,
-    private message: MessageService
+    private message: MessageService,
+    private audienciasService: AudienciaService,
   ) { }
 
   ngOnInit(): void {
@@ -126,4 +135,85 @@ export class ReportNotificacionesComponent implements OnInit {
     this.detailModal = event;
   }
 
+  updateAudiencia(): void {
+    this.spinner.show();
+    let sesion = this.sessionService.getStorage('user', 'json');
+    this.audiencia.ciudad = this.detailModal.municipio;
+    this.audiencia.demandado = this.detailModal.demandado;
+    this.audiencia.demandante = this.detailModal.demandante;
+    this.audiencia.radicacion = this.detailModal.radicacion;
+    this.audiencia.proceso = this.detailModal.proceso;
+    this.audiencia.despacho = this.detailModal.despacho;
+    this.audiencia.username = sesion.user;
+    this.audiencia.idplanilla = this.detailModal.idplanilla;
+
+    this.audiencia.fecha_vence_terminos = moment(this.audiencia.fecha_vence_terminos).format('YYYY-MM-DD');
+
+    this.audienciasService.createAudiencia(this.audiencia).subscribe(
+      {
+        next: (res) => {
+          let message_model: MessageModel = new MessageModel('', '', '');
+          if (res.status == 200) {
+            message_model = new MessageModel(
+              'success',
+              `Proceso exitoso`,
+              `${res.msg}`
+            );
+          } else if (res.status == 400) {
+            message_model = new MessageModel(
+              'error',
+              `Estructura erronea`,
+              `${res.msg}`
+            );
+          }
+
+          this.message.add(message_model);
+          this.spinner.hide();
+        },
+        error: (error) => {
+          let message_model: MessageModel = new MessageModel(
+            'success',
+            `Proceso exitoso`,
+            `${error.msg}`
+          );
+          this.message.add(message_model);
+          this.spinner.hide();
+        }
+      }
+    );
+    this.showModalEdit = false;
+  }
+
+  downloadDoc(url: string) {
+    if (url) {
+      let finalUrl = url.substring(0);
+      window.open(environment.apiBaseDocs + 'autos/' + finalUrl);
+    }
+  }
+
+  downloadReport() {
+    this.spinner.show();
+    let session = this.sessionService.getStorage('user', 'json')
+    this.filterReport.username = session.data.username;
+    this.filterReport.group_users = session.data.group_users;
+    this.filterReport.parent = session.data.parent;
+    this.filterReport.fi = moment(this.fi).format('yyyy-MM-DD');
+    this.filterReport.ff = moment(this.ff).format('yyyy-MM-DD');
+    this.filterReport.name_user = session.data.nombre;
+    this.filterReport.name_file = 'Reporte_notificaciones';
+
+    this.reporte.getExcelNotificaciones(this.filterReport).subscribe(
+      {
+        next: (res) => {
+          console.log(res);
+          this.spinner.hide();
+        },
+        error: (error) => {
+          console.log(error);
+          this.spinner.hide();
+        }
+      }
+    );
+
+  }
 }

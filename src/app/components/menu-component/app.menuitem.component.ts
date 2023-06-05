@@ -101,7 +101,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
       this.active = false;
     });
 
-    // console.log(this.item.routerLink[0]);
+
 
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(params => {
@@ -157,6 +157,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
 
     // toggle active state
     if (this.item.items) {
+
       this.active = !this.active;
       this.animating = true;
     } else {

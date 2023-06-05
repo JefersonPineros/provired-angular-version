@@ -14,4 +14,8 @@ export class ReporteNotificacionesService {
   getReporteNotificaciones(filters: FilterDateModel): Observable<any> {
     return this.http.post(environment.apiBaseUrl + 'reporteNotificaciones', filters);
   }
+
+  getExcelNotificaciones(userReport: any): Observable<any> {
+    return this.http.post(environment.apiBaseDocs + 'reporteNotificaciones/exportExcel', userReport);
+  }
 }

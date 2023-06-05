@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageService } from 'primeng/api';
 import { Audiencias } from 'src/app/models/audiencias/audiencias';
 import { ConsultarAudiencia } from 'src/app/models/audiencias/getAudiencia';
+import { FilterReport } from 'src/app/models/home/notificaciones/filterReport';
 import { ResponseLogin } from 'src/app/models/login/responseLogin';
 import { MessageModel } from 'src/app/models/login/utils/messageModel';
 import { AudienciaService } from 'src/app/services/home/audiencia/audiencia.service';
@@ -34,6 +36,8 @@ export class AudienciaComponent implements OnInit {
   public formAudiencia: FormGroup = new FormGroup({});
 
   public audiencia: Audiencias = new Audiencias();
+
+  public filterReport: FilterReport = new FilterReport();
 
   constructor(
     public breadCrumService: BreadcrumbService,
@@ -132,7 +136,7 @@ export class AudienciaComponent implements OnInit {
       descripcion_vence_terminos: ''
     };
     updateItem.username = this.audiencia.username!;
-    updateItem.fecha_vence_terminos = this.audiencia.fecha_vence_terminos!;
+    updateItem.fecha_vence_terminos = moment(this.audiencia.fecha_vence_terminos).toDate();
     updateItem.id_vencimiento = this.audiencia.id_vencimiento!;
     updateItem.descripcion_vence_terminos = this.audiencia.descripcion_vence_terminos!;
 
@@ -167,4 +171,28 @@ export class AudienciaComponent implements OnInit {
     this.visibleModal = false;
   }
 
+  downloadReport() {
+    this.spinner.show();
+    let session = this.sessionService.getStorage('user', 'json');
+    this.filterReport.username = session.data.username;
+    this.filterReport.fi = moment(this.fechaDesde).format('yyyy-MM-DD');
+    this.filterReport.ff = moment(this.fechaHasta).format('yyyy-MM-DD');
+    this.filterReport.name_user = session.data.nombre;
+    this.filterReport.name_file = 'Reporte_Audiencias';
+
+    this.audiencias.downloadReport(this.filterReport).subscribe(
+      {
+        next: (res) => {
+          console.log(res);
+          this.spinner.hide();
+
+        },
+        error: (error) => {
+          console.log(error);
+          this.spinner.hide();
+        }
+      }
+    );
+
+  }
 }

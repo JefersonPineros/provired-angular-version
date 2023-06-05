@@ -25,6 +25,7 @@ import { ToastModule } from 'primeng/toast';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MessageService } from 'primeng/api';
 import { ReporteNotificacionesService } from 'src/app/services/home/notificaciones/reporte-notificaciones.service';
+import { AudienciaService } from 'src/app/services/home/audiencia/audiencia.service';
 
 
 @NgModule({
@@ -55,6 +56,6 @@ import { ReporteNotificacionesService } from 'src/app/services/home/notificacion
     ToastModule,
     NgxSpinnerModule
   ],
-  providers: [MessageService, ReporteNotificacionesService]
+  providers: [MessageService, ReporteNotificacionesService, AudienciaService]
 })
 export class NotificacionesModule { }

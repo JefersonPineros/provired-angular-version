@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageService } from 'primeng/api';
 import { Proceso } from 'src/app/models/home/procesos/proceso';
+import { MessageModel } from 'src/app/models/login/utils/messageModel';
 import { ProcesosService } from 'src/app/services/home/procesos/procesos.service';
 import { BreadcrumbService } from 'src/app/services/utils/app.breadcrumb.service';
 import { CorporacionesService } from 'src/app/services/utils/corporaciones.service';
@@ -44,7 +47,9 @@ export class ProcesosComponent implements OnInit {
     private corporaciones: CorporacionesService,
     private despacho: DespachosService,
     private procesoService: ProcesosService,
-    private sesion: SessionStorageService
+    private sesion: SessionStorageService,
+    private spinner: NgxSpinnerService,
+    private message: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -67,6 +72,7 @@ export class ProcesosComponent implements OnInit {
   }
 
   crearProceso(eve: any): void {
+    this.spinner.show();
     this.newProceso.depto = this.ciudadModel.IdDep;
     this.newProceso.municipio = this.municipioModel.IdMun;
     this.newProceso.corporacion = this.corporacionesModel.IdCorp;
@@ -76,10 +82,33 @@ export class ProcesosComponent implements OnInit {
     this.procesoService.createProceso(this.newProceso).subscribe(
       {
         next: (res) => {
-          console.log(res);
+          let message_model: MessageModel = new MessageModel('', '', '');
+          if (res.status == 200) {
+
+            message_model = new MessageModel(
+              'success',
+              `Creación exitosa`,
+              `${res.msg}`
+            );
+          } else if (res.status == 400) {
+            message_model = new MessageModel(
+              'error',
+              `El formulario está incompleto`,
+              `${res.msg}`
+            );
+          }
+
+          this.message.add(message_model);
+          this.spinner.hide();
         },
         error: (error) => {
-          console.log(error);
+          this.spinner.hide();
+          let message_model: MessageModel = new MessageModel(
+            'error',
+            `El formulario está incompleto`,
+            `${error.error.msg}`
+          );
+          this.message.add(message_model);
         }
       }
     )

@@ -39,35 +39,39 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
 
   @Input() icon: string = "pi-search";
 
-  constructor(private fb: FormBuilder) {}
+  @Input() maxLength: number | undefined;
+
+  @Input() minLength: number | undefined;
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.generateFormat();
     this.generarControl();
   }
 
-  ngOnChanges(change: any):void {
-    if(change.model) {
+  ngOnChanges(change: any): void {
+    if (change.model) {
       setTimeout(() => this.actualizarControl());
     }
 
-    if(this.grupo.status == 'INVALID') {
+    if (this.grupo.status == 'INVALID') {
       this.valid = true;
       this.validChange.emit(this.valid);
     }
   }
 
   generateFormat(): void {
-    if(!this.grupo) {
+    if (!this.grupo) {
       this.grupo = this.fb.group({});
     }
   }
 
   generarControl(): void {
-    if(this.grupo) {
-      if(!this.grupo.get(this.nombre )) {
+    if (this.grupo) {
+      if (!this.grupo.get(this.nombre)) {
         this.nombre = UtilService.getControlNombre();
-        this.grupo.addControl(this.nombre,this.fb.control({}));
+        this.grupo.addControl(this.nombre, this.fb.control({}));
       }
 
       this.grupo

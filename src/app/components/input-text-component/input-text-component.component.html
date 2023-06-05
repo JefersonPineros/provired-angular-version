@@ -18,6 +18,8 @@
     }}</label>
     <input
       pInputText
+      [attr.maxlength]="maxLength"
+      [attr.minlength]="minLength"
       type="{{ tipo }}"
       [placeholder]="
         placeHolderActive ? (styleInput == 'help-text' ? placeHolder : '') : ''
