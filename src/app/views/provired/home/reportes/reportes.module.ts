@@ -15,13 +15,19 @@ import {
   CardComponentModule,
   DropdownComponentModule,
   InputTextComponentModule,
-  SideMenuModule
+  ModalComponentModule,
+  SideMenuModule,
+  TablaComponentModule
 } from 'src/app/components/components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DespachosService } from 'src/app/services/utils/despachos.service';
 import { CorporacionesService } from 'src/app/services/utils/corporaciones.service';
 import { MunicipiosService } from 'src/app/services/utils/municipios.service';
 import { DepartamentosService } from 'src/app/services/utils/departamentos.service';
+import { ProcesosGeneralesService } from 'src/app/services/home/reportes/procesos-generales.service';
+import { ToastModule } from 'primeng/toast';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -46,13 +52,20 @@ import { DepartamentosService } from 'src/app/services/utils/departamentos.servi
     ButtonComponentModule,
     SideMenuModule,
     InputTextComponentModule,
-    DropdownComponentModule
+    DropdownComponentModule,
+    TablaComponentModule,
+    ModalComponentModule,
+
+    ToastModule,
+    NgxSpinnerModule
   ],
   providers: [
     DepartamentosService,
     MunicipiosService,
     CorporacionesService,
-    DespachosService
+    DespachosService,
+    ProcesosGeneralesService,
+    MessageService
   ]
 })
 export class ReportesModule { }

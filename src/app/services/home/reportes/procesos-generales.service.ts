@@ -17,7 +17,7 @@ export class ProcesosGeneralesService {
         (res: any) => {
           let status = res["status" as any];
           if (status = 200) {
-            return res.data;
+            return res;
           } else {
             throw new Error('Se ha presentado un error');
           }
@@ -27,7 +27,7 @@ export class ProcesosGeneralesService {
   }
 
   public updateProceso(upProceso: UpdateProceso): Observable<any> {
-    return this.http.put<any>(environment.apiBaseUrl, upProceso);
+    return this.http.put<any>(environment.apiBaseUrl + 'listadoProcesosGenerales/update', upProceso);
   }
 
   public getReportListProcesos(filterProceso: FilterProceso): Observable<any> {

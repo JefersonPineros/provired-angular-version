@@ -10,9 +10,9 @@ import { ReporteNotificaciones } from 'src/app/models/home/notificaciones/Report
 import { MessageModel } from 'src/app/models/login/utils/messageModel';
 import { AudienciaService } from 'src/app/services/home/audiencia/audiencia.service';
 import { Audiencias } from 'src/app/models/audiencias/audiencias';
-import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
 import { FilterReport } from 'src/app/models/home/notificaciones/filterReport';
+
 @Component({
   selector: 'app-report-notificaciones',
   templateUrl: './report-notificaciones.component.html',
@@ -205,7 +205,17 @@ export class ReportNotificacionesComponent implements OnInit {
     this.reporte.getExcelNotificaciones(this.filterReport).subscribe(
       {
         next: (res) => {
-          console.log(res);
+          window.open(environment.apiBaseDocs + res.url);
+          // this.reporte.downloadExcel(environment.apiBaseDocs + res.url).subscribe({
+          //   next: (blob) => {
+          //     console.log(blob);
+
+          //   },
+          //   error: (error) => {
+          //     console.log(error);
+
+          //   }
+          // });
           this.spinner.hide();
         },
         error: (error) => {
