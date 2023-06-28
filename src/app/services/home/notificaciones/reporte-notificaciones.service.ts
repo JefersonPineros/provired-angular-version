@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable, retry } from 'rxjs';
 import { FilterDateModel } from 'src/app/models/home/notificaciones/filterDate';
 import { environment } from 'src/environments/environment';
@@ -20,6 +20,10 @@ export class ReporteNotificacionesService {
   }
 
   downloadExcel(url: string): Observable<Blob> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/pdf', // Cambia el tipo de contenido según el tipo de archivo que deseas descargar
+      'Accept': 'application/pdf' // Cambia el tipo de contenido según el tipo de archivo que deseas descargar
+    });
     return this.http.get<Blob>(url);
   }
 

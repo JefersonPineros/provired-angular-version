@@ -11,6 +11,7 @@ import { MessageModel } from 'src/app/models/login/utils/messageModel';
 import { AudienciaService } from 'src/app/services/home/audiencia/audiencia.service';
 import { BreadcrumbService } from 'src/app/services/utils/app.breadcrumb.service';
 import { SessionStorageService } from 'src/app/services/utils/session-storage.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-audiencia',
@@ -38,6 +39,8 @@ export class AudienciaComponent implements OnInit {
   public audiencia: Audiencias = new Audiencias();
 
   public filterReport: FilterReport = new FilterReport();
+
+  public urlFinal: string = '';
 
   constructor(
     public breadCrumService: BreadcrumbService,
@@ -183,9 +186,29 @@ export class AudienciaComponent implements OnInit {
     this.audiencias.downloadReport(this.filterReport).subscribe(
       {
         next: (res) => {
-          console.log(res);
-          this.spinner.hide();
 
+          if (res.status == 200) {
+            let listUrl = res.url.split('/');
+            this.urlFinal = environment.apiBaseDocs + res.url;
+            this.spinner.hide();
+
+            fetch(this.urlFinal)
+              .then(response => response.blob())
+              .then(blod => {
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blod);
+                link.download = listUrl[2];
+                link.click();
+              })
+              .catch(console.error);
+          } else {
+            let message_model: MessageModel = new MessageModel(
+              'error',
+              `Error ${res.status}`,
+              `${res.msg}`
+            );
+            this.message.add(message_model);
+          }
         },
         error: (error) => {
           console.log(error);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ConsultarAudiencia } from 'src/app/models/audiencias/getAudiencia';
@@ -54,6 +54,18 @@ export class AudienciaService {
   }
 
   downloadReport(filterReport: FilterReport): Observable<any> {
-    return this.http.post<any>(environment.apiBaseDocs + 'audiencias/exportExcel', filterReport);
+    let headers = new HttpHeaders({
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.post<any>(environment.apiBaseUrl + 'audiencias/exportExcel', filterReport, { headers });
+  }
+
+  downloadFile(url: string): Observable<HttpResponse<Blob>> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/xlsx',
+      'Accept': 'application/xlsx',
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.get<Blob>(url, { headers, responseType: 'blob' as 'json', observe: 'response' });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, ContentChildren, QueryList, AfterContentInit, EventEmitter} from '@angular/core';
+import { Component, Input, Output, OnInit, ContentChildren, QueryList, AfterContentInit, EventEmitter } from '@angular/core';
 import { PrimeTemplate } from 'primeng/api';
 
 @Component({
@@ -12,6 +12,8 @@ export class ModalComponentComponent implements OnInit, AfterContentInit {
 
   @Output() closeModal: EventEmitter<any> = new EventEmitter<any>();
 
+  @Input() tamanio: string = '50vw';
+
   @ContentChildren(PrimeTemplate) plantillas: QueryList<PrimeTemplate> | undefined;
 
   public title: any;
@@ -20,7 +22,7 @@ export class ModalComponentComponent implements OnInit, AfterContentInit {
 
   public footer: any
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
 

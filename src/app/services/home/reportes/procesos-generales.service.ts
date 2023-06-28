@@ -31,6 +31,7 @@ export class ProcesosGeneralesService {
   }
 
   public getReportListProcesos(filterProceso: FilterProceso): Observable<any> {
-    return this.http.post(environment.apiBaseDocs + 'listadoProcesosGenerales/exportExcel', filterProceso);
+    return this.http.post(environment.apiBaseUrl + 'listadoProcesosGenerales/exportExcel', filterProceso);
   }
+
 }

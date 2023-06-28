@@ -17,7 +17,8 @@ import {
   InputTextComponentModule,
   ModalComponentModule,
   SideMenuModule,
-  TablaComponentModule
+  TablaComponentModule,
+  TextAreaModule
 } from 'src/app/components/components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DespachosService } from 'src/app/services/utils/despachos.service';
@@ -28,6 +29,9 @@ import { ProcesosGeneralesService } from 'src/app/services/home/reportes/proceso
 import { ToastModule } from 'primeng/toast';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MessageService } from 'primeng/api';
+import { ProcesosActivosService } from 'src/app/services/home/reportes/procesos-activos.service';
+import { NgxCaptchaModule } from 'ngx-captcha';
+import { DatePickerModule } from 'src/app/components/date-picker/date-picker.module';
 
 
 @NgModule({
@@ -55,9 +59,12 @@ import { MessageService } from 'primeng/api';
     DropdownComponentModule,
     TablaComponentModule,
     ModalComponentModule,
+    DatePickerModule,
+    TextAreaModule,
 
     ToastModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxCaptchaModule
   ],
   providers: [
     DepartamentosService,
@@ -65,7 +72,9 @@ import { MessageService } from 'primeng/api';
     CorporacionesService,
     DespachosService,
     ProcesosGeneralesService,
-    MessageService
+    MessageService,
+    ProcesosActivosService,
+
   ]
 })
 export class ReportesModule { }

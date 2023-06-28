@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {SessionStorageService} from '../utils/session-storage.service';
+import { SessionStorageService } from '../utils/session-storage.service';
 import { Token } from 'src/app/constans/token-const';
 
 @Injectable()
 export class LoginInterceptorService implements HttpInterceptor {
 
-  constructor (private storage: SessionStorageService) {}
+  constructor(private storage: SessionStorageService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     next.handle(req).subscribe({
@@ -24,7 +24,7 @@ export class LoginInterceptorService implements HttpInterceptor {
     });
     if (req.method == 'POST') {
       return next.handle(req);
-    }else {
+    } else {
       return next.handle(this.addToken(req));
     }
 
@@ -36,7 +36,7 @@ export class LoginInterceptorService implements HttpInterceptor {
     return req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
-      }
+      },
     });
   }
 }

@@ -1,3 +1,14 @@
 .title-color {
-  color: #6D84A3;
+  color: #6d84a3;
+}
+
+.icon-download {
+  text-align: center;
+  a {
+    text-decoration: none;
+    i {
+      color: #4baaf5;
+      font-size: 100px;
+    }
+  }
 }

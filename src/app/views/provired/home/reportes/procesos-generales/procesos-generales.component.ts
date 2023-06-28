@@ -11,6 +11,8 @@ import { UpdateProceso } from 'src/app/models/home/procesos/updateProceso';
 import { MessageModel } from 'src/app/models/login/utils/messageModel';
 import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FilterProceso } from 'src/app/models/home/procesos/filterProcesos';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-procesos-generales',
@@ -38,6 +40,10 @@ export class ProcesosGeneralesComponent implements OnInit {
   public loadingTable: boolean = false;
 
   public startPage: Object = { first: 0, rows: 30 };
+
+  public filterProceso: FilterProceso = new FilterProceso();
+
+  public urlFinal: string = '';
 
   constructor(
     public breadCrumService: BreadcrumbService,
@@ -143,5 +149,52 @@ export class ProcesosGeneralesComponent implements OnInit {
 
     }
 
+  }
+
+  downloadReport() {
+    this.spinner.show();
+    let session = this.session.getStorage('user', 'json');
+
+    this.filterProceso.username = session.data.username;
+    this.filterProceso.name_user = session.data.nombre
+    this.filterProceso.name_file = 'Reporte_listado_general';
+    this.filterProceso.group_users = session.data.group_users;
+    this.filterProceso.parent = session.data.parent;
+    this.filterProceso.demandante_demandado = '';
+    this.filterProceso.radicacion = '';
+    this.filterProceso.etiqueta = '';
+
+    this.procesosGeneralesService.getReportListProcesos(this.filterProceso).subscribe(
+      {
+        next: (res) => {
+          if (res.status == 200) {
+            let listUrl = res.url.split('/');
+            this.urlFinal = environment.apiBaseDocs + '/' + res.url;
+            this.spinner.hide();
+
+            fetch(this.urlFinal)
+              .then(response => response.blob())
+              .then(blod => {
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blod);
+                link.download = listUrl[2];
+                link.click();
+              })
+              .catch(console.error);
+          } else {
+            let message_model: MessageModel = new MessageModel(
+              'error',
+              `Error ${res.status}`,
+              `${res.msg}`
+            );
+            this.message.add(message_model);
+          }
+          this.spinner.hide();
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      }
+    );
   }
 }

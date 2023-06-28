@@ -18,7 +18,7 @@ export class ProcesosActivosService {
         (res: any) => {
           let status = res['status' as any];
           if (status = 200) {
-            return res.data;
+            return res;
           }
         }
       )
@@ -34,6 +34,6 @@ export class ProcesosActivosService {
   }
 
   public getReportActivos(filterActivo: FilterProceso): Observable<any> {
-    return this.http.post<any>(environment.apiBaseDocs + 'listadoProcesosGenerales/exportExcel', filterActivo);
+    return this.http.post<any>(environment.apiBaseUrl + 'listadoProcesosActivos/exportExcel', filterActivo);
   }
 }

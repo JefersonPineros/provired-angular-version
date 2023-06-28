@@ -14,6 +14,7 @@ import { UserServiceService } from 'src/app/services/user/user-service.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserInterceptorService } from 'src/app/services/interceptor/user/user-interceptor.service';
 import { LogOutService } from 'src/app/services/logOut/log-out.service';
+import { AudienciaService } from 'src/app/services/home/audiencia/audiencia.service';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { LogOutService } from 'src/app/services/logOut/log-out.service';
     MenuServiceService,
     UserServiceService,
     LogOutService,
-    { provide: HTTP_INTERCEPTORS ,useClass: UserInterceptorService, multi: true }
+    AudienciaService,
+    { provide: HTTP_INTERCEPTORS, useClass: UserInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -44,6 +44,8 @@ export class ReportNotificacionesComponent implements OnInit {
 
   public filterReport: FilterReport = new FilterReport();
 
+  public urlFinal: string = '';
+
   constructor(
     public breadCrumService: BreadcrumbService,
     private sessionService: SessionStorageService,
@@ -205,17 +207,28 @@ export class ReportNotificacionesComponent implements OnInit {
     this.reporte.getExcelNotificaciones(this.filterReport).subscribe(
       {
         next: (res) => {
-          window.open(environment.apiBaseDocs + res.url);
-          // this.reporte.downloadExcel(environment.apiBaseDocs + res.url).subscribe({
-          //   next: (blob) => {
-          //     console.log(blob);
+          if (res.status == 200) {
+            let listUrl = res.url.split('/');
+            this.urlFinal = environment.apiBaseDocs + res.url;
+            this.spinner.hide();
 
-          //   },
-          //   error: (error) => {
-          //     console.log(error);
-
-          //   }
-          // });
+            fetch(this.urlFinal)
+              .then(response => response.blob())
+              .then(blod => {
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blod);
+                link.download = listUrl[2];
+                link.click();
+              })
+              .catch(console.error);
+          } else {
+            let message_model: MessageModel = new MessageModel(
+              'error',
+              `Error ${res.status}`,
+              `${res.msg}`
+            );
+            this.message.add(message_model);
+          }
           this.spinner.hide();
         },
         error: (error) => {
