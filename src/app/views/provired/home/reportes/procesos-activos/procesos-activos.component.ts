@@ -15,6 +15,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageService } from 'primeng/api';
 import { MessageModel } from 'src/app/models/login/utils/messageModel';
 import { environment } from 'src/environments/environment';
+import { FilterGeneral } from 'src/app/models/home/reports/filterGeneral';
+import { InformeProcesal } from 'src/app/models/home/reports/informeProcesal';
+import { MultiData } from 'src/app/models/home/reports/multiData';
+import { DataInfoProcesal } from 'src/app/models/home/reports/dataInfoProcesal';
+import { CmpInfoProcesal } from 'src/app/models/home/reports/cmpInfoProcesal';
 //import {} from ''
 
 @Component({
@@ -46,6 +51,8 @@ export class ProcesosActivosComponent implements OnInit {
 
   public showModalD: boolean = false;
 
+  public showModalInfo: boolean = false;
+
   public selectedItem: ProcesoActivo = new ProcesoActivo();
 
   public updateProceso: Audiencias = new Audiencias();
@@ -55,6 +62,14 @@ export class ProcesosActivosComponent implements OnInit {
   public filterProceso: FilterProceso = new FilterProceso();
 
   public urlFinal: string = '';
+
+  public infoProcesal: InformeProcesal = new InformeProcesal();
+
+  public nameDespachoModal: string = '';
+
+  public radicadoModal: string = '';
+
+  public fbInfProcesal: FormGroup;
 
   @ViewChild('recaptchaModal') public captchaElem!: ReCaptcha2Component;
 
@@ -66,9 +81,11 @@ export class ProcesosActivosComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private message: MessageService
   ) {
+    this.infoProcesal.cmpInfoProcesal = new Array<CmpInfoProcesal>();
     this.fb = new FormGroup({});
     this.fbDelete = new FormGroup({});
     this.fbProgramar = new FormGroup({});
+    this.fbInfProcesal = new FormGroup({});
   }
 
   ngOnInit(): void {
@@ -102,8 +119,6 @@ export class ProcesosActivosComponent implements OnInit {
           this.loadingTable = false;
           this.totalRecords = res.count_rows;
           this.data = res.data;
-          console.log(res);
-
         },
         error: (error) => {
           this.loadingTable = false;
@@ -228,5 +243,65 @@ export class ProcesosActivosComponent implements OnInit {
         }
       }
     );
+  }
+
+  openInformeProcesal(value: any) {
+    this.spinner.show();
+    this.showModalInfo = true;
+    let filter = new FilterGeneral();
+    filter.radicacion = value.radicacion;
+    filter.despacho = value.despacho;
+    this.nameDespachoModal = value.name_despacho;
+    this.radicadoModal = value.radicacion;
+
+    this.procesoActivoService.getStructureInfoProcesal(filter).subscribe(
+      {
+        next: (res) => {
+          this.infoProcesal = res;
+
+          if (this.infoProcesal.multiData?.length == 0) {
+            this.infoProcesal.cmpInfoProcesal!.forEach(element => {
+              if (element.multi_data = 1) {
+                let itemMultidata = new MultiData();
+                itemMultidata.id_cmp_informe_procesal = element.id;
+                this.infoProcesal.multiData?.push(itemMultidata);
+              }
+            });
+          }
+
+          if (!this.infoProcesal.data) {
+            this.infoProcesal.data = new DataInfoProcesal();
+          }
+          console.log(this.infoProcesal);
+
+          this.spinner.hide();
+        },
+        error: (error) => {
+          console.log(error);
+          this.spinner.hide();
+        }
+      }
+    )
+  }
+
+  convertToList(value: string): Array<any> {
+    return value.split(';');
+  }
+
+  createMultiDataObject(cmp_informe_procesal: number) {
+    let itemMultidata = new MultiData();
+    itemMultidata.id_cmp_informe_procesal = cmp_informe_procesal;
+
+    this.infoProcesal.multiData?.push(itemMultidata);
+  }
+
+  deleteMultiDataObject(index: any, idCmp: any) {
+    let isDelete = this.infoProcesal.multiData.filter((item) => {
+      return item.id_cmp_informe_procesal == idCmp;
+    });
+
+    if (isDelete.length > 1) {
+      this.infoProcesal.multiData.splice(index, 1);
+    }
   }
 }

@@ -11,6 +11,8 @@ export class TextAreaComponent implements OnInit, OnChanges {
 
   @Input() tamanio: string = '200';
 
+  @Input() heightTamanio: string = '200px';
+
   @Input() placeholder: string = '';
 
   @Input() model: string | undefined = '';
@@ -31,7 +33,7 @@ export class TextAreaComponent implements OnInit, OnChanges {
 
   @Input() disabled: boolean = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.generarFormat();
@@ -39,19 +41,19 @@ export class TextAreaComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: any): void {
-    if(changes.model){
+    if (changes.model) {
       setTimeout(() => this.actualizarControl());
     }
 
-    if(this.grupo.status == 'INVALID') {
+    if (this.grupo.status == 'INVALID') {
       this.valid = true;
       this.validChange.emit(this.valid);
     }
   }
 
   generarFormat(): void {
-    if(this.grupo) {
-      if(!this.grupo.get(this.nombre)) {
+    if (this.grupo) {
+      if (!this.grupo.get(this.nombre)) {
         this.nombre = UtilService.getControlNombre();
         this.grupo.addControl(this.nombre, this.fb.control({}));
       }
@@ -69,7 +71,7 @@ export class TextAreaComponent implements OnInit, OnChanges {
   }
 
   generarValidaciones() {
-    if(this.validarRequerido()) {
+    if (this.validarRequerido()) {
       return { errorRequerido: true }
     }
     return null;

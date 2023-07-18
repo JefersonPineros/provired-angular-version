@@ -4,6 +4,8 @@ import { Observable, map } from 'rxjs';
 import { FilterProceso } from 'src/app/models/home/procesos/filterProcesos';
 import { environment } from 'src/environments/environment';
 import { UpProcesoActivo } from 'src/app/models/home/procesos/updateProcesoActivo';
+import { FilterGeneral } from 'src/app/models/home/reports/filterGeneral';
+import { InformeProcesal } from 'src/app/models/home/reports/informeProcesal';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +33,10 @@ export class ProcesosActivosService {
 
   public deleteProcesoActivo(deleteId: any): Observable<any> {
     return this.http.delete<any>(environment.apiBaseUrl + 'listadoProcesosActivos/delete', deleteId);
+  }
+
+  public getStructureInfoProcesal(filter: FilterGeneral): Observable<InformeProcesal> {
+    return this.http.post(environment.apiBaseUrl + 'listadoProcesosActivos/informeProcesal', filter);
   }
 
   public getReportActivos(filterActivo: FilterProceso): Observable<any> {

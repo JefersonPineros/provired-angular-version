@@ -7,11 +7,14 @@
       rows="5"
       cols="30"
       [disabled]="disabled"
-      [ngStyle]="
-        {'max-height.px': tamanio, 'width': '100%'}
-      "
-      pInputTextarea>
+      [ngStyle]="{
+        'max-height.px': tamanio,
+        width: '100%',
+        height: heightTamanio
+      }"
+      pInputTextarea
+    >
     </textarea>
-    <label [attr.for]="nombre">{{placeholder}}</label>
+    <label [attr.for]="nombre">{{ placeholder }}</label>
   </span>
 </div>
