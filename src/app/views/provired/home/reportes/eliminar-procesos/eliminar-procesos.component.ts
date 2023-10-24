@@ -12,6 +12,7 @@ import { Token } from 'src/app/constans/token-const';
 import { SendCaptcha } from 'src/app/models/home/utils/sendCaptcha';
 import { MessageModel } from 'src/app/models/login/utils/messageModel';
 import { CaptchaSendDataModel } from 'src/app/models/home/procesos/captchaSendData';
+import { UserTranfer } from 'src/app/models/home/procesos/userTransfer';
 
 @Component({
   selector: 'app-eliminar-procesos',
@@ -35,6 +36,12 @@ export class EliminarProcesosComponent implements OnInit {
   public siteKey: string = "";
 
   public sendCaptcha: SendCaptcha = new SendCaptcha();
+
+  public typeModal: number = 0;
+
+  public listUsers: Array<UserTranfer> = new Array<UserTranfer>();
+
+  public userSelected: UserTranfer = new UserTranfer();
 
   constructor(
     public breadCrumService: BreadcrumbService,
@@ -171,6 +178,88 @@ export class EliminarProcesosComponent implements OnInit {
       this.message.add(message_model);
     }
 
+  }
+
+  transferirProcesos() {
+    this.spinner.show();
+    let sendData = new CaptchaSendDataModel();
+    console.log(this.userSelected);
+    if (this.userSelected !== null) {
+      if (this.sendCaptcha.captcha) {
+        let ses = this.session.getStorage('user', 'json');
+        let listIdData: Array<any> = new Array<any>;
+
+        this.selectedItemList.forEach(item => {
+          let objectId = {
+            id: item.id_userope
+          }
+          listIdData.push(objectId);
+        });
+        sendData.data = listIdData;
+        sendData.captcha = this.sendCaptcha.captcha;
+        sendData.group_users = ses.data.group_users;
+        sendData.parent = ses.data.parent;
+        sendData.name_user = ses.data.nombre;
+        sendData.username = ses.data.username;
+
+
+
+        sendData.user_transfer = parseInt(this.userSelected.cedula_nit);
+
+        this.eliminarSerivces.transferirProcesos(sendData).subscribe(
+          {
+            next: (res) => {
+              this.spinner.hide();
+              console.log(res);
+
+            },
+            error: (error) => {
+              this.spinner.hide();
+              console.log(error);
+
+            }
+          }
+        );
+        this.showModalD = false;
+        this.sendCaptcha = new SendCaptcha();
+      } else {
+        let message_model: MessageModel = new MessageModel(
+          'error',
+          `No ha completado el formulario.`,
+          `Por favor es necesario completar el formlario para continuar.`
+        );
+        this.message.add(message_model);
+        this.spinner.hide();
+      }
+
+    } else {
+      let message_model: MessageModel = new MessageModel(
+        'error',
+        `No ha completado el formulario.`,
+        `Por favor es necesario seleccionar un usuario a transferir`
+      );
+      this.message.add(message_model);
+      this.spinner.hide();
+
+    }
+  }
+
+  filterTypeModal(type: number): void {
+    this.typeModal = type;
+    if (this.typeModal == 2) {
+      let ses = this.session.getStorage('user', 'json');
+      this.eliminarSerivces.getUsersTransfer(ses.user).subscribe(
+        {
+          next: (res) => {
+            this.listUsers = res;
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        }
+      );
+    }
+    this.showModalD = true
   }
 
 }

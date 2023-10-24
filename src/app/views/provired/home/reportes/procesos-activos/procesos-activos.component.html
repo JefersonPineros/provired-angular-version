@@ -490,7 +490,7 @@
                                     cmpInfo.id
                                   "
                                 >
-                                  <div class="grid p-fluit">
+                                  <div class="grid p-fluid">
                                     <div class="col-11 pl-4">
                                       <app-dropdown-component
                                         [options]="
@@ -528,7 +528,7 @@
                           </div>
                         </div>
                         <ng-template #elseMultiSelect>
-                          <div class="grid p-fluit">
+                          <div class="grid p-fluid">
                             <div class="col-12">
                               <app-dropdown-component
                                 [options]="convertToList(cmpInfo.value_cmp!)"
@@ -574,6 +574,7 @@
                                 >
                                   <div class="grid p-fluit">
                                     <div class="col-11 pl-4">
+                                      {{ infoProcesal.data![cmpInfo.name_cmp] }}
                                       <app-date-picker
                                         [valid]="formValid.vistaForm"
                                         nombre="fechaDesde"
@@ -614,6 +615,7 @@
                         <ng-template #elseDatePicker>
                           <div class="grid p-fluit">
                             <div class="col-12 pl-4">
+                              {{ infoProcesal.data![cmpInfo.name_cmp] }}
                               <app-date-picker
                                 [valid]="formValid.vistaForm"
                                 [(model)]="infoProcesal.data![cmpInfo.name_cmp]"

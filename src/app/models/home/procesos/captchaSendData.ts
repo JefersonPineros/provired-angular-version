@@ -6,6 +6,7 @@ export class CaptchaSendDataModel {
         public group_users?: string,
         public parent?: string,
         public name_user?: string,
+        public user_transfer?: number,
         public captcha?: string
     ) { }
 }

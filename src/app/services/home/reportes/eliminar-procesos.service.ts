@@ -29,4 +29,22 @@ export class EliminarProcesosService {
   public deleteProcesos(data: CaptchaSendDataModel): Observable<any> {
     return this.http.post(environment.apiBaseUrl + 'eliminacionMasiva/delete', data);
   }
+
+  public transferirProcesos(data: CaptchaSendDataModel): Observable<any> {
+    return this.http.post(`${environment.apiBaseUrl}eliminacionMasiva/delete`, data);
+  }
+
+  public getUsersTransfer(userId: number): Observable<any> {
+    return this.http.get(`${environment.apiBaseUrl}user/child/${userId}`)
+      .pipe(
+        map((res: any) => {
+          let status = res['status' as any];
+          if (status == 200) {
+            return res.data;
+          } else {
+            throw new Error('Se ha presentado un error')
+          }
+        })
+      );
+  }
 }

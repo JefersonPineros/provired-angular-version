@@ -1,13 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FilterProceso } from 'src/app/models/home/procesos/filterProcesos';
-import { SearchProcesos } from 'src/app/models/interfaces/filterProcesosGenerales';
 import { ProcesosActivosService } from 'src/app/services/home/reportes/procesos-activos.service';
 import { BreadcrumbService } from 'src/app/services/utils/app.breadcrumb.service';
 import { SessionStorageService } from 'src/app/services/utils/session-storage.service';
 import { Token } from 'src/app/constans/token-const';
 import { ProcesoActivo } from 'src/app/models/home/procesos/procesoActivo';
-import { UpdateProceso } from 'src/app/models/home/procesos/updateProceso';
 import { Audiencias } from 'src/app/models/audiencias/audiencias';
 import { AudienciaService } from 'src/app/services/home/audiencia/audiencia.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -21,8 +19,8 @@ import { DataInfoProcesal } from 'src/app/models/home/reports/dataInfoProcesal';
 import { CmpInfoProcesal } from 'src/app/models/home/reports/cmpInfoProcesal';
 import { SendCaptcha } from 'src/app/models/home/utils/sendCaptcha';
 import { CaptchaSendDataModel } from 'src/app/models/home/procesos/captchaSendData';
-//import {} from ''
 
+import * as moment from 'moment';
 @Component({
   selector: 'app-procesos-activos',
   templateUrl: './procesos-activos.component.html',
@@ -326,12 +324,44 @@ export class ProcesosActivosComponent implements OnInit {
 
   sendDinamycForm() {
     if (this.validarFormulario()) {
-      console.log('Hola mundo');
-      console.log(this.infoProcesal);
       let getSession = this.session.getSession();
       this.infoProcesal.usuario = getSession.user;
 
+      this.infoProcesal.multiData.forEach((item) => {
+        if (item.id_cmp_informe_procesal == 1) {
+          item.value = moment(item.value).format('yyyy-MM-DD');
+        }
+      });
+      this.procesoActivoService.insertInformeProcesal(this.infoProcesal).subscribe(
+        {
+          next: (res) => {
+            if (res.status == 200) {
+              let message_model: MessageModel = new MessageModel(
+                'success',
+                `Proceso realizado exitosamente.`,
+                `${res.msg}`
+              );
+              this.message.add(message_model);
+            } else {
+              let message_model: MessageModel = new MessageModel(
+                'error',
+                `Error: se ha presentado un error `,
+                `${res.msg}`
+              );
+              this.message.add(message_model);
+            }
 
+          },
+          error: (error) => {
+            let message_model: MessageModel = new MessageModel(
+              'error',
+              `Error: se ha presentado un error `,
+              `${error.error.msg}`
+            );
+            this.message.add(message_model);
+          }
+        }
+      )
     }
   }
 

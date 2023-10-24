@@ -98,13 +98,13 @@
                   <app-button-component
                     clase="p-button-outlined p-button-danger"
                     nameButton="Eliminar"
-                    (eventEmiter)="showModalD = true"
+                    (eventEmiter)="filterTypeModal(1)"
                   ></app-button-component>
                 </div>
                 <div class="ml-2" style="width: 100px">
                   <app-button-component
                     nameButton="Transferir"
-                    (eventEmiter)="showModalD = true"
+                    (eventEmiter)="filterTypeModal(2)"
                   ></app-button-component>
                 </div>
               </div>
@@ -158,52 +158,89 @@
     <h4 class="title-color">Eliminar registros</h4>
   </ng-template>
   <ng-template pTemplate="content">
-    <div class="grid">
-      <div class="col-12">
-        <app-tabla-component
-          [cols]="[
-            { field: 'name_departamento', header: 'Ciudad' },
-            { field: 'name_despacho', header: 'Despacho' },
-            { field: 'radicacion', header: 'Radicación' },
-            { field: 'demandante', header: 'Demandante' },
-            { field: 'demandado', header: 'Demandado' },
-            { field: 'name_usuario', header: 'Suscriptor' }
-          ]"
-          [multiSelect]="false"
-          [data]="selectedItemList"
-          [paginador]="false"
-          [filtroGeneral]="false"
-          [lazy]="false"
-          [fixStyleTable]="true"
-          [stripedTable]="true"
-          [rows]="30"
-          [actionsShow]="false"
-          nameActionsLeft="acciones"
-        >
-        </app-tabla-component>
-        <div class="flex justify-content-center mt-2">
-          <h4>Esta seguro de eliminar estos registros?</h4>
+    <div *ngIf="selectedItemList.length > 0; else noData">
+      <div class="grid">
+        <div class="col-12">
+          <app-tabla-component
+            [cols]="[
+              { field: 'name_departamento', header: 'Ciudad' },
+              { field: 'name_despacho', header: 'Despacho' },
+              { field: 'radicacion', header: 'Radicación' },
+              { field: 'demandante', header: 'Demandante' },
+              { field: 'demandado', header: 'Demandado' },
+              { field: 'name_usuario', header: 'Suscriptor' }
+            ]"
+            [multiSelect]="false"
+            [data]="selectedItemList"
+            [paginador]="false"
+            [filtroGeneral]="false"
+            [lazy]="false"
+            [fixStyleTable]="true"
+            [stripedTable]="true"
+            [rows]="30"
+            [actionsShow]="false"
+            nameActionsLeft="acciones"
+          >
+          </app-tabla-component>
+
+          <div class="grid p-fluid mt-4" *ngIf="typeModal == 2">
+            <div class="col-6">
+              <app-dropdown-component
+                [options]="listUsers"
+                [(model)]="userSelected"
+                [grupo]="fb"
+                keyOptionName="nombre"
+                selectLabel="Seleccione un usuario a transferir"
+                name="Seleccione un usuario a transferir"
+                placeholder="Seleccione un usuario a transferir"
+                [showClear]="true"
+              ></app-dropdown-component>
+            </div>
+          </div>
+          <div class="flex justify-content-center mt-2">
+            <div *ngIf="typeModal == 1; else tranferir">
+              <h4>Esta seguro de eliminar estos registros?</h4>
+            </div>
+            <ng-template #tranferir>
+              <h4>Esta seguro de transferir estos registros?</h4>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="grid mt-2">
+        <div class="col-12">
+          <div class="flex justify-content-center">
+            <re-captcha
+              (errored)="expireCaptchat($event)"
+              (resolved)="acceptedCaptcha($event)"
+              siteKey="{{ siteKey }}"
+            ></re-captcha>
+          </div>
         </div>
       </div>
     </div>
-    <div class="grid mt-2">
-      <div class="col-12">
-        <div class="flex justify-content-center">
-          <re-captcha
-            (errored)="expireCaptchat($event)"
-            (resolved)="acceptedCaptcha($event)"
-            siteKey="{{ siteKey }}"
-          ></re-captcha>
-        </div>
-      </div>
-    </div>
+    <ng-template #noData>
+      <h4>No hay registros seleccionados</h4>
+    </ng-template>
   </ng-template>
   <ng-template pTemplate="footer">
     <app-button-component
+      *ngIf="typeModal == 1; else transferirButton"
       nameButton="Eliminar"
       clase="p-button-danger"
       (eventEmiter)="eliminarProcesos()"
+      [disabled]="selectedItemList.length == 0"
     ></app-button-component>
+
+    <ng-template #transferirButton>
+      <app-button-component
+        nameButton="Transferir"
+        clase="p-button-success"
+        (eventEmiter)="transferirProcesos()"
+        *ngIf="selectedItemList.length == 0 ? false : true"
+      ></app-button-component>
+    </ng-template>
+
     <app-button-component
       nameButton="Cancelar"
       (eventEmiter)="showModalD = false"
