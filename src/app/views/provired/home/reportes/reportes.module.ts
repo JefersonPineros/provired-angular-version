@@ -30,8 +30,9 @@ import { ToastModule } from 'primeng/toast';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MessageService } from 'primeng/api';
 import { ProcesosActivosService } from 'src/app/services/home/reportes/procesos-activos.service';
-import { NgxCaptchaModule } from 'ngx-captcha';
 import { DatePickerModule } from 'src/app/components/date-picker/date-picker.module';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { EliminarProcesosService } from 'src/app/services/home/reportes/eliminar-procesos.service';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { DatePickerModule } from 'src/app/components/date-picker/date-picker.mod
 
     ToastModule,
     NgxSpinnerModule,
-    NgxCaptchaModule
+    RecaptchaModule,
+    RecaptchaFormsModule
   ],
   providers: [
     DepartamentosService,
@@ -74,7 +76,7 @@ import { DatePickerModule } from 'src/app/components/date-picker/date-picker.mod
     ProcesosGeneralesService,
     MessageService,
     ProcesosActivosService,
-
+    EliminarProcesosService
   ]
 })
 export class ReportesModule { }

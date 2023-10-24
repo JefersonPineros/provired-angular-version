@@ -9,6 +9,7 @@
     >
 
     <p-calendar
+      appendTo="body"
       [(ngModel)]="model"
       (ngModelChange)="modelChange.emit($event)"
       [showIcon]="true"

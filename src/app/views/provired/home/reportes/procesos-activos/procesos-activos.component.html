@@ -243,10 +243,12 @@
                                     <div class="col-11 pl-4">
                                       <input-text
                                         [(model)]="multidata.value"
-                                        [grupo]="fbProgramar"
+                                        [grupo]="formGroup.fbInfProcesal"
+                                        [valid]="formValid.vistaForm"
                                         placeHolder="Ingrese el campo requerido"
                                         styleInput="help-text"
                                         [disabledInputText]="false"
+                                        [requerido]="cmpInfo.require_cmp == 1"
                                       ></input-text>
                                     </div>
                                     <div
@@ -278,10 +280,12 @@
                             <div class="col-12">
                               <input-text
                                 [(model)]="infoProcesal.data![cmpInfo.name_cmp]"
-                                [grupo]="fbProgramar"
+                                [grupo]="formGroup.fbInfProcesal"
+                                [valid]="formValid.vistaForm"
                                 placeHolder="Ingrese el campo requerido"
                                 styleInput="help-text"
                                 [disabledInputText]="false"
+                                [requerido]="cmpInfo.require_cmp == 1"
                               ></input-text>
                             </div>
                           </div>
@@ -324,9 +328,11 @@
                                     <div class="col-11 pl-4">
                                       <app-text-area
                                         [(model)]="multidata.value"
-                                        [grupo]="fbProgramar"
+                                        [grupo]="formGroup.fbInfProcesal"
                                         heightTamanio="35px"
+                                        [valid]="formValid.vistaForm"
                                         placeholder="Ingrese el registro requerido."
+                                        [requerido]="cmpInfo.require_cmp == 1"
                                       ></app-text-area>
                                     </div>
                                     <div
@@ -358,9 +364,11 @@
                             <div class="col-12">
                               <app-text-area
                                 [(model)]="infoProcesal.data![cmpInfo.name_cmp]"
-                                [grupo]="fbProgramar"
+                                [grupo]="formGroup.fbInfProcesal"
                                 heightTamanio="35px"
+                                [valid]="formValid.vistaForm"
                                 placeholder="Ingrese el registro requerido."
+                                [requerido]="cmpInfo.require_cmp == 1"
                               ></app-text-area>
                             </div>
                           </div>
@@ -400,12 +408,14 @@
                                   <div class="grid p-fluit">
                                     <div class="col-11 pl-4">
                                       <input-text
+                                        [valid]="formValid.vistaForm"
                                         [(model)]="multidata.value"
-                                        [grupo]="fbProgramar"
+                                        [grupo]="formGroup.fbInfProcesal"
                                         placeHolder="Ingrese el registro requerido"
                                         styleInput="help-text"
                                         [disabledInputText]="false"
                                         tipo="number"
+                                        [requerido]="cmpInfo.require_cmp == 1"
                                       ></input-text>
                                     </div>
                                     <div
@@ -436,12 +446,14 @@
                           <div class="grid p-fluit">
                             <div class="col-12">
                               <input-text
+                                [valid]="formValid.vistaForm"
                                 [(model)]="infoProcesal.data![cmpInfo.name_cmp]"
                                 placeHolder="Ingrese el registro requerido"
-                                [grupo]="fbProgramar"
+                                [grupo]="formGroup.fbInfProcesal"
                                 styleInput="help-text"
                                 [disabledInputText]="false"
                                 tipo="number"
+                                [requerido]="cmpInfo.require_cmp == 1"
                               ></input-text>
                             </div>
                           </div>
@@ -485,7 +497,7 @@
                                           convertToList(cmpInfo.value_cmp!)
                                         "
                                         [(model)]="multidata.value"
-                                        [grupo]="fbProgramar"
+                                        [grupo]="formGroup.fbInfProcesal"
                                         selectLabel="Seleccione un item"
                                         name="Seleccione un item"
                                         placeholder="Seleccione un item"
@@ -521,7 +533,7 @@
                               <app-dropdown-component
                                 [options]="convertToList(cmpInfo.value_cmp!)"
                                 [(model)]="infoProcesal.data![cmpInfo.name_cmp]"
-                                [grupo]="fbProgramar"
+                                [grupo]="formGroup.fbInfProcesal"
                                 selectLabel="Seleccione un item"
                                 name="Seleccione un item"
                                 placeholder="Seleccione un item"
@@ -563,14 +575,15 @@
                                   <div class="grid p-fluit">
                                     <div class="col-11 pl-4">
                                       <app-date-picker
+                                        [valid]="formValid.vistaForm"
                                         nombre="fechaDesde"
                                         [(model)]="multidata.value"
-                                        [grupo]="fbInfProcesal"
+                                        [grupo]="formGroup.fbInfProcesal"
                                         [showIcon]="true"
                                         placeholder="yyyy-mm-dd"
                                         [buttonBar]="true"
                                         label="Fecha audiencia / Vencimiento "
-                                        [requerido]="false"
+                                        [requerido]="cmpInfo.require_cmp == 1"
                                         format="yy-mm-dd"
                                       ></app-date-picker>
                                     </div>
@@ -602,14 +615,15 @@
                           <div class="grid p-fluit">
                             <div class="col-12 pl-4">
                               <app-date-picker
+                                [valid]="formValid.vistaForm"
                                 [(model)]="infoProcesal.data![cmpInfo.name_cmp]"
-                                [grupo]="fbInfProcesal"
+                                [grupo]="formGroup.fbInfProcesal"
                                 nombre="fechaDesde"
                                 [showIcon]="true"
                                 placeholder="yyyy-mm-dd"
                                 [buttonBar]="true"
                                 label="Fecha audiencia / Vencimiento "
-                                [requerido]="false"
+                                [requerido]="cmpInfo.require_cmp == 1"
                                 format="yy-mm-dd"
                               ></app-date-picker>
                             </div>
@@ -635,6 +649,7 @@
     <app-button-component
       clase="p-button-success"
       nameButton="Guardar"
+      (eventEmiter)="sendDinamycForm()"
     ></app-button-component>
   </ng-template>
 </modal-component>
@@ -646,18 +661,33 @@
   <ng-template pTemplate="content">
     <div class="grid">
       <div class="col-12">
-        <ngx-recaptcha2
-          #recaptchaModal
-          [siteKey]="siteKey"
-          [useGlobalDomain]="false"
-        >
-        </ngx-recaptcha2>
+        <div class="flex justify-content-center">
+          <h4>Esta seguro de eliminar este registro?</h4>
+        </div>
+      </div>
+    </div>
+    <div class="grid mt-2">
+      <div class="col-12">
+        <div class="flex justify-content-center">
+          <re-captcha
+            (errored)="expireCaptchat($event)"
+            (resolved)="acceptedCaptcha($event)"
+            siteKey="{{ siteKey }}"
+          ></re-captcha>
+        </div>
       </div>
     </div>
   </ng-template>
   <ng-template pTemplate="footer">
-    <app-button-component nameButton="Eliminar"></app-button-component>
-    <app-button-component nameButton="Cancelar"></app-button-component>
+    <app-button-component
+      nameButton="Eliminar"
+      clase="p-button-danger"
+      (eventEmiter)="deleteProcesoActivo()"
+    ></app-button-component>
+    <app-button-component
+      nameButton="Cancelar"
+      (eventEmiter)="showModalD = false"
+    ></app-button-component>
   </ng-template>
 </modal-component>
 

@@ -3,6 +3,7 @@
   [(visible)]="visible"
   (visibleChange)="changeVisible()"
   [style]="{ width: tamanio }"
+  [modal]="true"
 >
   <ng-template pTemplate="header">
     <ng-template [ngTemplateOutlet]="title"></ng-template>

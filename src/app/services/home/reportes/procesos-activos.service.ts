@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { UpProcesoActivo } from 'src/app/models/home/procesos/updateProcesoActivo';
 import { FilterGeneral } from 'src/app/models/home/reports/filterGeneral';
 import { InformeProcesal } from 'src/app/models/home/reports/informeProcesal';
+import { CaptchaSendDataModel } from 'src/app/models/home/procesos/captchaSendData';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +32,9 @@ export class ProcesosActivosService {
     return this.http.post<any>(environment.apiBaseUrl + 'audiencias/insertAudiencias', updateActivo)
   }
 
-  public deleteProcesoActivo(deleteId: any): Observable<any> {
-    return this.http.delete<any>(environment.apiBaseUrl + 'listadoProcesosActivos/delete', deleteId);
+  public deleteProcesoActivo(deleteId: CaptchaSendDataModel): Observable<any> {
+
+    return this.http.post<any>(environment.apiBaseUrl + 'listadoProcesosActivos/delete', deleteId);
   }
 
   public getStructureInfoProcesal(filter: FilterGeneral): Observable<InformeProcesal> {
@@ -41,5 +43,9 @@ export class ProcesosActivosService {
 
   public getReportActivos(filterActivo: FilterProceso): Observable<any> {
     return this.http.post<any>(environment.apiBaseUrl + 'listadoProcesosActivos/exportExcel', filterActivo);
+  }
+
+  public insertInformeProcesal(informe: InformeProcesal): Observable<any> {
+    return this.http.post<any>(`${environment.apiBaseUrl}listadoProcesosActivos/insertInformeProcesal`, informe)
   }
 }

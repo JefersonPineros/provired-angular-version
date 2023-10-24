@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { FilterProceso } from 'src/app/models/home/procesos/filterProcesos';
 import { SearchProcesos } from 'src/app/models/interfaces/filterProcesosGenerales';
 import { ProcesosActivosService } from 'src/app/services/home/reportes/procesos-activos.service';
 import { BreadcrumbService } from 'src/app/services/utils/app.breadcrumb.service';
 import { SessionStorageService } from 'src/app/services/utils/session-storage.service';
 import { Token } from 'src/app/constans/token-const';
-import { ReCaptcha2Component } from 'ngx-captcha';
 import { ProcesoActivo } from 'src/app/models/home/procesos/procesoActivo';
 import { UpdateProceso } from 'src/app/models/home/procesos/updateProceso';
 import { Audiencias } from 'src/app/models/audiencias/audiencias';
@@ -20,6 +19,8 @@ import { InformeProcesal } from 'src/app/models/home/reports/informeProcesal';
 import { MultiData } from 'src/app/models/home/reports/multiData';
 import { DataInfoProcesal } from 'src/app/models/home/reports/dataInfoProcesal';
 import { CmpInfoProcesal } from 'src/app/models/home/reports/cmpInfoProcesal';
+import { SendCaptcha } from 'src/app/models/home/utils/sendCaptcha';
+import { CaptchaSendDataModel } from 'src/app/models/home/procesos/captchaSendData';
 //import {} from ''
 
 @Component({
@@ -47,8 +48,6 @@ export class ProcesosActivosComponent implements OnInit {
 
   public siteKey: string = "";
 
-  public objectDelete: any = { id: '', captcha: '' };
-
   public showModalD: boolean = false;
 
   public showModalInfo: boolean = false;
@@ -71,7 +70,15 @@ export class ProcesosActivosComponent implements OnInit {
 
   public fbInfProcesal: FormGroup;
 
-  @ViewChild('recaptchaModal') public captchaElem!: ReCaptcha2Component;
+  public formularioBuilder: FormBuilder;
+
+  public formGroup: any = {};
+
+  public formValid: any = {
+    vistaForm: false
+  };
+
+  public sendCaptcha: SendCaptcha = new SendCaptcha();
 
   constructor(
     public breadCrumService: BreadcrumbService,
@@ -81,11 +88,13 @@ export class ProcesosActivosComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private message: MessageService
   ) {
+    this.formularioBuilder = new FormBuilder();
     this.infoProcesal.cmpInfoProcesal = new Array<CmpInfoProcesal>();
     this.fb = new FormGroup({});
     this.fbDelete = new FormGroup({});
     this.fbProgramar = new FormGroup({});
-    this.fbInfProcesal = new FormGroup({});
+    this.formGroup.fbProgramar = this.formularioBuilder.group({});
+    this.formGroup.fbInfProcesal = this.formularioBuilder.group({});
   }
 
   ngOnInit(): void {
@@ -134,14 +143,10 @@ export class ProcesosActivosComponent implements OnInit {
   }
 
   deleteItem(item: any) {
-    try {
 
-    } catch (error) {
-
-    }
-    console.log(item);
     this.showModalD = true;
-    this.objectDelete.id = item.id_userope;
+    this.sendCaptcha.id = item.id_userope;
+
   }
 
   programarProceso(proceso: ProcesoActivo) {
@@ -204,12 +209,14 @@ export class ProcesosActivosComponent implements OnInit {
     this.filterProceso.demandante_demandado = '';
     this.filterProceso.radicacion = '';
 
+    console.log(this.filterProceso);
+
     this.procesoActivoService.getReportActivos(this.filterProceso).subscribe(
       {
         next: (res) => {
           if (res.status == 200) {
             let listUrl = res.url.split('/');
-            this.urlFinal = environment.apiBaseDocs + '/' + res.url;
+            this.urlFinal = environment.apiBaseDocs + res.url;
             this.spinner.hide();
 
             fetch(this.urlFinal)
@@ -220,7 +227,16 @@ export class ProcesosActivosComponent implements OnInit {
                 link.download = listUrl[2];
                 link.click();
               })
-              .catch(console.error);
+              .catch(console.error).then(
+                error => {
+                  let message_model: MessageModel = new MessageModel(
+                    'error',
+                    `Se ha presentado un error`,
+                    `No fue posible descargar el documento, estamos trabajando para resolver este error`
+                  );
+                  this.message.add(message_model);
+                }
+              );
           } else {
             let message_model: MessageModel = new MessageModel(
               'error',
@@ -259,9 +275,12 @@ export class ProcesosActivosComponent implements OnInit {
         next: (res) => {
           this.infoProcesal = res;
 
+          this.infoProcesal.despacho = value.despacho;
+          this.infoProcesal.radicado = value.radicacion;
+
           if (this.infoProcesal.multiData?.length == 0) {
             this.infoProcesal.cmpInfoProcesal!.forEach(element => {
-              if (element.multi_data = 1) {
+              if (element.multi_data == 1) {
                 let itemMultidata = new MultiData();
                 itemMultidata.id_cmp_informe_procesal = element.id;
                 this.infoProcesal.multiData?.push(itemMultidata);
@@ -302,6 +321,93 @@ export class ProcesosActivosComponent implements OnInit {
 
     if (isDelete.length > 1) {
       this.infoProcesal.multiData.splice(index, 1);
+    }
+  }
+
+  sendDinamycForm() {
+    if (this.validarFormulario()) {
+      console.log('Hola mundo');
+      console.log(this.infoProcesal);
+      let getSession = this.session.getSession();
+      this.infoProcesal.usuario = getSession.user;
+
+
+    }
+  }
+
+  validarFormulario(campoForm = 'vistaForm'): boolean {
+
+    if (this.formGroup.fbInfProcesal.valid) {
+      return true;
+    } else {
+      this.formValid[campoForm] = true;
+      let message_model: MessageModel = new MessageModel(
+        'error',
+        `Error: Completa los campos requeridos `,
+        `El sistema validó que te faltan campos por completar, por favor intenta de nuevo.`
+      );
+      this.message.add(message_model);
+
+      return false;
+    }
+  }
+
+  expireCaptchat(event: any) {
+    let message_model: MessageModel = new MessageModel(
+      'error',
+      `Token expirado `,
+      `Tiempo minimo del token a expirado.`
+    );
+    this.message.add(message_model);
+
+  }
+
+  acceptedCaptcha(event: any) {
+    this.sendCaptcha.captcha = event;
+  }
+
+  deleteProcesoActivo() {
+    if (this.sendCaptcha.captcha) {
+
+
+      let ses = this.session.getStorage('user', 'json');
+      let sendData = new CaptchaSendDataModel();
+      sendData.captcha = this.sendCaptcha.captcha;
+      sendData.id = this.sendCaptcha.id;
+      sendData.group_users = ses.data.group_users;
+      sendData.parent = ses.data.parent;
+      sendData.name_user = ses.data.nombre;
+      sendData.username = ses.data.username;
+
+      this.procesoActivoService.deleteProcesoActivo(sendData).subscribe(
+        {
+          next: (res) => {
+            let message_model: MessageModel = new MessageModel(
+              'success',
+              `Accion realizada correctamente: ${res.status}`,
+              `${res.msg}`
+            );
+            this.message.add(message_model);
+            this.showModalD = false;
+
+          },
+          error: (error) => {
+            let message_model: MessageModel = new MessageModel(
+              'error',
+              `Error `,
+              `${error.error.msg}`
+            );
+            this.message.add(message_model);
+          }
+        }
+      );
+    } else {
+      let message_model: MessageModel = new MessageModel(
+        'warn',
+        `Formulario incompleto.`,
+        `Es necesario completar el formulario para continuar.`
+      );
+      this.message.add(message_model);
     }
   }
 }

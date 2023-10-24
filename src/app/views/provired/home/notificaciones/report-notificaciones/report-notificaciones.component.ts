@@ -220,7 +220,16 @@ export class ReportNotificacionesComponent implements OnInit {
                 link.download = listUrl[2];
                 link.click();
               })
-              .catch(console.error);
+              .catch(console.error).then(
+                error => {
+                  let message_model: MessageModel = new MessageModel(
+                    'error',
+                    `Se ha presentado un error`,
+                    `No fue posible descargar el documento, estamos trabajando para resolver este error`
+                  );
+                  this.message.add(message_model);
+                }
+              );
           } else {
             let message_model: MessageModel = new MessageModel(
               'error',
