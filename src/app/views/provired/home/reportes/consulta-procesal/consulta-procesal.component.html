@@ -1,1 +1,91 @@
-<p>consulta-procesal works!</p>
+<div class="grid">
+  <div class="col-12">
+    <div class="grid">
+      <div class="col-3">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color mt-3">Servicios</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid p-fluit">
+              <div class="col-12">
+                <div class="grid p-fluit">
+                  <app-side-menu
+                    class="col-12 mt-2"
+                    [itemsMenu]="[
+                      {
+                        label: 'Autorizaciones',
+                        icon: 'pi pi-fw pi-clone',
+                        routerLink:
+                          '/provired/home-provired/home/documentos/autorizaciones'
+                      }
+                    ]"
+                  ></app-side-menu>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+      <div class="col-9">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="flex flex-column-reverse">
+              <div class="flex align-items-center justify-content-center mt-2">
+                <h4 class="title-color mt-3">Consulta impulso procesal</h4>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <app-filters-dinamics
+              [showRadicacion]="false"
+              [showSuscriptores]="false"
+              (eventFilter)="filtrarImpulso($event)"
+            ></app-filters-dinamics>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12">
+        <app-card-component>
+          <ng-template pTemplate="content">
+            <div class="grid">
+              <div class="col-3">
+                <app-button-component
+                  nameButton="Generar a excel reporte impulso procesal"
+                  [icon]="true"
+                  [showTooltip]="true"
+                  messageTooltip="Detalle"
+                  iconClass="pi pi-file-excel"
+                  clase="p-button-rounded p-button-success p-button-outlined"
+                  (eventEmiter)="downloadReport()"
+                ></app-button-component>
+              </div>
+            </div>
+            <div class="grid p-fluid p-2">
+              <app-tabla-component
+                [cols]="[
+                  { field: 'name_ciudad', header: 'Ciudad' },
+                  { field: 'despacho', header: 'Despacho' },
+                  { field: 'radicacion', header: 'Radicación' },
+                  { field: 'proceso', header: 'Tipo proceso' },
+                  { field: 'demandante', header: 'Demandante' },
+                  { field: 'demandado', header: 'Demandado' },
+                  { field: 'codigo_23', header: '23 Digitos' },
+                  { field: 'fecha_registro', header: 'Fecha de Registro' }
+                ]"
+                [data]="listImpulso"
+              >
+              </app-tabla-component>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+  </div>
+</div>

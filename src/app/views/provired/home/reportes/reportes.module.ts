@@ -14,6 +14,7 @@ import {
   ButtonComponentModule,
   CardComponentModule,
   DropdownComponentModule,
+  FiltersDinamicsModule,
   InputTextComponentModule,
   ModalComponentModule,
   SideMenuModule,
@@ -33,6 +34,9 @@ import { ProcesosActivosService } from 'src/app/services/home/reportes/procesos-
 import { DatePickerModule } from 'src/app/components/date-picker/date-picker.module';
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { EliminarProcesosService } from 'src/app/services/home/reportes/eliminar-procesos.service';
+import { HistorialProcesosService } from 'src/app/services/home/reportes/historial-procesos.service';
+import { SolicitudesService } from 'src/app/services/home/reportes/solicitudes.service';
+import { ImpulsoProcesalService } from 'src/app/services/home/reportes/impulso-procesal.service';
 
 
 @NgModule({
@@ -56,12 +60,13 @@ import { EliminarProcesosService } from 'src/app/services/home/reportes/eliminar
     CardComponentModule,
     ButtonComponentModule,
     SideMenuModule,
-    InputTextComponentModule,
-    DropdownComponentModule,
     TablaComponentModule,
     ModalComponentModule,
     DatePickerModule,
     TextAreaModule,
+    InputTextComponentModule,
+    DropdownComponentModule,
+    FiltersDinamicsModule,
 
     ToastModule,
     NgxSpinnerModule,
@@ -76,7 +81,10 @@ import { EliminarProcesosService } from 'src/app/services/home/reportes/eliminar
     ProcesosGeneralesService,
     MessageService,
     ProcesosActivosService,
-    EliminarProcesosService
+    EliminarProcesosService,
+    HistorialProcesosService,
+    SolicitudesService,
+    ImpulsoProcesalService
   ]
 })
 export class ReportesModule { }

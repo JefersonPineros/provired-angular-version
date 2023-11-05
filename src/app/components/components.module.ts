@@ -11,7 +11,8 @@ export * from './text-area/text-area.module';
 export * from './side-menu/side-menu.module';
 export * from './dropdown-component/dropdown-component.module';
 export * from './checkbox-component/checkbox-component.module';
-export * from './radio-button-component/radio-button-component.module'
+export * from './radio-button-component/radio-button-component.module';
+export * from './filters-dinamics/filters-dinamics.module';
 
 @NgModule({
   declarations: [

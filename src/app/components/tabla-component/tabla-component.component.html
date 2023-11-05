@@ -46,8 +46,10 @@
       </th>
       <th *ngIf="actionsShow">{{ nameActionsLeft }}</th>
       <th pSortableColumn="{{ col.header }}" *ngFor="let col of columns">
-        {{ col.header }}
-        <p-sortIcon *ngIf="isSortTable" [field]="col.header"></p-sortIcon>
+        <div *ngIf="!col.show">
+          {{ col.header }}
+          <p-sortIcon *ngIf="isSortTable" [field]="col.header"></p-sortIcon>
+        </div>
       </th>
       <th *ngIf="actionsRightShow">{{ nameActionsRight }}</th>
     </tr>
@@ -67,15 +69,22 @@
         *ngFor="let col of columns"
         style="max-width: 300px; word-wrap: break-word"
       >
-        <div *ngIf="!col.isFecha; else esFecha">
-          {{
-            rowData[col.field] == "" ||
-            rowData[col.field] == null ||
-            rowData[col.field] == undefined
-              ? "N / A"
-              : rowData[col.field]
-          }}
+        <div *ngIf="!col.show">
+          <div *ngIf="!col.isFecha; else esFecha">
+            <div *ngIf="!col.tipoEX; else tipoEx">
+              {{
+                rowData[col.field] == "" ||
+                rowData[col.field] == null ||
+                rowData[col.field] == undefined
+                  ? "N / A"
+                  : rowData[col.field]
+              }}
+            </div>
+          </div>
         </div>
+        <ng-template #tipoEx>
+          {{ rowData[col.field] == 1 ? "NUEVO" : "EXPEDIENTE" }}
+        </ng-template>
         <ng-template #esFecha>
           <div>
             {{ rowData[col.field] | date : "dd-MMM-yyyy" | titlecase }}

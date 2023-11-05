@@ -8,4 +8,27 @@ export class GeneralConst {
             monthNamesShort: ["Ene", "Feb", "Mar", "ABr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
         }
     }
+
+    public static RANGO = [
+        {
+            key: "1",
+            value: "1 y 30 Dias"
+        },
+        {
+            key: "2",
+            value: "31 y 60 Dias"
+        },
+        {
+            key: "3",
+            value: "Mayor a 61 Dias"
+        },
+        {
+            key: "4",
+            value: "Sin actuaciones"
+        },
+        {
+            key: "5",
+            value: "Todos"
+        }
+    ]
 }

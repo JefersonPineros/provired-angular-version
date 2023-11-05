@@ -5,8 +5,7 @@ import { ProviredRoutingModule } from './provired-routing.module';
 import { AccessPermissionsGuard } from 'src/app/guards/access-permissions.guard';
 
 @NgModule({
-  declarations: [
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     ProviredRoutingModule

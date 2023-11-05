@@ -19,7 +19,7 @@ import { AudienciaService } from 'src/app/services/home/audiencia/audiencia.serv
 
 @NgModule({
   declarations: [
-    HomeComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,

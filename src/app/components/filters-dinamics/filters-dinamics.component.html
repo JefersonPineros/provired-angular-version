@@ -1,0 +1,106 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="grid p-fluit mt-2">
+      <div class="col-12 xl:col-6 md:col-6">
+        <app-dropdown-component
+          [(model)]="ciudadModel"
+          [options]="listDepartamentos"
+          (modelChange)="departamentoChange()"
+          name="departamento"
+          placeholder="Departamento"
+          selectLabel="Seleccionar departamento"
+          keyOptionName="departamento"
+          (grupo)="(formProceso)"
+          [showClear]="true"
+        ></app-dropdown-component>
+      </div>
+
+      <div class="col-12 xl:col-6 md:col-6">
+        <app-dropdown-component
+          [(model)]="municipioModel"
+          (grupo)="(formProceso)"
+          [options]="listMunicipios"
+          name="municipio"
+          placeholder="Municipio"
+          keyOptionName="municipio"
+          selectLabel="Seleccionar municipio"
+          [showClear]="true"
+          (modelChange)="municipioChange()"
+        ></app-dropdown-component>
+      </div>
+    </div>
+    <div class="grid p-fluit mt-2">
+      <div class="col-12 xl:col-6 md:col-6">
+        <app-dropdown-component
+          [(model)]="corporacionesModel"
+          (grupo)="(formProceso)"
+          [options]="listCorporaciones"
+          name="corporaciones"
+          placeholder="Corporacion por especialidad"
+          keyOptionName="corporacion"
+          selectLabel="Seleccionar corporacion"
+          [showClear]="true"
+          (modelChange)="corporacionesChange()"
+        ></app-dropdown-component>
+      </div>
+      <div class="col-12 xl:col-6 md:col-6">
+        <app-dropdown-component
+          [(model)]="despachosModel"
+          (grupo)="(formProceso)"
+          [options]="listDespachos"
+          name="despachos"
+          placeholder="Despachos"
+          keyOptionName="despacho"
+          selectLabel="Seleccionar despacho"
+          [showClear]="true"
+          [filter]="true"
+        ></app-dropdown-component>
+      </div>
+    </div>
+    <div class="grid p-fluit" *ngIf="showRadicacion">
+      <div class="col-12">
+        <input-text
+          (grupo)="(formProceso)"
+          [(model)]="filterProcesos.radicacion"
+          placeHolder="Radicacion"
+          styleInput="help-text"
+          [placeHolderActive]="true"
+        ></input-text>
+      </div>
+    </div>
+    <div class="grid p-fluit" *ngIf="showSuscriptores">
+      <div class="col-12 xl:col-6 md:col-6">
+        <app-dropdown-component
+          [options]="listUsers"
+          [(model)]="userSelected"
+          [grupo]="formProceso"
+          keyOptionName="nombre"
+          selectLabel="Seleccione un usuario"
+          placeholder="Seleccione un usuario"
+          [showClear]="true"
+        ></app-dropdown-component>
+      </div>
+    </div>
+    <div class="grid p-fluit" *ngIf="showRango">
+      <div class="col-12 xl:col-6 md:col-6">
+        <app-dropdown-component
+          [options]="listRango"
+          [(model)]="rangoModel"
+          [grupo]="formProceso"
+          keyOptionName="value"
+          selectLabel="Seleccione un rango"
+          placeholder="Seleccione un rango"
+          [showClear]="true"
+        ></app-dropdown-component>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12">
+        <app-button-component
+          nameButton="Consultar"
+          (eventEmiter)="consultarHistorial()"
+        ></app-button-component>
+      </div>
+    </div>
+  </div>
+</div>

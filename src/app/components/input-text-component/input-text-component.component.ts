@@ -13,7 +13,7 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
 
   @Input() placeHolder: string = '';
 
-  @Input() model: string | undefined = '';
+  @Input() model: string | number | undefined = '';
 
   @Output() modelChange: EventEmitter<any> = new EventEmitter<any>();
 
@@ -100,7 +100,7 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
     return (
       this.patron != undefined &&
       this.model != null &&
-      !new RegExp(this.patron).test(this.model)
+      !new RegExp(this.patron).test(this.model.toString())
     );
   }
 

@@ -189,7 +189,7 @@ export class ReportNotificacionesComponent implements OnInit {
   downloadDoc(url: string) {
     if (url) {
       let finalUrl = url.substring(0);
-      window.open(environment.apiBaseDocs + 'autos/' + finalUrl);
+      window.open(environment.apiBaseDocs + '/autos/' + finalUrl);
     }
   }
 
@@ -246,6 +246,5 @@ export class ReportNotificacionesComponent implements OnInit {
         }
       }
     );
-
   }
 }

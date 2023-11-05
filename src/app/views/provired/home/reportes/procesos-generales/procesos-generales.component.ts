@@ -169,7 +169,7 @@ export class ProcesosGeneralesComponent implements OnInit {
         next: (res) => {
           if (res.status == 200) {
             let listUrl = res.url.split('/');
-            this.urlFinal = environment.apiBaseDocs + '/' + res.url;
+            this.urlFinal = environment.apiBaseDocs + res.url;
             this.spinner.hide();
 
             fetch(this.urlFinal)
