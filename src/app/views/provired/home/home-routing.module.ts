@@ -20,11 +20,11 @@ const routes: Routes = [
       },
       {
         path: 'inicio',
-        loadChildren: () => import('./audiencia/audiencia.module').then((m) => m.AudienciaModule )
+        loadChildren: () => import('./audiencia/audiencia.module').then((m) => m.AudienciaModule)
       },
       {
         path: 'page-red',
-        loadChildren: () => import('./page-red/page-red.module').then( (m) => m.PageRedModule )
+        loadChildren: () => import('./page-red/page-red.module').then((m) => m.PageRedModule)
       },
       {
         path: 'notificaciones',
@@ -32,7 +32,7 @@ const routes: Routes = [
       },
       {
         path: 'reportes',
-        loadChildren: () => import('./reportes/reportes.module').then( (m) => m.ReportesModule )
+        loadChildren: () => import('./reportes/reportes.module').then((m) => m.ReportesModule)
       },
       {
         path: 'procesos',
@@ -40,11 +40,15 @@ const routes: Routes = [
       },
       {
         path: 'email_despachos',
-        loadChildren: () => import('./email-despachos/email-despachos.module').then( (m) => m.EmailDespachosModule )
+        loadChildren: () => import('./email-despachos/email-despachos.module').then((m) => m.EmailDespachosModule)
       },
       {
         path: 'documentos',
-        loadChildren: () => import('./documentos/documentos.module').then( (m) => m.DocumentosModule )
+        loadChildren: () => import('./documentos/documentos.module').then((m) => m.DocumentosModule)
+      },
+      {
+        path: 'usuarios',
+        loadChildren: () => import('./usuarios/usuarios.module').then((m) => m.UsuariosModule)
       }
     ]
   }

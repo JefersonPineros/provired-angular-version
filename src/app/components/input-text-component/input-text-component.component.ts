@@ -1,14 +1,20 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilService } from 'src/app/services/core/util.service';
 
 @Component({
   selector: 'input-text',
   templateUrl: './input-text-component.component.html',
-  styleUrls: ['./input-text-component.component.scss']
+  styleUrls: ['./input-text-component.component.scss'],
 })
 export class InputTextComponentComponent implements OnInit, OnChanges {
-
   @Input() placeHolderActive: boolean = false;
 
   @Input() placeHolder: string = '';
@@ -33,17 +39,17 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
 
   @Input() patron: RegExp = new RegExp('');
 
-  @Input() styleInput: string = "float";
+  @Input() styleInput: string = 'float';
 
-  @Input() iconOrientation: string = "left";
+  @Input() iconOrientation: string = 'left';
 
-  @Input() icon: string = "pi-search";
+  @Input() icon: string = 'pi-search';
 
   @Input() maxLength: number | undefined;
 
   @Input() minLength: number | undefined;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.generateFormat();
@@ -113,5 +119,4 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
       this.grupo.get(this.nombre)?.setValue(this.model);
     }
   }
-
 }

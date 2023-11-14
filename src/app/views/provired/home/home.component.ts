@@ -13,7 +13,7 @@ import { SessionStorageService } from 'src/app/services/utils/session-storage.se
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  configDialogActive:any;
+  configDialogActive: any;
 
   topbarItemClick: boolean | undefined;
 
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
     private session: SessionStorageService,
     private logOutSession: LogOutService,
     private route: Router
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.userService.getUser().subscribe(
@@ -106,7 +106,19 @@ export class HomeComponent implements OnInit {
     event.preventDefault();
   }
 
-  onTopbarSubItemClick(event: any) {
+  onTopbarSubItemClick(event: any, type?: any) {
+
+    if (type) {
+      switch (type) {
+        case 'profile':
+          this.route.navigate(['provired/home-provired/home/usuarios/profile']);
+          break;
+
+        default:
+          break;
+      }
+    }
+
     event.preventDefault();
   }
 

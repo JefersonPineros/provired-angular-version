@@ -1,0 +1,32 @@
+<div class="grid p-2">
+  <div class="col-12">
+    <span class="p-float-label">
+      <p-password
+        [(ngModel)]="modelNew"
+        (ngModelChange)="modelNewChange.emit($event)"
+        [disabled]="disabled"
+        [feedback]="feedBackNew"
+        [required]="requeridoNew"
+      ></p-password>
+      <label for="password">Nueva contraseña</label>
+    </span>
+  </div>
+</div>
+<div class="grid mt-2 p-2">
+  <div class="col-12">
+    <span class="p-float-label">
+      <p-password
+        [(ngModel)]="modelConfirm"
+        (ngModelChange)="modelConfirmChange.emit($event)"
+        [disabled]="disabled"
+        [feedback]="feedBackConfirm"
+        [required]="requeridoConfirm"
+        [ngClass]="[ valid ? formGroup.fgConfirm.controls[nombreConfirm].errors?.['errorIgualdad']? 'ng-invalid ng-dirty': '': '']"
+      ></p-password>
+      <label for="password">Confirmar contraseña</label>
+    </span>
+  </div>
+</div>
+<span class="label-error">
+  {{ formGroup.fgConfirm.controls[nombreConfirm].errors?.['errorIgualdad']? 'No coinciden las contraseñas': '' }}
+</span>
