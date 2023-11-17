@@ -12,6 +12,9 @@
   }
   &--email {
     font-weight: 600;
+    overflow: hidden;
+    width: 15vw;
+    text-overflow: ellipsis;
   }
   &--vence{
     font-weight: 600;
