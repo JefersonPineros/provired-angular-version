@@ -128,7 +128,11 @@
                       field: 'descripcion_vence_terminos',
                       header: 'Descripción del vencimiento'
                     },
-                    { field: 'fecha_registro', header: 'Fecha', isFecha: true }
+                    {
+                      field: 'fecha_vence_terminos',
+                      header: 'Fecha',
+                      isFecha: true
+                    }
                   ]"
                   [data]="listAudiencias"
                   [fixStyleTable]="true"

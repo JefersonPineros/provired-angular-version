@@ -1,7 +1,9 @@
 <div *ngIf="sessionReq.tipousuario == 'S'" class="grid">
   <div class="col-12" *ngIf="vencimientosList.length > 0; else noContent">
     <div class="grid">
-      <app-card-component class="lg:col-8 xl:col-8 col-12 sm:col-12 lg:col-offset-2 xl:col-offset-2">
+      <app-card-component
+        class="lg:col-8 xl:col-8 col-12 sm:col-12 lg:col-offset-2 xl:col-offset-2"
+      >
         <ng-template pTemplate="header">
           <div class="grid">
             <div class="col-12">
@@ -18,13 +20,17 @@
             <app-tabla-component
               [cols]="[
                 { field: 'nameCiudad', header: 'Cidad' },
-                { field: 'despacho', header: 'Despacho' },
-                { field: 'fecha_vence_terminos', header: 'Fecha', isFecha: true }
-                ]"
+                { field: 'nameDespacho', header: 'Despacho' },
+                {
+                  field: 'fecha_vence_terminos',
+                  header: 'Fecha',
+                  isFecha: true
+                }
+              ]"
               [data]="vencimientosList"
               [fixStyleTable]="true"
               [stripedTable]="true"
-              >
+            >
             </app-tabla-component>
           </div>
           <div class="mt-3 flex flex-column-reverse">
@@ -41,7 +47,9 @@
   </div>
   <ng-template #noContent>
     <div class="col-12 mt-4">
-      <div class="lg:col-8 xl:col-8 col-12 sm:col-12 lg:col-offset-2 xl:col-offset-2">
+      <div
+        class="lg:col-8 xl:col-8 col-12 sm:col-12 lg:col-offset-2 xl:col-offset-2"
+      >
         <app-card-component>
           <ng-template pTemplate="header">
             <div class="grid">
@@ -63,9 +71,12 @@
             <div class="grid mt-5">
               <div class="col-12 p-4">
                 <div class="text-justify">
-                  Ahora usted puede programar las fechas de audiencias y/o vencimientos de términos en la plataforma de
-                  Provired, dando click en el boton (PROGRAMAR) que aparece en el REPORTE DE NOTIFICACIONES y en el
-                  LISTADO DE PROCESOS ACTIVOS.
+                  Ahora usted puede programar las fechas de audiencias y/o
+                  vencimientos de términos en la plataforma de Provired, dando
+                  click en el boton
+                  <i class="pi pi-calendar-plus"></i> (PROGRAMAR) que aparece en
+                  el REPORTE DE NOTIFICACIONES y en el LISTADO DE PROCESOS
+                  ACTIVOS.
                 </div>
               </div>
             </div>
@@ -83,6 +94,7 @@
   size="medium"
   color="#fff"
   type="ball-clip-rotate-multiple"
-  [fullScreen]="true">
-  <p style="color: white" > Loading... </p>
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

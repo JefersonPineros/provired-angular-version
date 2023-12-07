@@ -118,9 +118,14 @@
                 <app-tabla-component
                   [data]="listProceso"
                   [cols]="[
-                    { field: 'nameCiudad', header: 'Etiqueta' },
+                    { field: 'name_ciudad', header: 'Ciudad' },
+                    { field: 'etiqueta_suscriptor', header: 'Etiqueta' },
                     { field: 'nameDespacho', header: 'Despacho' },
-                    { field: 'radicacion', header: 'Radicación' },
+                    {
+                      field: 'codigo_23',
+                      header: 'Radicación',
+                      esRadicacion: true
+                    },
                     { field: 'proceso', header: 'Tipo proceso' },
                     { field: 'demandante', header: 'Demandante' },
                     { field: 'demandado', header: 'Demandado' },
@@ -137,6 +142,7 @@
                   [filtroGeneral]="false"
                   (onChangePage)="changePage($event)"
                   [loading]="loadingTable"
+                  paginationPosition="both"
                 >
                   <ng-template pTemplate="actions" let-rowData="elemento">
                     <div class="grid p-fluit">

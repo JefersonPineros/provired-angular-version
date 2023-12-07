@@ -6,23 +6,29 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'access-provired',
-    pathMatch:'full'
+    pathMatch: 'full',
   },
   {
     path: 'access-provired',
-    loadChildren: () => import('./login/login.module').then((m) => m.LoginModule)
+    loadChildren: () =>
+      import('./login/login.module').then((m) => m.LoginModule),
   },
   {
     path: 'home-provired',
-    canActivate: [
-      AccessPermissionsGuard
-    ],
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule)
-  }
+    canActivate: [AccessPermissionsGuard],
+    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'recuperar-contrasena',
+    loadChildren: () =>
+      import('./recuperar-contrasena/recuperar-contrasena.module').then(
+        (m) => m.RecuperarContrasenaModule
+      ),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ProviredRoutingModule { }
+export class ProviredRoutingModule {}

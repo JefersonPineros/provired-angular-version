@@ -16,10 +16,9 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-audiencia',
   templateUrl: './audiencia.component.html',
-  styleUrls: ['./audiencia.component.scss']
+  styleUrls: ['./audiencia.component.scss'],
 })
 export class AudienciaComponent implements OnInit {
-
   public formConsultar: FormGroup = new FormGroup({});
 
   public fechaDesde: Date | undefined;
@@ -53,52 +52,52 @@ export class AudienciaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.breadCrumService.setItems(
-      [
-        { label: 'Mis audienciencias y vencimientos' }
-      ]
-    );
+    this.breadCrumService.setItems([
+      { label: 'Mis audienciencias y vencimientos' },
+    ]);
   }
 
   modelChange(even: any, model: string): void {
     if (model == 'fi') {
-      this.consultarAud.fi = this.fechaDesde;
+      this.consultarAud.fi = moment(this.fechaDesde).format('yyyy-MM-DD');
     } else {
-      this.consultarAud.ff = this.fechaHasta;
+      this.consultarAud.ff = moment(this.fechaHasta).format('yyyy-MM-DD');
     }
   }
 
   consultarAudiencia(): void {
     this.spinner.show();
     this.consultarAud.username = this.sesion.user;
-    this.audiencias.getListAudiencias(this.consultarAud).subscribe(
-      {
-        next: (res) => {
-          this.spinner.hide()
-          if (res.length > 0) {
-            this.listAudiencias = res;
-          } else {
-            this.listAudiencias = [];
-            let message_model: MessageModel = new MessageModel(
-              'warn',
-              `No hay registros`,
-              `No se encontraron resultado en las fechas señaladas`
-            );
-            this.message.add(message_model);
-          }
-        },
-        error: (error) => {
-          this.spinner.hide()
-          console.log(error);
+    this.audiencias.getListAudiencias(this.consultarAud).subscribe({
+      next: (res) => {
+        this.spinner.hide();
+        if (res.length > 0) {
+          this.listAudiencias = res;
+        } else {
+          this.listAudiencias = [];
+          let message_model: MessageModel = new MessageModel(
+            'warn',
+            `No hay registros`,
+            `No se encontraron resultado en las fechas señaladas`
+          );
+          this.message.add(message_model);
         }
-      }
-    );
+      },
+      error: (error) => {
+        this.spinner.hide();
+        console.log(error);
+      },
+    });
   }
 
   eliminarRegistro(event: any): void {
     this.spinner.show();
-    this.audiencias.deleteAudiencia({ username: event.username, id_vencimiento: event.id_vencimiento }).subscribe(
-      {
+    this.audiencias
+      .deleteAudiencia({
+        username: event.username,
+        id_vencimiento: event.id_vencimiento,
+      })
+      .subscribe({
         next: (res) => {
           this.spinner.hide();
           console.log(res);
@@ -120,9 +119,8 @@ export class AudienciaComponent implements OnInit {
             `${error.error.msg}`
           );
           this.message.add(message_model);
-        }
-      }
-    );
+        },
+      });
   }
 
   openRegistro(element: any): void {
@@ -136,38 +134,38 @@ export class AudienciaComponent implements OnInit {
       username: '',
       fecha_vence_terminos: new Date(),
       id_vencimiento: 0,
-      descripcion_vence_terminos: ''
+      descripcion_vence_terminos: '',
     };
     updateItem.username = this.audiencia.username!;
-    updateItem.fecha_vence_terminos = moment(this.audiencia.fecha_vence_terminos).toDate();
+    updateItem.fecha_vence_terminos = moment(
+      this.audiencia.fecha_vence_terminos
+    ).toDate();
     updateItem.id_vencimiento = this.audiencia.id_vencimiento!;
-    updateItem.descripcion_vence_terminos = this.audiencia.descripcion_vence_terminos!;
+    updateItem.descripcion_vence_terminos =
+      this.audiencia.descripcion_vence_terminos!;
 
-    this.audiencias.updateAudiencia(updateItem).subscribe(
-      {
-        next: (res) => {
-          this.spinner.hide();
-          let message_model: MessageModel = new MessageModel(
-            'success',
-            `Exito!`,
-            `${res.msg}`
-          );
-          this.message.add(message_model);
-          this.consultarAudiencia();
-          this.visibleModal = false;
-        },
-        error: (error) => {
-          this.spinner.hide();
-          let message_model: MessageModel = new MessageModel(
-            'error',
-            `Error ${error.error.status}`,
-            `${error.error.msg}`
-          );
-          this.message.add(message_model);
-        }
-      }
-    );
-
+    this.audiencias.updateAudiencia(updateItem).subscribe({
+      next: (res) => {
+        this.spinner.hide();
+        let message_model: MessageModel = new MessageModel(
+          'success',
+          `Exito!`,
+          `${res.msg}`
+        );
+        this.message.add(message_model);
+        this.consultarAudiencia();
+        this.visibleModal = false;
+      },
+      error: (error) => {
+        this.spinner.hide();
+        let message_model: MessageModel = new MessageModel(
+          'error',
+          `Error ${error.error.status}`,
+          `${error.error.msg}`
+        );
+        this.message.add(message_model);
+      },
+    });
   }
 
   cancelarModal(): void {
@@ -183,48 +181,45 @@ export class AudienciaComponent implements OnInit {
     this.filterReport.name_user = session.data.nombre;
     this.filterReport.name_file = 'Reporte_Audiencias';
 
-    this.audiencias.downloadReport(this.filterReport).subscribe(
-      {
-        next: (res) => {
-
-          if (res.status == 200) {
-            let listUrl = res.url.split('/');
-            this.urlFinal = environment.apiBaseDocs + res.url;
-            this.spinner.hide();
-
-            fetch(this.urlFinal)
-              .then(response => response.blob())
-              .then(blod => {
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blod);
-                link.download = listUrl[2];
-                link.click();
-              })
-              .catch(console.error).then(
-                error => {
-                  let message_model: MessageModel = new MessageModel(
-                    'error',
-                    `Se ha presentado un error`,
-                    `No fue posible descargar el documento, estamos trabajando para resolver este error`
-                  );
-                  this.message.add(message_model);
-                }
-              );
-          } else {
-            let message_model: MessageModel = new MessageModel(
-              'error',
-              `Error ${res.status}`,
-              `${res.msg}`
-            );
-            this.message.add(message_model);
-          }
-        },
-        error: (error) => {
-          console.log(error);
+    this.audiencias.downloadReport(this.filterReport).subscribe({
+      next: (res) => {
+        if (res.status == 200) {
+          let listUrl = res.url.split('/');
+          this.urlFinal = environment.apiBaseDocs + res.url;
           this.spinner.hide();
-        }
-      }
-    );
 
+          fetch(this.urlFinal)
+            .then((response) => response.blob())
+            .then((blod) => {
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blod);
+              link.download = listUrl[2];
+              link.click();
+            })
+            .catch(console.error)
+            .then((error) => {
+              if (error != undefined) {
+                let message_model: MessageModel = new MessageModel(
+                  'error',
+                  `Se ha presentado un error`,
+                  `No fue posible descargar el documento, estamos trabajando para resolver este error`
+                );
+                this.message.add(message_model);
+              }
+            });
+        } else {
+          let message_model: MessageModel = new MessageModel(
+            'error',
+            `Error ${res.status}`,
+            `${res.msg}`
+          );
+          this.message.add(message_model);
+        }
+      },
+      error: (error) => {
+        console.log(error);
+        this.spinner.hide();
+      },
+    });
   }
 }

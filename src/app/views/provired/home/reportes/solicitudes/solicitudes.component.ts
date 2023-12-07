@@ -15,10 +15,9 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-solicitudes',
   templateUrl: './solicitudes.component.html',
-  styleUrls: ['./solicitudes.component.scss']
+  styleUrls: ['./solicitudes.component.scss'],
 })
 export class SolicitudesComponent {
-
   public fb: FormGroup = new FormGroup({});
 
   public listSolicitudes: Array<SolicitudesModel> = Array<SolicitudesModel>();
@@ -29,13 +28,15 @@ export class SolicitudesComponent {
 
   public showModal: boolean = false;
 
-  public itemSelected: SolicitudesModel = new SolicitudesModel;
+  public itemSelected: SolicitudesModel = new SolicitudesModel();
 
   public filterSolicitudes: FilterSolicitudes = new FilterSolicitudes();
 
   public urlFinal: string = '';
 
   public isParent: boolean = false;
+
+  public totalItems: number = 0;
 
   constructor(
     public breadCrumService: BreadcrumbService,
@@ -44,17 +45,13 @@ export class SolicitudesComponent {
     private spinner: NgxSpinnerService,
     private message: MessageService
   ) {
-
-    this.breadCrumService.setItems(
-      [
-        { label: 'Reportes' },
-        { label: 'Mis solicitudes' }
-      ]
-    );
+    this.breadCrumService.setItems([
+      { label: 'Reportes' },
+      { label: 'Mis solicitudes' },
+    ]);
 
     let ses = this.session.getStorage('user', 'json');
     this.userIDSession = ses.user;
-
   }
 
   consultarSolicitudes(event: any) {
@@ -65,31 +62,27 @@ export class SolicitudesComponent {
     this.filterProcesos.group_users = ses.data.group_users;
     this.filterProcesos.parent = ses.data.parent;
 
-    this.solicitudesService.getListSolicitudes(this.filterProcesos).subscribe(
-      {
-        next: (res) => {
-          this.spinner.hide();
-          this.isParent = res.isParent;
-          this.listSolicitudes = res.data;
-          console.log(this.listSolicitudes);
-        },
-        error: (error) => {
-          this.spinner.hide();
-          console.log(error);
-        }
-      }
-    );
+    this.solicitudesService.getListSolicitudes(this.filterProcesos).subscribe({
+      next: (res) => {
+        this.spinner.hide();
+        this.isParent = res.isParent;
+        this.listSolicitudes = res.data;
+        this.totalItems = res.count_rows;
+        console.log(this.listSolicitudes);
+      },
+      error: (error) => {
+        this.spinner.hide();
+        console.log(error);
+      },
+    });
   }
 
   showEditItem(event: any): void {
-
     this.itemSelected = event;
     this.showModal = true;
-
   }
 
   actualizarSolicitud() {
-
     this.spinner.show();
     let update: UpdateSolicitud = new UpdateSolicitud();
 
@@ -97,29 +90,27 @@ export class SolicitudesComponent {
     update.sp_radicacion = this.itemSelected.sp_radicacion.toString();
     update.sp_rad_23 = this.itemSelected.sp_rad_23;
 
-    this.solicitudesService.updateSolicitud(update).subscribe(
-      {
-        next: (res) => {
-          let message_model: MessageModel = new MessageModel(
-            'success',
-            `Proceso exitoso!`,
-            `${res.msg}`
-          );
-          this.message.add(message_model);
-          this.spinner.hide();
-          this.showModal = false;
-        },
-        error: (error) => {
-          this.spinner.hide();
-          let message_model: MessageModel = new MessageModel(
-            'error',
-            `Se ha presentado un error!`,
-            `${error.error.msg}`
-          );
-          this.message.add(message_model);
-        }
-      }
-    );
+    this.solicitudesService.updateSolicitud(update).subscribe({
+      next: (res) => {
+        let message_model: MessageModel = new MessageModel(
+          'success',
+          `Proceso exitoso!`,
+          `${res.msg}`
+        );
+        this.message.add(message_model);
+        this.spinner.hide();
+        this.showModal = false;
+      },
+      error: (error) => {
+        this.spinner.hide();
+        let message_model: MessageModel = new MessageModel(
+          'error',
+          `Se ha presentado un error!`,
+          `${error.error.msg}`
+        );
+        this.message.add(message_model);
+      },
+    });
   }
 
   downloadReport() {
@@ -127,7 +118,7 @@ export class SolicitudesComponent {
     let session = this.session.getStorage('user', 'json');
 
     this.filterSolicitudes.username = session.data.username;
-    this.filterSolicitudes.name_user = session.data.nombre
+    this.filterSolicitudes.name_user = session.data.nombre;
     this.filterSolicitudes.name_file = 'Mis_procesos';
     this.filterSolicitudes.group_users = session.data.group_users;
     this.filterSolicitudes.parent = session.data.parent;
@@ -137,37 +128,35 @@ export class SolicitudesComponent {
     this.filterSolicitudes.despacho = this.filterProcesos.despacho;
     this.filterSolicitudes.userChild = this.filterProcesos.userChild;
 
-
-    this.solicitudesService.getReportListProcesos(this.filterSolicitudes).subscribe(
-      {
+    this.solicitudesService
+      .getReportListProcesos(this.filterSolicitudes)
+      .subscribe({
         next: (res) => {
           if (res.status == 200) {
             let listUrl = res.url.split('/');
             this.urlFinal = environment.apiBaseDocs + res.url;
             this.spinner.hide();
             fetch(this.urlFinal)
-              .then(response => {
+              .then((response) => {
                 return response.blob();
               })
-              .then(blod => {
-                const link = document.createElement("a");
+              .then((blod) => {
+                const link = document.createElement('a');
                 link.href = URL.createObjectURL(blod);
                 link.download = listUrl[2];
                 link.click();
               })
-              .catch(console.error).then(
-                (error: any) => {
-                  if (error != undefined) {
-
-                    let message_model: MessageModel = new MessageModel(
-                      'error',
-                      `Se ha presentado un error`,
-                      `No fue posible descargar el documento, estamos trabajando para resolver este error`
-                    );
-                    this.message.add(message_model);
-                  }
+              .catch(console.error)
+              .then((error: any) => {
+                if (error != undefined) {
+                  let message_model: MessageModel = new MessageModel(
+                    'error',
+                    `Se ha presentado un error`,
+                    `No fue posible descargar el documento, estamos trabajando para resolver este error`
+                  );
+                  this.message.add(message_model);
                 }
-              );
+              });
           } else {
             let message_model: MessageModel = new MessageModel(
               'error',
@@ -180,8 +169,7 @@ export class SolicitudesComponent {
         },
         error: (error) => {
           console.log(error);
-        }
-      }
-    );
+        },
+      });
   }
 }

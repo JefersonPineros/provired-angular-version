@@ -1,12 +1,12 @@
 <div class="grid">
-  <div class="col-12 ">
+  <div class="col-12">
     <div class="grid">
-      <div class="lg:col-4 md:col-4 sm:col-6 sm:col-offset-3 col-12 lg:col-offset-4 md:col-offset-4 ">
-
+      <div
+        class="lg:col-4 md:col-4 sm:col-6 sm:col-offset-3 col-12 lg:col-offset-4 md:col-offset-4"
+      >
         <div class="relative">
           <div class="static mt-5">
-            <div class="absolute botton right-0 img-logo">
-            </div>
+            <div class="absolute botton right-0 img-logo"></div>
           </div>
         </div>
 
@@ -20,7 +20,6 @@
             <ng-template pTemplate="content">
               <div class="grid p-4">
                 <div class="col-12">
-
                   <input-text
                     placeHolder="Usuario"
                     [(model)]="loginModel.user"
@@ -41,25 +40,36 @@
                     tipo="password"
                   >
                   </input-text>
-
                 </div>
                 <div class="col-12" *ngIf="aceptarTerminos">
-                  <span>Debe aceptar terminos y condiciones para poder acceder.*</span>
+                  <span
+                    >Debe aceptar terminos y condiciones para poder
+                    acceder.*</span
+                  >
+                </div>
+              </div>
+              <div class="grid">
+                <div class="col-12">
+                  <app-button-component
+                    nameButton="Olvidé mi contraseña!"
+                    clase="p-button-link"
+                    (eventEmiter)="olvidoContrasena()"
+                  ></app-button-component>
                 </div>
               </div>
             </ng-template>
             <ng-template pTemplate="footer">
-                <div class="grid">
-                  <div class="col-12">
-                    <div class="flex justify-content-center">
-                      <app-button-component
-                        nameButton="Ingresar"
-                        type="button"
-                        (eventEmiter)="login()"
-                      ></app-button-component>
-                    </div>
+              <div class="grid">
+                <div class="col-12">
+                  <div class="flex justify-content-center">
+                    <app-button-component
+                      nameButton="Ingresar"
+                      type="button"
+                      (eventEmiter)="login()"
+                    ></app-button-component>
                   </div>
                 </div>
+              </div>
             </ng-template>
           </app-card-component>
         </div>
@@ -70,12 +80,15 @@
 
 <modal-component
   [visible]="showModalTerminos"
-  (closeModal)="showModalTerminos = false">
+  (closeModal)="showModalTerminos = false"
+>
   <ng-template pTemplate="title">
     <h3>Terminos y condiciones</h3>
   </ng-template>
   <ng-template pTemplate="content">
-    <textarea disabled style="width: 100%; max-height: 480px;" id="" rows="60">{{messageTerminos}}</textarea>
+    <textarea disabled style="width: 100%; max-height: 480px" id="" rows="60">{{
+      messageTerminos
+    }}</textarea>
   </ng-template>
   <ng-template pTemplate="footer">
     <app-button-component
@@ -92,6 +105,7 @@
   size="medium"
   color="#fff"
   type="ball-clip-rotate-multiple"
-  [fullScreen]="true">
-  <p style="color: white" > Loading... </p>
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

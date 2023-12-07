@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  name: "prod",
-  apiBaseUrl: 'http://app.proviredcolombia.com/api/',
+  name: 'prod',
+  apiBaseUrl: 'https://app.proviredcolombia.com/api/',
   apiBaseDocs: 'https://app.proviredcolombia.com/datos',
-  baseMocks: '../../../assets/mocks/'
+  baseMocks: '../../../assets/mocks/',
 };

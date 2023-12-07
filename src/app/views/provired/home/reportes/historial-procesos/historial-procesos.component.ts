@@ -17,10 +17,9 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-historial-procesos',
   templateUrl: './historial-procesos.component.html',
-  styleUrls: ['./historial-procesos.component.scss']
+  styleUrls: ['./historial-procesos.component.scss'],
 })
 export class HistorialProcesosComponent implements OnInit {
-
   public filter: HistorialProcesosModel = new HistorialProcesosModel();
 
   public generalRows: number = 30;
@@ -29,9 +28,10 @@ export class HistorialProcesosComponent implements OnInit {
 
   public listHistorico: Array<HistorialModel> = new Array<HistorialModel>();
 
-  public listActuacion: Array<HistorialActuacion> = new Array<HistorialActuacion>();
+  public listActuacion: Array<HistorialActuacion> =
+    new Array<HistorialActuacion>();
 
-  public itemSelected: HistorialModel = new HistorialModel;
+  public itemSelected: HistorialModel = new HistorialModel();
 
   public showModal: boolean = false;
 
@@ -47,17 +47,13 @@ export class HistorialProcesosComponent implements OnInit {
     public session: SessionStorageService,
     private spinner: NgxSpinnerService,
     private message: MessageService
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.breadCrumService.setItems(
-      [
-        { label: 'Reportes' },
-        { label: 'Historial de procesos' }
-      ]
-    );
+    this.breadCrumService.setItems([
+      { label: 'Reportes' },
+      { label: 'Historial de procesos' },
+    ]);
   }
 
   filterProceso(event: HistorialProcesosModel) {
@@ -72,24 +68,20 @@ export class HistorialProcesosComponent implements OnInit {
     this.filter.from = 0;
     this.filter.rows = this.generalRows;
 
-    this.historialService.filterHistorial(this.filter).subscribe(
-      {
-        next: (res) => {
-          this.listHistorico = res.data;
-          this.totalItems = res.count_rows;
-          this.spinner.hide();
-        },
-        error: (error) => {
-          console.log(error);
-          this.spinner.hide();
-        }
-      }
-    );
-
+    this.historialService.filterHistorial(this.filter).subscribe({
+      next: (res) => {
+        this.listHistorico = res.data;
+        this.totalItems = res.count_rows;
+        this.spinner.hide();
+      },
+      error: (error) => {
+        console.log(error);
+        this.spinner.hide();
+      },
+    });
   }
 
   changePage(event: any) {
-
     this.spinner.show();
     this.filter = event;
     let ses = this.session.getStorage('user', 'json');
@@ -99,53 +91,53 @@ export class HistorialProcesosComponent implements OnInit {
     this.filter.from = event.first;
     this.filter.rows = this.generalRows;
 
-    this.historialService.filterHistorial(this.filter).subscribe(
-      {
-        next: (res) => {
-          this.listHistorico = res.data;
-          this.totalItems = res.count_rows;
-          this.spinner.hide();
-        },
-        error: (error) => {
-          console.log(error);
-          this.spinner.hide();
-        }
-      }
-    );
+    this.historialService.filterHistorial(this.filter).subscribe({
+      next: (res) => {
+        this.listHistorico = res.data;
+        this.totalItems = res.count_rows;
+        this.spinner.hide();
+      },
+      error: (error) => {
+        console.log(error);
+        this.spinner.hide();
+      },
+    });
   }
 
-  consultarActuacion(event: any): void {
-
-    console.log(event);
+  consultarActuacion(event?: any, page?: any): void {
     this.showDescriptionData = false;
 
     let ses = this.session.getStorage('user', 'json');
 
     this.itemSelected = event;
 
-    this.filter = new HistorialProcesosModel();
+    if (event) {
+      this.filter = new HistorialProcesosModel();
+      this.filter.group_users = ses.data.group_users;
+      this.filter.parent = ses.data.parent;
+      this.filter.despacho = this.itemSelected.despacho;
+      this.filter.radicacion = this.itemSelected.radicacion;
+      this.filter.codigo_23 = this.itemSelected.codigo_23;
+    }
 
-    this.filter.group_users = ses.data.group_users;
-    this.filter.parent = ses.data.parent;
-    this.filter.despacho = this.itemSelected.despacho;
-    this.filter.radicacion = this.itemSelected.radicacion;
-    this.filter.codigo_23 = this.itemSelected.codigo_23;
-    this.filter.from = 0;
+    if (page) {
+      this.filter.from = page.first;
+    } else {
+      this.filter.from = 0;
+    }
+
     this.filter.rows = this.generalRows;
 
-    this.historialService.getActuacion(this.filter).subscribe(
-      {
-        next: (res) => {
-          this.listActuacion = res.data;
-          this.totalRows = res.count_rows;
-          console.log(this.listActuacion);
-
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      }
-    );
+    this.historialService.getActuacion(this.filter).subscribe({
+      next: (res) => {
+        this.listActuacion = res.data;
+        this.totalRows = res.count_rows;
+        console.log(this.listActuacion);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
     this.showModal = true;
   }
 
@@ -157,7 +149,6 @@ export class HistorialProcesosComponent implements OnInit {
   }
 
   showDescription(event?: any): void {
-
     console.log(event);
 
     if (event) {
@@ -170,5 +161,4 @@ export class HistorialProcesosComponent implements OnInit {
       this.showDescriptionData = true;
     }
   }
-
 }

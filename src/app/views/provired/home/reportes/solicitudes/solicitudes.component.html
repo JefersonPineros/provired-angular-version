@@ -87,7 +87,7 @@
                       isFecha: true
                     },
                     {
-                      field: 'suscriptor',
+                      field: 'nameSuscriptor',
                       header: 'Suscriptor',
                       show: isParent ? false : true
                     }
@@ -95,6 +95,8 @@
                   [data]="listSolicitudes"
                   [actionsShow]="true"
                   nameActionsLeft="Editar"
+                  [totalRecords]="totalItems"
+                  [showTotalRecords]="true"
                 >
                   <ng-template pTemplate="actions" let-rowData="elemento">
                     <div class="grid">

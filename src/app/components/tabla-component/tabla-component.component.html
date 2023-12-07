@@ -23,19 +23,31 @@
   currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
 >
   <ng-template pTemplate="caption">
-    <div class="flex flex-row-reverse flex-wrap" *ngIf="filtroGeneral">
-      <div>
-        <span class="p-input-icon-left ml-auto">
-          <i class="pi pi-search"></i>
-          <input
-            pInputText
-            type="text"
-            (input)="
-              tableGeneric.filterGlobal($any($event.target).value, 'contains')
-            "
-            placeholder="Search keyword"
-          />
-        </span>
+    <div class="grid">
+      <div class="col-6">
+        <div class="flex flex-initial mt-3" *ngIf="showTotalRecords">
+          Total registros: {{ totalRecords }}
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="flex flex-row-reverse flex-wrap" *ngIf="filtroGeneral">
+          <div>
+            <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                (input)="
+                  tableGeneric.filterGlobal(
+                    $any($event.target).value,
+                    'contains'
+                  )
+                "
+                placeholder="Buscar"
+              />
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </ng-template>
@@ -70,15 +82,17 @@
         style="max-width: 300px; word-wrap: break-word"
       >
         <div *ngIf="!col.show">
-          <div *ngIf="!col.isFecha; else esFecha">
-            <div *ngIf="!col.tipoEX; else tipoEx">
-              {{
-                rowData[col.field] == "" ||
-                rowData[col.field] == null ||
-                rowData[col.field] == undefined
-                  ? "N / A"
-                  : rowData[col.field]
-              }}
+          <div *ngIf="!col.esRadicacion; else esRadicacion">
+            <div *ngIf="!col.isFecha; else esFecha">
+              <div *ngIf="!col.tipoEX; else tipoEx">
+                {{
+                  rowData[col.field] == "" ||
+                  rowData[col.field] == null ||
+                  rowData[col.field] == undefined
+                    ? "N / A"
+                    : rowData[col.field]
+                }}
+              </div>
             </div>
           </div>
         </div>
@@ -88,6 +102,36 @@
         <ng-template #esFecha>
           <div>
             {{ rowData[col.field] | date : "dd-MMM-yyyy" | titlecase }}
+          </div>
+        </ng-template>
+        <ng-template #esRadicacion>
+          <div>
+            <a
+              href="{{ rowData['expediente_digital'] }}"
+              *ngIf="
+                rowData['expediente_digital'] !== null &&
+                  rowData['expediente_digital'] !== '';
+                else noExpediente
+              "
+              target="_blank"
+            >
+              {{
+                formarRadicacion(
+                  rowData[col.field].length == 23
+                    ? rowData[col.field]
+                    : rowData["radicacion"]
+                )
+              }}
+            </a>
+            <ng-template #noExpediente>
+              {{
+                formarRadicacion(
+                  rowData[col.field].length == 23
+                    ? rowData[col.field]
+                    : rowData["radicacion"]
+                )
+              }}
+            </ng-template>
           </div>
         </ng-template>
       </td>

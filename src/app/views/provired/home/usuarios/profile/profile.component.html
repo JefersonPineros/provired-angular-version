@@ -1,13 +1,104 @@
 <div class="grid p-fluid">
-  <div class="col-12">
+  <div class="col-3">
     <app-card-component>
       <ng-template pTemplate="content">
         <div class="grid">
-          <div class="col-12">
-            <h3>Hola mundo</h3>
+          <div class="col-12 p-2 flex justify-content-center flex-wrap">
+            <div class="user-i">
+              <img src="assets/images/userLogo.png" alt="" />
+            </div>
+          </div>
+          <div class="col-12 p-2 flex justify-content-center flex-wrap">
+            <div class="mt-2">
+              <div
+                class="user-d flex align-items-center justify-content-center"
+              >
+                <div class="user-d--name">
+                  {{ ses.data.nombre }}
+                </div>
+              </div>
+              <div
+                class="user-d flex align-items-center justify-content-center mt-2"
+              >
+                <div class="user-d--email">
+                  {{ ses.data.email }}
+                </div>
+              </div>
+              <div
+                class="user-d flex align-items-center justify-content-center mt-2"
+              >
+                <div class="user-d--vence">
+                  fecha vencimiento: {{ ses.data.fecha_vence }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </app-card-component>
+  </div>
+  <div class="col-9">
+    <app-card-component>
+      <ng-template pTemplate="content">
+        <div class="grid">
+          <div class="col-12 p-2">
+            <app-tab-menu-component
+              [items]="[
+                { label: 'Cambiar contraseña', icon: 'pi pi-info-circle' }
+              ]"
+              (eventChangeMenu)="changeMenu($event)"
+            >
+            </app-tab-menu-component>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="col-12 p-3" *ngIf="showChangePass">
+            <div class="grid mt-2">
+              <div class="col-12">
+                <h4 class="title-pass">Desea realizar cambio de contraseña?</h4>
+              </div>
+            </div>
+            <div class="grid">
+              <div class="col-6">
+                <input-text
+                  [(model)]="changePass.password_actual"
+                  tipo="password"
+                  placeHolder="Contraseña Actual"
+                ></input-text>
+              </div>
+            </div>
+            <div class="grid mt-2">
+              <div class="col-6">
+                <app-input-pass
+                  [(modelNew)]="changePass.password_new"
+                  [(modelConfirm)]="changePass.password_confirm"
+                  [feedBackNew]="true"
+                  [feedBackConfirm]="false"
+                ></app-input-pass>
+              </div>
+            </div>
+            <div class="grid">
+              <div class="col-6 flex justify-content-center flex-wrap">
+                <app-button-component
+                  nameButton="Cambiar contraseña"
+                  (eventEmiter)="updatePassword()"
+                ></app-button-component>
+              </div>
+            </div>
           </div>
         </div>
       </ng-template>
     </app-card-component>
   </div>
 </div>
+<p-toast></p-toast>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

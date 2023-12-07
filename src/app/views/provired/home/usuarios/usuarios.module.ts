@@ -8,8 +8,17 @@ import { OperativosComponent } from './operativos/operativos.component';
 import { SuscriptoresComponent } from './suscriptores/suscriptores.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ButtonComponentModule, CardComponentModule, InputTextComponentModule } from 'src/app/components/components.module';
-
+import {
+  ButtonComponentModule,
+  CardComponentModule,
+  InputPassModule,
+  InputTextComponentModule,
+  TabMenuComponentModule,
+} from 'src/app/components/components.module';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
+import { ToastModule } from 'primeng/toast';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -17,7 +26,7 @@ import { ButtonComponentModule, CardComponentModule, InputTextComponentModule } 
     AdministradoresComponent,
     OperativosComponent,
     SuscriptoresComponent,
-    ProfileComponent
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -28,9 +37,15 @@ import { ButtonComponentModule, CardComponentModule, InputTextComponentModule } 
 
     InputTextComponentModule,
     CardComponentModule,
-    ButtonComponentModule
+    ButtonComponentModule,
+    TabMenuComponentModule,
+    InputPassModule,
 
+    RecaptchaModule,
+    RecaptchaFormsModule,
+    ToastModule,
+    NgxSpinnerModule,
   ],
-  providers: []
+  providers: [MessageService],
 })
-export class UsuariosModule { }
+export class UsuariosModule {}

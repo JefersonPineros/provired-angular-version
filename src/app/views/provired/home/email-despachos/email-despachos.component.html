@@ -1,1 +1,105 @@
-<p>email-despachos works!</p>
+<div class="grid">
+  <div class="col-12">
+    <div class="grid">
+      <div class="col-3">
+        <div class="grid">
+          <div class="col-12">
+            <app-card-component>
+              <ng-template pTemplate="header">
+                <div class="flex flex-column-reverse">
+                  <div
+                    class="flex align-items-center justify-content-center mt-2"
+                  >
+                    <h4 class="title-color mt-3">Servicios</h4>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="content">
+                <div class="grid p-fluit">
+                  <div class="col-12">
+                    <div class="grid p-fluit">
+                      <app-side-menu
+                        class="col-12 mt-2"
+                        [itemsMenu]="[
+                          {
+                            label: 'Autorizaciones',
+                            icon: 'pi pi-fw pi-clone',
+                            routerLink:
+                              '/provired/home-provired/home/documentos/autorizaciones'
+                          }
+                        ]"
+                      ></app-side-menu>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </app-card-component>
+          </div>
+        </div>
+      </div>
+      <div class="col-9">
+        <div class="grid">
+          <div class="col-12">
+            <app-card-component>
+              <ng-template pTemplate="content">
+                <div class="grid">
+                  <div
+                    class="col-12 flex align-items-center justify-content-center mt-2"
+                  >
+                    <h4>Email despachos</h4>
+                  </div>
+                </div>
+                <div class="grid">
+                  <div class="col-12">
+                    <app-filters-dinamics
+                      [showRango]="false"
+                      [showSuscriptores]="false"
+                      [showRadicacion]="false"
+                      (eventFilter)="filterEmail($event)"
+                    ></app-filters-dinamics>
+                  </div>
+                </div>
+              </ng-template>
+            </app-card-component>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid mt-2" *ngIf="emailList.length > 0">
+      <div class="col-12">
+        <app-card-component>
+          <ng-template pTemplate="content">
+            <app-tabla-component
+              [data]="emailList"
+              [cols]="[
+                { field: 'name_ciudad', header: 'Municipio' },
+                { field: 'name_corporacion', header: 'Corporacion' },
+                { field: 'despacho', header: 'Despacho' },
+                { field: 'email', header: 'Email(s)' },
+                { field: 'telefono', header: 'Telefono(s)' }
+              ]"
+              [lazy]="true"
+              [paginador]="true"
+              [totalRecords]="totalItems"
+              [rows]="30"
+              (onChangePage)="filterEmail(undefined, $event)"
+              paginationPosition="both"
+            ></app-tabla-component>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
