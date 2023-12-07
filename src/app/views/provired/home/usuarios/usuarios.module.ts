@@ -6,6 +6,9 @@ import { UsuariosComponent } from './usuarios.component';
 import { AdministradoresComponent } from './administradores/administradores.component';
 import { OperativosComponent } from './operativos/operativos.component';
 import { SuscriptoresComponent } from './suscriptores/suscriptores.component';
+import { ProfileComponent } from './profile/profile.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ButtonComponentModule, CardComponentModule, InputTextComponentModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -13,11 +16,21 @@ import { SuscriptoresComponent } from './suscriptores/suscriptores.component';
     UsuariosComponent,
     AdministradoresComponent,
     OperativosComponent,
-    SuscriptoresComponent
+    SuscriptoresComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,
-    UsuariosRoutingModule
-  ]
+    UsuariosRoutingModule,
+
+    ReactiveFormsModule,
+    FormsModule,
+
+    InputTextComponentModule,
+    CardComponentModule,
+    ButtonComponentModule
+
+  ],
+  providers: []
 })
 export class UsuariosModule { }
