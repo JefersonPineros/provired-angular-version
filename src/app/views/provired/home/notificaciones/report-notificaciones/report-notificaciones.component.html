@@ -165,7 +165,7 @@
                             [icon]="true"
                             [showTooltip]="true"
                             messageTooltip="Programar"
-                            iconClass="pi 
+                            iconClass="pi
                             pi-calendar-plus"
                             clase="p-button-rounded p-button-text"
                             (eventEmiter)="openDetail(rowData, 2)"
@@ -197,9 +197,22 @@
                           <app-button-component
                             [icon]="true"
                             [showTooltip]="true"
-                            messageTooltip="Nota"
-                            iconClass="pi pi-times-circle"
-                            clase="p-button-rounded p-button-danger p-button-text"
+                            messageTooltip="{{
+                              rowData.nota !== '' && rowData.nota !== null
+                                ? 'Nota'
+                                : 'No hay notas disponibles'
+                            }}"
+                            iconClass="pi {{
+                              rowData.nota !== '' && rowData.nota !== null
+                                ? 'pi-exclamation-triangle'
+                                : 'pi-times-circle'
+                            }}"
+                            clase="p-button-rounded  {{
+                              rowData.nota !== '' && rowData.nota !== null
+                                ? 'p-button-warning'
+                                : 'p-button-danger'
+                            }}  p-button-text"
+                            (eventEmiter)="openDetail(rowData, 3)"
                           ></app-button-component>
                         </div>
                       </div>
@@ -292,9 +305,100 @@
           [disabledInputText]="true"
         ></input-text>
       </div>
+      <div class="col-6 p-3">
+        Expediente digital:
+        <span
+          *ngIf="
+            detailModal.expediente_digital !== '' &&
+              detailModal.expediente_digital !== null;
+            else linknull
+          "
+        >
+          <a href="{{ detailModal.expediente_digital }}" target="_blank"
+            >Abrir Link</a
+          >
+        </span>
+      </div>
+      <ng-template #linknull>
+        <span>N/A</span>
+      </ng-template>
+    </div>
+  </ng-template>
+</modal-component>
+<modal-component [visible]="showModalNota" (closeModal)="showModalNota = false">
+  <ng-template pTemplate="title">
+    <h4>NOTA</h4>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="grid mt-3">
       <div class="col-6">
         <input-text
-          placeHolder="Expediente digital"
+          [(model)]="detailModal.name_ciudad"
+          placeHolder="Ciudad"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.despacho"
+          placeHolder="despacho"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.radicacion"
+          placeHolder="Radicación"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.name_notificacion"
+          placeHolder="Notificación"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.proceso"
+          placeHolder="Proceso"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+      <div class="col-12">
+        <app-text-area
+          [(model)]="detailModal.demandante"
+          placeholder="Demandante"
+          [disabled]="true"
+        ></app-text-area>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12">
+        <app-text-area
+          [(model)]="detailModal.demandado"
+          placeholder="Demandado"
+          [disabled]="true"
+        ></app-text-area>
+      </div>
+      <div class="col-12">
+        <app-text-area
+          [(model)]="detailModal.nota"
+          placeholder="Nota"
+          [disabled]="true"
+        ></app-text-area>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.fechapublicacion"
+          placeHolder="Fecha publicación"
           [disabledInputText]="true"
         ></input-text>
       </div>
@@ -369,6 +473,7 @@
             <app-date-picker
               [(model)]="audiencia.fecha_vence_terminos"
               placeholder="Fecha Audiencia / Vencimiento"
+              [showIcon]="true"
             ></app-date-picker>
           </div>
         </div>

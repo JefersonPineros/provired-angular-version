@@ -80,6 +80,7 @@
                   [actionsRightShow]="true"
                   nameActionsRight="Consultar"
                   (onChangePage)="changePage($event)"
+                  paginationPosition="both"
                 >
                   <ng-template pTemplate="actions-left" let-rowData="elemento">
                     <app-button-component
@@ -134,6 +135,11 @@
           nameActionsRight="Auto"
           nameActionsLeft="Detalle"
           [actionsShow]="true"
+          [paginador]="true"
+          [lazy]="true"
+          [rows]="generalRows"
+          paginationPosition="both"
+          (onChangePage)="consultarActuacion(undefined, $event)"
         >
           <ng-template pTemplate="actions" let-rowData="elemento">
             <div class="grid">

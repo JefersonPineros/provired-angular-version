@@ -17,23 +17,24 @@ import { UserTranfer } from 'src/app/models/home/procesos/userTransfer';
 @Component({
   selector: 'app-eliminar-procesos',
   templateUrl: './eliminar-procesos.component.html',
-  styleUrls: ['./eliminar-procesos.component.scss']
+  styleUrls: ['./eliminar-procesos.component.scss'],
 })
 export class EliminarProcesosComponent implements OnInit {
-
   public formSearchProcess: SearchProcesos = {} as SearchProcesos;
 
   public fb: FormGroup;
 
   public genericFilter: FilterProceso = new FilterProceso();
 
-  public listEliminar: Array<EliminarProcesoModel> = new Array<EliminarProcesoModel>;
+  public listEliminar: Array<EliminarProcesoModel> =
+    new Array<EliminarProcesoModel>();
 
-  public selectedItemList: Array<EliminarProcesoModel> = new Array<EliminarProcesoModel>;
+  public selectedItemList: Array<EliminarProcesoModel> =
+    new Array<EliminarProcesoModel>();
 
   public showModalD: boolean = false;
 
-  public siteKey: string = "";
+  public siteKey: string = '';
 
   public sendCaptcha: SendCaptcha = new SendCaptcha();
 
@@ -54,38 +55,39 @@ export class EliminarProcesosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.siteKey = Token.TOKEN_AUTHORIZATION.API_KEY;
-    this.breadCrumService.setItems(
-      [
-        { label: 'Reportes' },
-        { label: 'Eliminación masiva de procesos' }
-      ]
-    );
+    this.breadCrumService.setItems([
+      { label: 'Reportes' },
+      { label: 'Eliminación masiva de procesos' },
+    ]);
 
+    this.getFirstLoad();
+  }
+
+  getFirstLoad() {
     this.spinner.show();
-
     let ses = this.session.getStorage('user', 'json');
     this.genericFilter = new FilterProceso();
 
     this.genericFilter.group_users = ses.data.group_users;
     this.genericFilter.parent = ses.data.parent;
-    this.genericFilter.demandante_demandado = "";
-    this.genericFilter.radicacion = "";
+    this.genericFilter.demandante_demandado = '';
+    this.genericFilter.radicacion = '';
 
-    this.eliminarSerivces.getListEliminarProcesos(this.genericFilter).subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-          this.listEliminar = res;
-        }
-        this.spinner.hide();
-      },
-      error: (error) => {
-        this.spinner.hide();
-        console.log(error);
-
-      }
-    });
+    this.eliminarSerivces
+      .getListEliminarProcesos(this.genericFilter)
+      .subscribe({
+        next: (res) => {
+          if (res.length > 0) {
+            this.listEliminar = res;
+          }
+          this.spinner.hide();
+        },
+        error: (error) => {
+          this.spinner.hide();
+          console.log(error);
+        },
+      });
   }
 
   consultarProcesos(): void {
@@ -95,22 +97,27 @@ export class EliminarProcesosComponent implements OnInit {
 
     this.genericFilter.group_users = ses.data.group_users;
     this.genericFilter.parent = ses.data.parent;
-    this.genericFilter.demandante_demandado = this.formSearchProcess.demandante ? this.formSearchProcess.demandante : "";
-    this.genericFilter.radicacion = this.formSearchProcess.radicado ? this.formSearchProcess.radicado : "";
+    this.genericFilter.demandante_demandado = this.formSearchProcess.demandante
+      ? this.formSearchProcess.demandante
+      : '';
+    this.genericFilter.radicacion = this.formSearchProcess.radicado
+      ? this.formSearchProcess.radicado
+      : '';
 
-    this.eliminarSerivces.getListEliminarProcesos(this.genericFilter).subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-          this.listEliminar = res;
-        }
-        this.spinner.hide();
-      },
-      error: (error) => {
-        console.log(error);
-        this.spinner.hide();
-
-      }
-    });
+    this.eliminarSerivces
+      .getListEliminarProcesos(this.genericFilter)
+      .subscribe({
+        next: (res) => {
+          if (res.length > 0) {
+            this.listEliminar = res;
+          }
+          this.spinner.hide();
+        },
+        error: (error) => {
+          console.log(error);
+          this.spinner.hide();
+        },
+      });
   }
 
   expireCaptchat(event: any) {
@@ -134,14 +141,13 @@ export class EliminarProcesosComponent implements OnInit {
     this.spinner.show();
     let sendData = new CaptchaSendDataModel();
     if (this.sendCaptcha.captcha) {
-
       let ses = this.session.getStorage('user', 'json');
-      let listIdData: Array<any> = new Array<any>;
+      let listIdData: Array<any> = new Array<any>();
 
-      this.selectedItemList.forEach(item => {
+      this.selectedItemList.forEach((item) => {
         let objectId = {
-          id: item.id_userope
-        }
+          id: item.id_userope,
+        };
         listIdData.push(objectId);
       });
       sendData.data = listIdData;
@@ -151,23 +157,29 @@ export class EliminarProcesosComponent implements OnInit {
       sendData.name_user = ses.data.nombre;
       sendData.username = ses.data.username;
 
-      this.eliminarSerivces.deleteProcesos(sendData).subscribe(
-        {
-          next: (res) => {
-            this.spinner.hide();
-            console.log(res);
-
-          },
-          error: (error) => {
-            this.spinner.hide();
-            console.log(error);
-
-          }
-        }
-      );
+      this.eliminarSerivces.deleteProcesos(sendData).subscribe({
+        next: (res) => {
+          this.spinner.hide();
+          let message_model: MessageModel = new MessageModel(
+            'success',
+            `Se ha realizado el proceso.`,
+            `${res.msg}`
+          );
+          this.message.add(message_model);
+          this.getFirstLoad();
+        },
+        error: (error) => {
+          this.spinner.hide();
+          let message_model: MessageModel = new MessageModel(
+            'error',
+            `Se ha presentado un error.`,
+            `${error.error.msg}`
+          );
+          this.message.add(message_model);
+        },
+      });
       this.showModalD = false;
       this.sendCaptcha = new SendCaptcha();
-
     } else {
       this.spinner.hide();
       let message_model: MessageModel = new MessageModel(
@@ -177,7 +189,6 @@ export class EliminarProcesosComponent implements OnInit {
       );
       this.message.add(message_model);
     }
-
   }
 
   transferirProcesos() {
@@ -187,12 +198,12 @@ export class EliminarProcesosComponent implements OnInit {
     if (this.userSelected !== null) {
       if (this.sendCaptcha.captcha) {
         let ses = this.session.getStorage('user', 'json');
-        let listIdData: Array<any> = new Array<any>;
+        let listIdData: Array<any> = new Array<any>();
 
-        this.selectedItemList.forEach(item => {
+        this.selectedItemList.forEach((item) => {
           let objectId = {
-            id: item.id_userope
-          }
+            id: item.id_userope,
+          };
           listIdData.push(objectId);
         });
         sendData.data = listIdData;
@@ -202,24 +213,29 @@ export class EliminarProcesosComponent implements OnInit {
         sendData.name_user = ses.data.nombre;
         sendData.username = ses.data.username;
 
-
-
         sendData.user_transfer = parseInt(this.userSelected.cedula_nit);
 
-        this.eliminarSerivces.transferirProcesos(sendData).subscribe(
-          {
-            next: (res) => {
-              this.spinner.hide();
-              console.log(res);
-
-            },
-            error: (error) => {
-              this.spinner.hide();
-              console.log(error);
-
-            }
-          }
-        );
+        this.eliminarSerivces.transferirProcesos(sendData).subscribe({
+          next: (res) => {
+            this.spinner.hide();
+            let message_model: MessageModel = new MessageModel(
+              'success',
+              `Se ha realizado el proceso.`,
+              `${res.msg}`
+            );
+            this.message.add(message_model);
+            this.getFirstLoad();
+          },
+          error: (error) => {
+            this.spinner.hide();
+            let message_model: MessageModel = new MessageModel(
+              'error',
+              `No ha completado el formulario.`,
+              `Por es necesario completar el formlario para continuar.`
+            );
+            this.message.add(message_model);
+          },
+        });
         this.showModalD = false;
         this.sendCaptcha = new SendCaptcha();
       } else {
@@ -231,7 +247,6 @@ export class EliminarProcesosComponent implements OnInit {
         this.message.add(message_model);
         this.spinner.hide();
       }
-
     } else {
       let message_model: MessageModel = new MessageModel(
         'error',
@@ -240,7 +255,6 @@ export class EliminarProcesosComponent implements OnInit {
       );
       this.message.add(message_model);
       this.spinner.hide();
-
     }
   }
 
@@ -248,18 +262,15 @@ export class EliminarProcesosComponent implements OnInit {
     this.typeModal = type;
     if (this.typeModal == 2) {
       let ses = this.session.getStorage('user', 'json');
-      this.eliminarSerivces.getUsersTransfer(ses.user).subscribe(
-        {
-          next: (res) => {
-            this.listUsers = res;
-          },
-          error: (error) => {
-            console.log(error);
-          }
-        }
-      );
+      this.eliminarSerivces.getUsersTransfer(ses.user).subscribe({
+        next: (res) => {
+          this.listUsers = res;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
     }
-    this.showModalD = true
+    this.showModalD = true;
   }
-
 }

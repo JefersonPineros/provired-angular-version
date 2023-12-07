@@ -109,8 +109,12 @@
                   [cols]="[
                     { field: 'etiqueta_suscriptor', header: 'Etiqueta' },
                     { field: 'name_ciudad', header: 'Ciudad' },
-                    { field: 'despacho', header: 'Despacho' },
-                    { field: 'radicacion', header: 'Radicación' },
+                    { field: 'name_despacho', header: 'Despacho' },
+                    {
+                      field: 'codigo_23',
+                      header: 'Radicación',
+                      esRadicacion: true
+                    },
                     { field: 'proceso', header: 'Tipo proceso' },
                     { field: 'demandante', header: 'Demandante' },
                     { field: 'demandado', header: 'Demandado' },
@@ -140,7 +144,7 @@
                           [icon]="true"
                           [showTooltip]="true"
                           messageTooltip="Programar"
-                          iconClass="pi pi-file-edit"
+                          iconClass="pi pi-calendar-plus"
                           clase="p-button-rounded p-button-text"
                           (eventEmiter)="programarProceso(value)"
                         ></app-button-component>
@@ -190,11 +194,31 @@
       <div class="col-12">
         <div class="grid p-5">
           <div class="col-12">
-            <h4>Despacho: {{ nameDespachoModal }}</h4>
-            <h4>Radicado: {{ radicadoModal }}</h4>
+            <div class="grid">
+              <div class="col-6">
+                <h4>
+                  Despacho:
+                  <span style="color: green">{{ nameDespachoModal }}</span>
+                </h4>
+                <h4>
+                  Radicado: <span style="color: red">{{ radicadoModal }}</span>
+                </h4>
+              </div>
+              <div class="col-6">
+                <app-button-component
+                  nameButton="Generar a excel reporte notificaciones"
+                  [icon]="true"
+                  [showTooltip]="true"
+                  messageTooltip="Detalle"
+                  iconClass="pi pi-file-excel"
+                  clase="p-button-rounded p-button-success p-button-outlined"
+                  (eventEmiter)="downloadReportInfP()"
+                ></app-button-component>
+              </div>
+            </div>
           </div>
           <div class="col-12 p-4">
-            <h4>REPORTE</h4>
+            <h4>FORMULARIO</h4>
           </div>
           <div
             class="col-12 p-3"
