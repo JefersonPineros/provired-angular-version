@@ -1,14 +1,20 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilService } from 'src/app/services/core/util.service';
 
 @Component({
   selector: 'app-text-area',
   templateUrl: './text-area.component.html',
-  styleUrls: ['./text-area.component.scss']
+  styleUrls: ['./text-area.component.scss'],
 })
 export class TextAreaComponent implements OnInit, OnChanges {
-
   @Input() tamanio: string = '200';
 
   @Input() heightTamanio: string = '200px';
@@ -33,7 +39,9 @@ export class TextAreaComponent implements OnInit, OnChanges {
 
   @Input() disabled: boolean = false;
 
-  constructor(private fb: FormBuilder) { }
+  @Input() rows: number = 5;
+
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.generarFormat();
@@ -72,7 +80,7 @@ export class TextAreaComponent implements OnInit, OnChanges {
 
   generarValidaciones() {
     if (this.validarRequerido()) {
-      return { errorRequerido: true }
+      return { errorRequerido: true };
     }
     return null;
   }

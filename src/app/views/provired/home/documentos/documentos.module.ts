@@ -6,22 +6,32 @@ import { DocumentosComponent } from './documentos.component';
 import { AutorizacionesComponent } from './autorizaciones/autorizaciones.component';
 import { TutorialesComponent } from './tutoriales/tutoriales.component';
 import { TerminosComponent } from './terminos/terminos.component';
-import { ButtonComponentModule, CardComponentModule, SideMenuModule } from 'src/app/components/components.module';
-
+import {
+  ButtonComponentModule,
+  CardComponentModule,
+  SideMenuModule,
+  TextAreaModule,
+} from 'src/app/components/components.module';
+import { TerminosCondicionesService } from 'src/app/services/home/documentos/terminos.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     DocumentosComponent,
     AutorizacionesComponent,
     TutorialesComponent,
-    TerminosComponent
+    TerminosComponent,
   ],
   imports: [
     CommonModule,
     DocumentosRoutingModule,
     CardComponentModule,
     SideMenuModule,
-    ButtonComponentModule
-  ]
+    ButtonComponentModule,
+
+    HttpClientModule,
+    TextAreaModule,
+  ],
+  providers: [TerminosCondicionesService],
 })
-export class DocumentosModule { }
+export class DocumentosModule {}

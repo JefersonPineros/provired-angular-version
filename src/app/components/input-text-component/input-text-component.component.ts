@@ -47,6 +47,8 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
 
   @Input() maxLength: number | undefined;
 
+  @Input() valorMaximo: number;
+
   @Input() minLength: number | undefined;
 
   constructor(private fb: FormBuilder) {}
@@ -99,6 +101,10 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
     if (this.validarRequerido()) {
       return { errorRequerido: true };
     }
+
+    if (this.validarMaximo()) {
+      return { errorMaximo: true };
+    }
     return null;
   }
 
@@ -112,6 +118,14 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
 
   validarRequerido(): boolean {
     return this.requerido && !String(this.model || '').trim();
+  }
+
+  validarMaximo(): boolean {
+    return (
+      this.model &&
+      this.valorMaximo &&
+      Number(this.model) > Number(this.validarMaximo)
+    );
   }
 
   actualizarControl(): void {

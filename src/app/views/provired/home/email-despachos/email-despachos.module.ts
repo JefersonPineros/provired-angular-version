@@ -17,6 +17,7 @@ import { EmailDespachosService } from 'src/app/services/home/email/email-despach
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { TerminosCondicionesService } from 'src/app/services/home/documentos/terminos.service';
 
 @NgModule({
   declarations: [EmailDespachosComponent],

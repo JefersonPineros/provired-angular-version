@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
           }, 500);
         } else {
           if (!resp.terminos_ok) {
-            console.log(this.showModalTerminos);
             this.aceptarTerminos = true;
             this.showModalTerminos = true;
             this.messageTerminos = resp.msg!;

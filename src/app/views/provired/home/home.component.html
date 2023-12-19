@@ -1,11 +1,17 @@
-<div class="layout-wrapper" (click)="onLayoutClick()"
-  [ngClass]="{'layout-menu-overlay': isOverlay(),
-                'layout-menu-overlay-active': overlayMenuActive,
-                'layout-menu-horizontal': isHorizontal(),
-                'layout-mobile-active': overlayMenuMobileActive,
-                'layout-fullwidth': (app.wrapperMode || isMobile()), 'p-input-filled': app.inputStyle === 'filled', 'p-ripple-disabled': !app.ripple}"
-  [class]="app.layout">
-
+<div
+  class="layout-wrapper"
+  (click)="onLayoutClick()"
+  [ngClass]="{
+    'layout-menu-overlay': isOverlay(),
+    'layout-menu-overlay-active': overlayMenuActive,
+    'layout-menu-horizontal': isHorizontal(),
+    'layout-mobile-active': overlayMenuMobileActive,
+    'layout-fullwidth': app.wrapperMode || isMobile(),
+    'p-input-filled': app.inputStyle === 'filled',
+    'p-ripple-disabled': !app.ripple
+  }"
+  [class]="app.layout"
+>
   <div class="layout-content-wrapper">
     <app-topbar></app-topbar>
 
@@ -18,6 +24,7 @@
         <div class="col-12">
           <router-outlet></router-outlet>
         </div>
+        <app-help-component *ngIf="typeUser == 'S'"></app-help-component>
       </div>
     </div>
 

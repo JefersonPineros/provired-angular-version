@@ -15,6 +15,7 @@ export * from './radio-button-component/radio-button-component.module';
 export * from './filters-dinamics/filters-dinamics.module';
 export * from './tab-menu-component/tab-menu-component.module';
 export * from './input-pass/input-pass.module';
+export * from './help-component/help-component.module';
 
 @NgModule({
   declarations: [],

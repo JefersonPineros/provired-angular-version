@@ -3,7 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActionBarModule, MenuComponentModule, TopbarModule } from 'src/app/components/components.module';
+import {
+  ActionBarModule,
+  HelpComponentModule,
+  MenuComponentModule,
+  TopbarModule,
+} from 'src/app/components/components.module';
 import { MenuService } from 'src/app/services/utils/app.menu.service';
 import { ReportesComponent } from './reportes/reportes.component';
 import { BreadcrumbService } from 'src/app/services/utils/app.breadcrumb.service';
@@ -16,11 +21,8 @@ import { UserInterceptorService } from 'src/app/services/interceptor/user/user-i
 import { LogOutService } from 'src/app/services/logOut/log-out.service';
 import { AudienciaService } from 'src/app/services/home/audiencia/audiencia.service';
 
-
 @NgModule({
-  declarations: [
-    HomeComponent
-  ],
+  declarations: [HomeComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -28,6 +30,7 @@ import { AudienciaService } from 'src/app/services/home/audiencia/audiencia.serv
     MenuComponentModule,
     TopbarModule,
     ActionBarModule,
+    HelpComponentModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
@@ -37,8 +40,12 @@ import { AudienciaService } from 'src/app/services/home/audiencia/audiencia.serv
     UserServiceService,
     LogOutService,
     AudienciaService,
-    { provide: HTTP_INTERCEPTORS, useClass: UserInterceptorService, multi: true }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UserInterceptorService,
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class HomeModule { }
+export class HomeModule {}

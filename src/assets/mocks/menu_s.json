@@ -32,7 +32,8 @@
       {
         "label": "Historial de procesos",
         "icon": "pi pi-fw pi-book",
-        "routerLink": ["reportes/historial_procesos"]
+        "routerLink": ["reportes/historial_procesos"],
+        "disabled": true
       },
       {
         "label": "Mis Solicitudes",
@@ -65,11 +66,6 @@
         "label": "Autorizaciones",
         "icon": "pi pi-fw pi-check-circle",
         "routerLink": ["documentos/autorizaciones"]
-      },
-      {
-        "label": "Tutoriales",
-        "icon": "pi pi-fw pi-comment",
-        "routerLink": ["documentos/tutoriales"]
       },
       {
         "label": "Terminos y condiciones",

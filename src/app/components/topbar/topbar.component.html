@@ -54,14 +54,14 @@
       class="topbar-search layout-topbar-item"
       [ngClass]="{ 'active-topmenuitem': app.activeTopbarItem === search }"
     >
-      <a
+      <!-- <a
         href="#"
         class="layout-topbar-icon first"
         (click)="app.onTopbarItemClick($event, search)"
       >
         <i class="topbar-icon pi pi-search"></i>
-      </a>
-      <input type="text" placeholder="Type to search..." />
+      </a> -->
+      <!-- <input type="text" placeholder="Type to search..." /> -->
     </li>
     <li
       #profile
@@ -84,7 +84,7 @@
         </div>
         <img
           class="logo"
-          src="assets/layout/images/avatar/avatar-pedro.jpg"
+          src="assets/images/userLogo.png"
           alt="prestige-layout"
         />
       </a>
@@ -93,7 +93,7 @@
           <div class="user-profile-info">
             <img
               class="logo"
-              src="assets/layout/images/avatar/avatar-pedro.jpg"
+              src="assets/images/userLogo.png"
               alt="prestige-layout"
             />
             <div class="profile-info">

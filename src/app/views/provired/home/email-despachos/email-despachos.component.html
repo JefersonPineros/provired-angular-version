@@ -75,7 +75,6 @@
                 { field: 'name_ciudad', header: 'Municipio' },
                 { field: 'name_corporacion', header: 'Corporacion' },
                 { field: 'despacho', header: 'Despacho' },
-                { field: 'email', header: 'Email(s)' },
                 { field: 'telefono', header: 'Telefono(s)' }
               ]"
               [lazy]="true"
@@ -84,7 +83,16 @@
               [rows]="30"
               (onChangePage)="filterEmail(undefined, $event)"
               paginationPosition="both"
-            ></app-tabla-component>
+              [actionsShow]="true"
+              [actionsRightShow]="true"
+              nameActionsRight="Email(s)"
+            >
+              <ng-template pTemplate="actions-left" let-rowData="elemento">
+                <div style="max-width: 300px; word-break: break-all">
+                  <a href="mailto:{{ rowData.email }}">{{ rowData.email }}</a>
+                </div>
+              </ng-template>
+            </app-tabla-component>
           </ng-template>
         </app-card-component>
       </div>
