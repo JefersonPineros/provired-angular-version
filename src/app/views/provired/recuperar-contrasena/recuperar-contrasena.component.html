@@ -111,6 +111,21 @@
                   </div>
                 </div>
               </div>
+              <div class="grid">
+                <div class="col-12">
+                  <div class="flex flex-column-reverse">
+                    <div
+                      class="flex align-items-center justify-content-center mt-2"
+                    >
+                      <app-button-component
+                        (eventEmiter)="cancelarProceso()"
+                        nameButton="Cancelar"
+                        clase="p-button-danger p-button-text"
+                      ></app-button-component>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </ng-template>
           </app-card-component>
         </div>

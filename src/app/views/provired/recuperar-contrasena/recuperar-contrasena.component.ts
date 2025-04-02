@@ -120,4 +120,7 @@ export class RecuperarContrasenaComponent implements OnInit {
       },
     });
   }
+  cancelarProceso() {
+    this.route.navigate(['provired/access-provired/login']);
+  }
 }
