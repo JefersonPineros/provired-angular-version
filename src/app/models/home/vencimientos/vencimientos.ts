@@ -10,11 +10,11 @@ export class Vencimientos {
     public id_vencimiento?: number,
     public idevents?: number,
     public idplanilla?: number,
-    public nameCiudad?: string,
-    public nameDespacho?: string,
+    public name_ciudad?: string,
+    public name_despacho?: string,
     public proceso?: string,
     public radicacion?: string,
     public username?: string,
     public usuario?: string
-  ){}
+  ) {}
 }

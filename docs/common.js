@@ -1,6 +1,24 @@
 "use strict";
 (self["webpackChunkprovired_angular_version"] = self["webpackChunkprovired_angular_version"] || []).push([["common"],{
 
+/***/ 3752:
+/*!*****************************************!*\
+  !*** ./src/app/constans/token-const.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Token": () => (/* binding */ Token)
+/* harmony export */ });
+class Token {}
+Token.TOKEN_AUTHORIZATION = {
+  TOKEN: "YWYxODYxM2E4c2RmK0ZXUHIwVjFyM2Qq8XRxYUJzQVdEWA==",
+  API_KEY: "6LfY88EaAAAAAKjsd8wLV-3IBDd1ufx9HwY10a0W"
+};
+
+/***/ }),
+
 /***/ 4690:
 /*!**********************************************************!*\
   !*** ./src/app/models/home/notificaciones/filterDate.ts ***!

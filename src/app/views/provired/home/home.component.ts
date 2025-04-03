@@ -46,6 +46,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     let ses = this.session.getSession();
     this.typeUser = ses.tipousuario;
+
     this.userService.getUser().subscribe({
       next: (res) => {
         this.session.createStorage('user', JSON.stringify(res));

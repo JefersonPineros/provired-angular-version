@@ -49,11 +49,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "LoginInterceptorService": () => (/* binding */ LoginInterceptorService)
 /* harmony export */ });
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ 8987);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ 8987);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ 116);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ 635);
 /* harmony import */ var src_app_constans_token_const__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/constans/token-const */ 3752);
 /* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/environments/environment */ 2340);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 2560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 2560);
 /* harmony import */ var _utils_session_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/session-storage.service */ 9721);
+
 
 
 
@@ -64,22 +67,11 @@ class LoginInterceptorService {
     this.storage = storage;
   }
   intercept(req, next) {
-    if (req.url !== `${src_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.apiBaseUrl + 'login'}`) {
-      next.handle(req).subscribe({
-        next: resp => {
-          if (resp instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpResponse) {
-            this.storage.setSession(resp.body);
-          }
-        },
-        error: err => {
-          if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpErrorResponse) {
-            console.log(err.error);
-          }
-        }
-      });
-    }
     if (req.method == 'POST') {
-      return next.handle(this.setHeader(req));
+      return next.handle(this.setHeader(req)).pipe((0,rxjs__WEBPACK_IMPORTED_MODULE_3__.filter)(event => event instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_4__.HttpResponse), (0,rxjs__WEBPACK_IMPORTED_MODULE_5__.map)(event => {
+        this.storage.setSession(event.body);
+        return event.clone();
+      }));
     } else {
       return next.handle(this.addToken(req));
     }
@@ -96,10 +88,10 @@ class LoginInterceptorService {
     if (req.url == `${src_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.apiBaseUrl + 'login'}`) {
       const requ = req.clone({
         setHeaders: {
-          Accept: '*/*'
+          Accept: '*/*',
+          'Content-Type': 'text/plain;charset-UTF-8'
         }
       });
-      console.log(requ);
       return requ;
     } else {
       return req;
@@ -107,9 +99,9 @@ class LoginInterceptorService {
   }
 }
 LoginInterceptorService.ɵfac = function LoginInterceptorService_Factory(t) {
-  return new (t || LoginInterceptorService)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵinject"](_utils_session_storage_service__WEBPACK_IMPORTED_MODULE_2__.SessionStorageService));
+  return new (t || LoginInterceptorService)(_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_utils_session_storage_service__WEBPACK_IMPORTED_MODULE_2__.SessionStorageService));
 };
-LoginInterceptorService.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineInjectable"]({
+LoginInterceptorService.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdefineInjectable"]({
   token: LoginInterceptorService,
   factory: LoginInterceptorService.ɵfac
 });

@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkprovired_angular_version"] = self["webpackChunkprovired_angular_version"] || []).push([["default-src_app_components_components_module_ts-src_app_constans_token-const_ts"],{
+(self["webpackChunkprovired_angular_version"] = self["webpackChunkprovired_angular_version"] || []).push([["default-src_app_components_components_module_ts"],{
 
 /***/ 4084:
 /*!***************************************************************!*\
@@ -3824,47 +3824,54 @@ __webpack_require__.r(__webpack_exports__);
 class GeneralConst {}
 GeneralConst.GENERAL = {
   DATE_LANGUAJE: {
-    dayNames: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
-    dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
-    dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-    monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agostos", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-    monthNamesShort: ["Ene", "Feb", "Mar", "ABr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agostos', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    monthNamesShort: ['Ene', 'Feb', 'Mar', 'ABr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
   }
 };
 GeneralConst.RANGO = [{
-  key: "1",
-  value: "1 y 30 Dias"
+  key: '1',
+  value: '1 y 30 Dias'
 }, {
-  key: "2",
-  value: "31 y 60 Dias"
+  key: '2',
+  value: '31 y 60 Dias'
 }, {
-  key: "3",
-  value: "Mayor a 61 Dias"
+  key: '3',
+  value: 'Mayor a 61 Dias'
 }, {
-  key: "4",
-  value: "Sin actuaciones"
+  key: '4',
+  value: 'Sin actuaciones'
 }, {
-  key: "5",
-  value: "Todos"
+  key: '5',
+  value: 'Todos'
 }];
-
-/***/ }),
-
-/***/ 3752:
-/*!*****************************************!*\
-  !*** ./src/app/constans/token-const.ts ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Token": () => (/* binding */ Token)
-/* harmony export */ });
-class Token {}
-Token.TOKEN_AUTHORIZATION = {
-  TOKEN: "YWYxODYxM2E4c2RmK0ZXUHIwVjFyM2Qq8XRxYUJzQVdEWA==",
-  API_KEY: "6LfY88EaAAAAAKjsd8wLV-3IBDd1ufx9HwY10a0W"
-};
+GeneralConst.CONTROLLERS_METHODS = [{
+  controller: 'User',
+  method: 'getUser'
+}, {
+  controller: 'Audiencias',
+  method: 'getVencimientos'
+}, {
+  controller: 'Audiencias',
+  method: 'getAudiencias'
+}, {
+  controller: 'Audiencias',
+  method: 'getAudienciasId'
+}, {
+  controller: 'Audiencias',
+  method: 'updateAudiencias'
+}, {
+  controller: 'Audiencias',
+  method: 'deleteAudiencias'
+}, {
+  controller: 'Audiencias',
+  method: 'insertAudiencias'
+}, {
+  controller: 'Audiencias',
+  method: 'exportExcel'
+}];
 
 /***/ }),
 
@@ -4195,9 +4202,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "UserServiceService": () => (/* binding */ UserServiceService)
 /* harmony export */ });
 /* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment */ 2340);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 2560);
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ 8987);
-/* harmony import */ var _utils_session_storage_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/session-storage.service */ 9721);
+/* harmony import */ var src_app_utils_generateRequestModel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/utils/generateRequestModel */ 6695);
+/* harmony import */ var src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/constans/general-const */ 5267);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 2560);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common/http */ 8987);
+/* harmony import */ var _utils_session_storage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/session-storage.service */ 9721);
+
+
 
 
 
@@ -4206,19 +4217,29 @@ class UserServiceService {
   constructor(http, session) {
     this.http = http;
     this.session = session;
+    this.constUTILS = new src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst();
   }
   getUser() {
     let sess = this.session.getSession();
-    return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + `user/getUser/${sess.user}/${sess.tipousuario}`);
+    let generate = new src_app_utils_generateRequestModel__WEBPACK_IMPORTED_MODULE_1__.RequestModel();
+    const {
+      user,
+      tipousuario
+    } = sess;
+    let req = generate.generateModel(src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[0].controller, src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[0].method, {
+      user,
+      tipousuario
+    });
+    return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + `index`, req);
   }
   updatePass(update) {
     return this.http.put(`${src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl}user/updatePassword`, update);
   }
 }
 UserServiceService.ɵfac = function UserServiceService_Factory(t) {
-  return new (t || UserServiceService)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpClient), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_utils_session_storage_service__WEBPACK_IMPORTED_MODULE_1__.SessionStorageService));
+  return new (t || UserServiceService)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_5__.HttpClient), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵinject"](_utils_session_storage_service__WEBPACK_IMPORTED_MODULE_3__.SessionStorageService));
 };
-UserServiceService.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineInjectable"]({
+UserServiceService.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineInjectable"]({
   token: UserServiceService,
   factory: UserServiceService.ɵfac,
   providedIn: 'root'
@@ -4503,6 +4524,32 @@ MunicipiosService.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_2
 
 /***/ }),
 
+/***/ 6695:
+/*!***********************************************!*\
+  !*** ./src/app/utils/generateRequestModel.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "RequestModel": () => (/* binding */ RequestModel)
+/* harmony export */ });
+class RequestModel {
+  generateModel(controller, method, params) {
+    let request = {
+      controller: '',
+      method: '',
+      params: {}
+    };
+    request.controller = controller;
+    request.method = method;
+    request.params = params;
+    return request;
+  }
+}
+
+/***/ }),
+
 /***/ 2235:
 /*!*******************************************************!*\
   !*** ./src/app/views/provired/home/home.component.ts ***!
@@ -4703,7 +4750,7 @@ __webpack_require__.r(__webpack_exports__);
 const environment = {
   production: false,
   name: 'dev',
-  apiBaseUrl: 'https://preapi.proviredcolombia.com/',
+  apiBaseUrl: 'http://preapi.proviredcolombia.com/',
   apiBaseDocs: 'https://dev.proviredcolombia.com/datos',
   baseMocks: '../../../assets/mocks/'
   // apiBaseUrl: 'https://dev.proviredcolombia.com/api/',
@@ -45661,4 +45708,4 @@ TriStateCheckboxModule.ɵinj = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MO
 /***/ })
 
 }]);
-//# sourceMappingURL=default-src_app_components_components_module_ts-src_app_constans_token-const_ts.js.map
+//# sourceMappingURL=default-src_app_components_components_module_ts.js.map

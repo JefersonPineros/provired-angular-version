@@ -1,7 +1,7 @@
 export class Audiencias {
   constructor(
     public ciudad?: string,
-    public nameCiudad?: string,
+    public name_ciudad?: string,
     public demandado?: string,
     public demandante?: string,
     public descripcion_vence_terminos?: string,
@@ -11,10 +11,10 @@ export class Audiencias {
     public id_vencimiento?: number,
     public idevents?: number,
     public idplanilla?: number,
-    public nameDespacho?: string,
+    public name_despacho?: string,
     public proceso?: string,
     public radicacion?: string,
     public username?: string,
-    public usuario?: string,
-  ) { }
+    public usuario?: string
+  ) {}
 }

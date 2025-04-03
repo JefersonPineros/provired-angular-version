@@ -240,13 +240,13 @@ function AudienciaComponent_div_12_ng_template_3_ng_template_6_Template(rf, ctx)
 }
 const _c4 = function () {
   return {
-    field: "nameCiudad",
+    field: "name_ciudad",
     header: "Cidad"
   };
 };
 const _c5 = function () {
   return {
-    field: "nameDespacho",
+    field: "name_despacho",
     header: "Despacho"
   };
 };
@@ -334,7 +334,7 @@ function AudienciaComponent_ng_template_15_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵlistener"]("modelChange", function AudienciaComponent_ng_template_15_Template_input_text_modelChange_2_listener($event) {
       _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵrestoreView"](_r24);
       const ctx_r23 = _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵresetView"](ctx_r23.audiencia.nameCiudad = $event);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵresetView"](ctx_r23.audiencia.name_ciudad = $event);
     })("grupo", function AudienciaComponent_ng_template_15_Template_input_text_grupo_2_listener() {
       _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵrestoreView"](_r24);
       const ctx_r25 = _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵnextContext"]();
@@ -345,7 +345,7 @@ function AudienciaComponent_ng_template_15_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵlistener"]("modelChange", function AudienciaComponent_ng_template_15_Template_input_text_modelChange_4_listener($event) {
       _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵrestoreView"](_r24);
       const ctx_r26 = _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵresetView"](ctx_r26.audiencia.nameDespacho = $event);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵresetView"](ctx_r26.audiencia.name_despacho = $event);
     })("grupo", function AudienciaComponent_ng_template_15_Template_input_text_grupo_4_listener() {
       _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵrestoreView"](_r24);
       const ctx_r27 = _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵnextContext"]();
@@ -410,9 +410,9 @@ function AudienciaComponent_ng_template_15_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵproperty"]("model", ctx_r6.audiencia.nameCiudad)("requerido", true)("placeHolderActive", false)("disabledInputText", true);
+    _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵproperty"]("model", ctx_r6.audiencia.name_ciudad)("requerido", true)("placeHolderActive", false)("disabledInputText", true);
     _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵproperty"]("model", ctx_r6.audiencia.nameDespacho)("requerido", true)("placeHolderActive", false)("disabledInputText", true);
+    _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵproperty"]("model", ctx_r6.audiencia.name_despacho)("requerido", true)("placeHolderActive", false)("disabledInputText", true);
     _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵproperty"]("model", ctx_r6.audiencia.radicacion)("requerido", true)("placeHolderActive", false)("disabledInputText", true);
     _angular_core__WEBPACK_IMPORTED_MODULE_18__["ɵɵadvance"](2);

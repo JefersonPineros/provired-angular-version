@@ -118,8 +118,8 @@
               <div class="col-12">
                 <app-tabla-component
                   [cols]="[
-                    { field: 'nameCiudad', header: 'Cidad' },
-                    { field: 'nameDespacho', header: 'Despacho' },
+                    { field: 'name_ciudad', header: 'Cidad' },
+                    { field: 'name_despacho', header: 'Despacho' },
                     { field: 'radicacion', header: 'Radicación' },
                     { field: 'proceso', header: 'Proceso' },
                     { field: 'demandante', header: 'Demandante' },
@@ -184,7 +184,7 @@
       <div class="col-12 lg:col-6 xl:col-6">
         <input-text
           placeHolder="Ciudad"
-          [(model)]="audiencia.nameCiudad"
+          [(model)]="audiencia.name_ciudad"
           (grupo)="(formAudiencia)"
           [requerido]="true"
           styleInput="help-text"
@@ -195,7 +195,7 @@
       <div class="col-12 lg:col-6 xl:col-6">
         <input-text
           placeHolder="Despacho"
-          [(model)]="audiencia.nameDespacho"
+          [(model)]="audiencia.name_despacho"
           (grupo)="(formAudiencia)"
           [requerido]="true"
           styleInput="help-text"

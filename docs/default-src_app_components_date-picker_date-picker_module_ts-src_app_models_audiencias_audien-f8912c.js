@@ -244,9 +244,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Audiencias": () => (/* binding */ Audiencias)
 /* harmony export */ });
 class Audiencias {
-  constructor(ciudad, nameCiudad, demandado, demandante, descripcion_vence_terminos, despacho, fecha_registro, fecha_vence_terminos, id_vencimiento, idevents, idplanilla, nameDespacho, proceso, radicacion, username, usuario) {
+  constructor(ciudad, name_ciudad, demandado, demandante, descripcion_vence_terminos, despacho, fecha_registro, fecha_vence_terminos, id_vencimiento, idevents, idplanilla, name_despacho, proceso, radicacion, username, usuario) {
     this.ciudad = ciudad;
-    this.nameCiudad = nameCiudad;
+    this.name_ciudad = name_ciudad;
     this.demandado = demandado;
     this.demandante = demandante;
     this.descripcion_vence_terminos = descripcion_vence_terminos;
@@ -256,7 +256,7 @@ class Audiencias {
     this.id_vencimiento = id_vencimiento;
     this.idevents = idevents;
     this.idplanilla = idplanilla;
-    this.nameDespacho = nameDespacho;
+    this.name_despacho = name_despacho;
     this.proceso = proceso;
     this.radicacion = radicacion;
     this.username = username;

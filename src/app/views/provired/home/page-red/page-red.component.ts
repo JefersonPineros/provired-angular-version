@@ -12,18 +12,16 @@ import { SessionStorageService } from 'src/app/services/utils/session-storage.se
   selector: 'app-page-red',
   templateUrl: './page-red.component.html',
   styleUrls: ['./page-red.component.scss'],
-  providers: [MessageService]
+  providers: [MessageService],
 })
 export class PageRedComponent implements OnInit {
+  public sessionReq: ResponseLogin = new ResponseLogin();
 
-  public sessionReq: ResponseLogin = new ResponseLogin;
-
-  public redirect: boolean  = false;
+  public redirect: boolean = false;
 
   public terminos: boolean = false;
 
   public vencimientosList: Array<Vencimientos> = [];
-
 
   constructor(
     public breadCrumService: BreadcrumbService,
@@ -31,10 +29,9 @@ export class PageRedComponent implements OnInit {
     private vencimientos: VencimientosService,
     private router: Router,
     private spinner: NgxSpinnerService
-    ) {}
+  ) {}
 
   ngOnInit(): void {
-
     try {
       this.sessionReq = this.session.getSession();
       this.redirect = this.sessionReq.redirect!;
@@ -43,26 +40,20 @@ export class PageRedComponent implements OnInit {
       console.log(error);
     }
 
-    this.breadCrumService.setItems(
-      [
-        {label: 'Inicio'}
-      ]
-    );
+    this.breadCrumService.setItems([{ label: 'Inicio' }]);
     this.spinner.show();
-    this.vencimientos.getVencimientos().subscribe(
-      {
-        next: (res) => {
-          if (res.length > 0) {
-            this.vencimientosList = res;
-          }
-          this.spinner.hide();
-        },
-        error: (error) => {
-          this.spinner.hide();
-          console.log(error);
+    this.vencimientos.getVencimientos().subscribe({
+      next: (res) => {
+        if (res.length > 0) {
+          this.vencimientosList = res;
         }
-      }
-    );
+        this.spinner.hide();
+      },
+      error: (error) => {
+        this.spinner.hide();
+        console.log(error);
+      },
+    });
   }
 
   actionSeeMore(): void {

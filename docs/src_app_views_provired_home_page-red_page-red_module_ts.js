@@ -11,12 +11,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "VencimientosService": () => (/* binding */ VencimientosService)
 /* harmony export */ });
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ 635);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ 635);
 /* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment */ 2340);
 /* harmony import */ var src_app_models_login_responseLogin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/models/login/responseLogin */ 2276);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 2560);
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common/http */ 8987);
-/* harmony import */ var _utils_session_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/session-storage.service */ 9721);
+/* harmony import */ var src_app_utils_generateRequestModel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/utils/generateRequestModel */ 6695);
+/* harmony import */ var src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/constans/general-const */ 5267);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 2560);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common/http */ 8987);
+/* harmony import */ var _utils_session_storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/session-storage.service */ 9721);
+
+
 
 
 
@@ -30,8 +34,16 @@ class VencimientosService {
     this.sessionLog = new src_app_models_login_responseLogin__WEBPACK_IMPORTED_MODULE_1__.ResponseLogin();
   }
   getVencimientos() {
+    let sess = this.session.getSession();
+    const {
+      user
+    } = sess;
+    let generarReq = new src_app_utils_generateRequestModel__WEBPACK_IMPORTED_MODULE_2__.RequestModel();
+    let req = generarReq.generateModel(src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_3__.GeneralConst.CONTROLLERS_METHODS[1].controller, src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_3__.GeneralConst.CONTROLLERS_METHODS[1].method, {
+      user
+    });
     this.sessionLog = this.session.getSession();
-    return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'audiencias/getVencimientos/' + `${this.sessionLog.user}`).pipe((0,rxjs__WEBPACK_IMPORTED_MODULE_3__.map)(res => {
+    return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'index', req).pipe((0,rxjs__WEBPACK_IMPORTED_MODULE_5__.map)(res => {
       let status = res['status'];
       if (status == 200) {
         return res.data;
@@ -42,9 +54,9 @@ class VencimientosService {
   }
 }
 VencimientosService.ɵfac = function VencimientosService_Factory(t) {
-  return new (t || VencimientosService)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_5__.HttpClient), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵinject"](_utils_session_storage_service__WEBPACK_IMPORTED_MODULE_2__.SessionStorageService));
+  return new (t || VencimientosService)(_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_7__.HttpClient), _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_utils_session_storage_service__WEBPACK_IMPORTED_MODULE_4__.SessionStorageService));
 };
-VencimientosService.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineInjectable"]({
+VencimientosService.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdefineInjectable"]({
   token: VencimientosService,
   factory: VencimientosService.ɵfac,
   providedIn: 'root'
@@ -142,13 +154,13 @@ function PageRedComponent_div_0_div_1_ng_template_3_Template(rf, ctx) {
 }
 const _c0 = function () {
   return {
-    field: "nameCiudad",
+    field: "name_ciudad",
     header: "Cidad"
   };
 };
 const _c1 = function () {
   return {
-    field: "nameDespacho",
+    field: "name_despacho",
     header: "Despacho"
   };
 };

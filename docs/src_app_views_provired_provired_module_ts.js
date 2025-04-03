@@ -78,13 +78,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ResponseLogin": () => (/* binding */ ResponseLogin)
 /* harmony export */ });
 class ResponseLogin {
-  constructor(user, status, redirect, tipousuario, terminos_ok, msg) {
+  constructor(user, status, redirect, tipousuario, terminos_ok, msg, token) {
     this.user = user;
     this.status = status;
     this.redirect = redirect;
     this.tipousuario = tipousuario;
     this.terminos_ok = terminos_ok;
     this.msg = msg;
+    this.token = token;
   }
 }
 
@@ -170,14 +171,14 @@ const routes = [{
   pathMatch: 'full'
 }, {
   path: 'access-provired',
-  loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_components_components_module_ts-src_app_constans_token-const_ts"), __webpack_require__.e("common"), __webpack_require__.e("src_app_views_provired_login_login_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./login/login.module */ 3866)).then(m => m.LoginModule)
+  loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_components_components_module_ts"), __webpack_require__.e("common"), __webpack_require__.e("src_app_views_provired_login_login_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./login/login.module */ 3866)).then(m => m.LoginModule)
 }, {
   path: 'home-provired',
   canActivate: [src_app_guards_access_permissions_guard__WEBPACK_IMPORTED_MODULE_0__.AccessPermissionsGuard],
-  loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_components_components_module_ts-src_app_constans_token-const_ts"), __webpack_require__.e("src_app_views_provired_home_home_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./home/home.module */ 3404)).then(m => m.HomeModule)
+  loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_components_components_module_ts"), __webpack_require__.e("src_app_views_provired_home_home_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./home/home.module */ 3404)).then(m => m.HomeModule)
 }, {
   path: 'recuperar-contrasena',
-  loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_components_components_module_ts-src_app_constans_token-const_ts"), __webpack_require__.e("default-node_modules_ng-recaptcha_fesm2020_ng-recaptcha_mjs"), __webpack_require__.e("common"), __webpack_require__.e("src_app_views_provired_recuperar-contrasena_recuperar-contrasena_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./recuperar-contrasena/recuperar-contrasena.module */ 9483)).then(m => m.RecuperarContrasenaModule)
+  loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_components_components_module_ts"), __webpack_require__.e("default-node_modules_ng-recaptcha_fesm2020_ng-recaptcha_mjs"), __webpack_require__.e("common"), __webpack_require__.e("src_app_views_provired_recuperar-contrasena_recuperar-contrasena_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./recuperar-contrasena/recuperar-contrasena.module */ 9483)).then(m => m.RecuperarContrasenaModule)
 }];
 class ProviredRoutingModule {}
 ProviredRoutingModule.ɵfac = function ProviredRoutingModule_Factory(t) {

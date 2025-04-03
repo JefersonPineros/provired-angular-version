@@ -11,21 +11,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AudienciaService": () => (/* binding */ AudienciaService)
 /* harmony export */ });
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ 8987);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ 635);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common/http */ 8987);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ 635);
 /* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment */ 2340);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 2560);
+/* harmony import */ var src_app_utils_generateRequestModel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/utils/generateRequestModel */ 6695);
+/* harmony import */ var src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/constans/general-const */ 5267);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 2560);
+/* harmony import */ var _utils_session_storage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/session-storage.service */ 9721);
+
+
+
 
 
 
 
 
 class AudienciaService {
-  constructor(http) {
+  constructor(http, session) {
     this.http = http;
+    this.session = session;
   }
   getListAudiencias(consultar) {
-    return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'audiencias/getAudiencias', consultar).pipe((0,rxjs__WEBPACK_IMPORTED_MODULE_1__.map)(res => {
+    let generate = new src_app_utils_generateRequestModel__WEBPACK_IMPORTED_MODULE_1__.RequestModel();
+    let req = generate.generateModel(src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[2].controller, src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[2].method, consultar);
+    return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'index', req).pipe((0,rxjs__WEBPACK_IMPORTED_MODULE_4__.map)(res => {
       let status = res['status'];
       if (status == 200) {
         return res.data;
@@ -35,7 +44,13 @@ class AudienciaService {
     }));
   }
   getAudiencia(id) {
-    return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'audiencias/getAudiencias/' + id).pipe((0,rxjs__WEBPACK_IMPORTED_MODULE_1__.map)(res => {
+    let ses = this.session.getSession();
+    let generate = new src_app_utils_generateRequestModel__WEBPACK_IMPORTED_MODULE_1__.RequestModel();
+    let req = generate.generateModel(src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[3].controller, src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[3].method, {
+      id: id,
+      username: ses.user
+    });
+    return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'index', req).pipe((0,rxjs__WEBPACK_IMPORTED_MODULE_4__.map)(res => {
       let status = res['status'];
       if (status == 200) {
         return res.data;
@@ -45,19 +60,22 @@ class AudienciaService {
     }));
   }
   createAudiencia(createAudiencia) {
-    return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'audiencias/insertAudiencias', createAudiencia);
+    let generate = new src_app_utils_generateRequestModel__WEBPACK_IMPORTED_MODULE_1__.RequestModel();
+    let req = generate.generateModel(src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[6].controller, src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[6].method, createAudiencia);
+    return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'index', req);
   }
   updateAudiencia(updateAudiencia) {
-    return this.http.put(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'audiencias/updateAudiencias', updateAudiencia);
+    let generate = new src_app_utils_generateRequestModel__WEBPACK_IMPORTED_MODULE_1__.RequestModel();
+    let req = generate.generateModel(src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[4].controller, src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[4].method, updateAudiencia);
+    return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'index', req);
   }
   deleteAudiencia(eliminar) {
-    console.log(eliminar);
-    return this.http.delete(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'audiencias/deleteAudiencias', {
-      body: eliminar
-    });
+    let generate = new src_app_utils_generateRequestModel__WEBPACK_IMPORTED_MODULE_1__.RequestModel();
+    let req = generate.generateModel(src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[5].controller, src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[5].method, eliminar);
+    return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'index', req);
   }
   downloadReport(filterReport) {
-    let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__.HttpHeaders({
+    let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_5__.HttpHeaders({
       'Access-Control-Allow-Origin': '*'
     });
     return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'audiencias/exportExcel', filterReport, {
@@ -65,9 +83,9 @@ class AudienciaService {
     });
   }
   downloadFile(url) {
-    let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__.HttpHeaders({
+    let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_5__.HttpHeaders({
       'Content-Type': 'application/xlsx',
-      'Accept': 'application/xlsx',
+      Accept: 'application/xlsx',
       'Access-Control-Allow-Origin': '*'
     });
     return this.http.get(url, {
@@ -78,9 +96,9 @@ class AudienciaService {
   }
 }
 AudienciaService.ɵfac = function AudienciaService_Factory(t) {
-  return new (t || AudienciaService)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__.HttpClient));
+  return new (t || AudienciaService)(_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_5__.HttpClient), _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵinject"](_utils_session_storage_service__WEBPACK_IMPORTED_MODULE_3__.SessionStorageService));
 };
-AudienciaService.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineInjectable"]({
+AudienciaService.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdefineInjectable"]({
   token: AudienciaService,
   factory: AudienciaService.ɵfac,
   providedIn: 'root'
@@ -98,26 +116,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "UserInterceptorService": () => (/* binding */ UserInterceptorService)
 /* harmony export */ });
-/* harmony import */ var src_app_constans_token_const__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/app/constans/token-const */ 3752);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 2560);
+/* harmony import */ var _utils_session_storage_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/session-storage.service */ 9721);
 
 
 class UserInterceptorService {
-  constructor() {}
+  constructor(storage) {
+    this.storage = storage;
+  }
   intercept(req, next) {
     return next.handle(this.addToken(req));
   }
   addToken(req) {
-    const token = src_app_constans_token_const__WEBPACK_IMPORTED_MODULE_0__.Token.TOKEN_AUTHORIZATION.TOKEN;
+    const token = this.storage.getSession();
     return req.clone({
       setHeaders: {
-        Authorization: `Bearer ${token}`
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token.token}`
       }
     });
   }
 }
 UserInterceptorService.ɵfac = function UserInterceptorService_Factory(t) {
-  return new (t || UserInterceptorService)();
+  return new (t || UserInterceptorService)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_utils_session_storage_service__WEBPACK_IMPORTED_MODULE_0__.SessionStorageService));
 };
 UserInterceptorService.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({
   token: UserInterceptorService,

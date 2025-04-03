@@ -46,6 +46,7 @@ export class MenuComponentComponent implements OnInit {
   validPermisosSuscriptor(jsonObject: any[]): any {
     let ses = this.session.getStorage('user', 'json');
     let menuItem: MenuItem[] = jsonObject as MenuItem[];
+
     if (ses.data.misprocesosauto == 0) {
       for (let item of menuItem) {
         if (item.label == 'Reportes') {

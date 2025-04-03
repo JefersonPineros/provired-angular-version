@@ -5,6 +5,7 @@ export class ResponseLogin {
     public redirect?: boolean,
     public tipousuario?: string,
     public terminos_ok?: boolean,
-    public msg?: string
+    public msg?: string,
+    public token?: string
   ) {}
 }
