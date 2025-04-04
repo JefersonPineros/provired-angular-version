@@ -68,36 +68,59 @@ export class GeneralConst {
 
   public static CONTROLLERS_METHODS = [
     {
+      id: 0,
       controller: 'User',
       method: 'getUser',
     },
     {
+      id: 1,
       controller: 'Audiencias',
       method: 'getVencimientos',
     },
     {
+      id: 2,
       controller: 'Audiencias',
       method: 'getAudiencias',
     },
     {
+      id: 3,
       controller: 'Audiencias',
       method: 'getAudienciasId',
     },
     {
+      id: 4,
       controller: 'Audiencias',
       method: 'updateAudiencias',
     },
     {
+      id: 5,
       controller: 'Audiencias',
       method: 'deleteAudiencias',
     },
     {
+      id: 6,
       controller: 'Audiencias',
       method: 'insertAudiencias',
     },
     {
+      id: 7,
       controller: 'Audiencias',
       method: 'exportExcel',
+    },
+    {
+      id: 8,
+      controller: 'genericos/Departamento',
+      method: 'getData',
+    },
+    {
+      id: 9,
+      controller: 'genericos/Municipio',
+      method: 'getData',
+    },
+    {
+      id: 10,
+      controller: 'genericos/Corporacion',
+      method: 'getData',
     },
   ];
 }

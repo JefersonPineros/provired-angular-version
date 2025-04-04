@@ -2,7 +2,7 @@ export const environment = {
   production: false,
   name: 'dev',
   apiBaseUrl: 'http://preapi.proviredcolombia.com/',
-  apiBaseDocs: 'https://dev.proviredcolombia.com/datos',
+  apiBaseDocs: 'https://dev.proviredcolombia.com/datos/excelTmp',
   baseMocks: '../../../assets/mocks/',
   // apiBaseUrl: 'https://dev.proviredcolombia.com/api/',
   // apiBaseDocs: 'https://dev.proviredcolombia.com/datos',

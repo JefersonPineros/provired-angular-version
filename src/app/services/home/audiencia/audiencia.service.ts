@@ -93,14 +93,17 @@ export class AudienciaService {
   }
 
   downloadReport(filterReport: FilterReport): Observable<any> {
+    let generate = new RequestModel();
+    let req = generate.generateModel(
+      GeneralConst.CONTROLLERS_METHODS[7].controller,
+      GeneralConst.CONTROLLERS_METHODS[7].method,
+      filterReport
+    );
+
     let headers = new HttpHeaders({
       'Access-Control-Allow-Origin': '*',
     });
-    return this.http.post<any>(
-      environment.apiBaseUrl + 'audiencias/exportExcel',
-      filterReport,
-      { headers }
-    );
+    return this.http.post<any>(environment.apiBaseUrl + 'index', req);
   }
 
   downloadFile(url: string): Observable<HttpResponse<Blob>> {
