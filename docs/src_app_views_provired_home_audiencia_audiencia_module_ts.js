@@ -562,13 +562,13 @@ class AudienciaComponent {
     this.audiencias.downloadReport(this.filterReport).subscribe({
       next: res => {
         if (res.status == 200) {
-          let listUrl = res.url.split('/');
-          this.urlFinal = src_environments_environment__WEBPACK_IMPORTED_MODULE_6__.environment.apiBaseDocs + res.url;
+          //let listUrl = res.url.split('/');
+          this.urlFinal = src_environments_environment__WEBPACK_IMPORTED_MODULE_6__.environment.apiBaseDocs + '/' + res.nameFile;
           this.spinner.hide();
           fetch(this.urlFinal).then(response => response.blob()).then(blod => {
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blod);
-            link.download = listUrl[2];
+            //link.download = listUrl[2];
             link.click();
           }).catch(console.error).then(error => {
             if (error != undefined) {

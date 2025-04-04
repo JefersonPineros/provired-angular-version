@@ -3848,29 +3848,49 @@ GeneralConst.RANGO = [{
   value: 'Todos'
 }];
 GeneralConst.CONTROLLERS_METHODS = [{
+  id: 0,
   controller: 'User',
   method: 'getUser'
 }, {
+  id: 1,
   controller: 'Audiencias',
   method: 'getVencimientos'
 }, {
+  id: 2,
   controller: 'Audiencias',
   method: 'getAudiencias'
 }, {
+  id: 3,
   controller: 'Audiencias',
   method: 'getAudienciasId'
 }, {
+  id: 4,
   controller: 'Audiencias',
   method: 'updateAudiencias'
 }, {
+  id: 5,
   controller: 'Audiencias',
   method: 'deleteAudiencias'
 }, {
+  id: 6,
   controller: 'Audiencias',
   method: 'insertAudiencias'
 }, {
+  id: 7,
   controller: 'Audiencias',
   method: 'exportExcel'
+}, {
+  id: 8,
+  controller: 'genericos/Departamento',
+  method: 'getData'
+}, {
+  id: 9,
+  controller: 'genericos/Municipio',
+  method: 'getData'
+}, {
+  id: 10,
+  controller: 'genericos/Corporacion',
+  method: 'getData'
 }];
 
 /***/ }),
@@ -4751,7 +4771,7 @@ const environment = {
   production: false,
   name: 'dev',
   apiBaseUrl: 'http://preapi.proviredcolombia.com/',
-  apiBaseDocs: 'https://dev.proviredcolombia.com/datos',
+  apiBaseDocs: 'https://dev.proviredcolombia.com/datos/excelTmp',
   baseMocks: '../../../assets/mocks/'
   // apiBaseUrl: 'https://dev.proviredcolombia.com/api/',
   // apiBaseDocs: 'https://dev.proviredcolombia.com/datos',

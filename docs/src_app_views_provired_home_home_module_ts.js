@@ -75,12 +75,12 @@ class AudienciaService {
     return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'index', req);
   }
   downloadReport(filterReport) {
+    let generate = new src_app_utils_generateRequestModel__WEBPACK_IMPORTED_MODULE_1__.RequestModel();
+    let req = generate.generateModel(src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[7].controller, src_app_constans_general_const__WEBPACK_IMPORTED_MODULE_2__.GeneralConst.CONTROLLERS_METHODS[7].method, filterReport);
     let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_5__.HttpHeaders({
       'Access-Control-Allow-Origin': '*'
     });
-    return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'audiencias/exportExcel', filterReport, {
-      headers
-    });
+    return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseUrl + 'index', req);
   }
   downloadFile(url) {
     let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_5__.HttpHeaders({
