@@ -64,11 +64,18 @@ export class SolicitudesComponent {
 
     this.solicitudesService.getListSolicitudes(this.filterProcesos).subscribe({
       next: (res) => {
+        if (res.data.length == 0) {
+          let message_model: MessageModel = new MessageModel(
+            'info',
+            `No hay registros disponibles`,
+            `${res.msg}`
+          );
+          this.message.add(message_model);
+        }
         this.spinner.hide();
         this.isParent = res.isParent;
         this.listSolicitudes = res.data;
         this.totalItems = res.count_rows;
-        console.log(this.listSolicitudes);
       },
       error: (error) => {
         this.spinner.hide();
@@ -92,14 +99,25 @@ export class SolicitudesComponent {
 
     this.solicitudesService.updateSolicitud(update).subscribe({
       next: (res) => {
-        let message_model: MessageModel = new MessageModel(
-          'success',
-          `Proceso exitoso!`,
-          `${res.msg}`
-        );
-        this.message.add(message_model);
-        this.spinner.hide();
-        this.showModal = false;
+        if (res.status == 400) {
+          let message_model: MessageModel = new MessageModel(
+            'error',
+            `Se ha presentado un error.`,
+            `${res.msg}`
+          );
+          this.message.add(message_model);
+          this.spinner.hide();
+          this.showModal = false;
+        } else {
+          let message_model: MessageModel = new MessageModel(
+            'success',
+            `Proceso exitoso!`,
+            `${res.msg}`
+          );
+          this.message.add(message_model);
+          this.spinner.hide();
+          this.showModal = false;
+        }
       },
       error: (error) => {
         this.spinner.hide();
@@ -133,30 +151,11 @@ export class SolicitudesComponent {
       .subscribe({
         next: (res) => {
           if (res.status == 200) {
-            let listUrl = res.url.split('/');
-            this.urlFinal = environment.apiBaseDocs + res.url;
+            //let listUrl = res.url.split('/');
+            this.urlFinal = environment.apiBaseDocs + '/' + res.nameFile;
             this.spinner.hide();
-            fetch(this.urlFinal)
-              .then((response) => {
-                return response.blob();
-              })
-              .then((blod) => {
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blod);
-                link.download = listUrl[2];
-                link.click();
-              })
-              .catch(console.error)
-              .then((error: any) => {
-                if (error != undefined) {
-                  let message_model: MessageModel = new MessageModel(
-                    'error',
-                    `Se ha presentado un error`,
-                    `No fue posible descargar el documento, estamos trabajando para resolver este error`
-                  );
-                  this.message.add(message_model);
-                }
-              });
+
+            window.open(this.urlFinal, '_blank');
           } else {
             let message_model: MessageModel = new MessageModel(
               'error',

@@ -126,6 +126,14 @@ export class ProcesosActivosComponent implements OnInit {
       .getListProcesoActivo(this.genericFilter)
       .subscribe({
         next: (res) => {
+          if (res.data.length == 0) {
+            let message_model: MessageModel = new MessageModel(
+              'info',
+              `No hay registros disponibles`,
+              `${res.msg}`
+            );
+            this.message.add(message_model);
+          }
           this.loadingTable = false;
           this.totalRecords = res.count_rows;
           this.data = res.data;
@@ -205,29 +213,31 @@ export class ProcesosActivosComponent implements OnInit {
     this.procesoActivoService.getReportActivos(this.filterProceso).subscribe({
       next: (res) => {
         if (res.status == 200) {
-          let listUrl = res.url.split('/');
-          this.urlFinal = environment.apiBaseDocs + res.url;
+          //let listUrl = res.url.split('/');
+          this.urlFinal = environment.apiBaseDocs + '/' + res.nameFile;
           this.spinner.hide();
 
-          fetch(this.urlFinal)
-            .then((response) => response.blob())
-            .then((blod) => {
-              const link = document.createElement('a');
-              link.href = URL.createObjectURL(blod);
-              link.download = listUrl[2];
-              link.click();
-            })
-            .catch(console.error)
-            .then((error) => {
-              if (error != undefined) {
-                let message_model: MessageModel = new MessageModel(
-                  'error',
-                  `Se ha presentado un error`,
-                  `No fue posible descargar el documento, estamos trabajando para resolver este error`
-                );
-                this.message.add(message_model);
-              }
-            });
+          window.open(this.urlFinal, '_blank');
+
+          // fetch(this.urlFinal)
+          //   .then((response) => response.blob())
+          //   .then((blod) => {
+          //     const link = document.createElement('a');
+          //     link.href = URL.createObjectURL(blod);
+          //     link.download = listUrl[2];
+          //     link.click();
+          //   })
+          //   .catch(console.error)
+          //   .then((error) => {
+          //     if (error != undefined) {
+          //       let message_model: MessageModel = new MessageModel(
+          //         'error',
+          //         `Se ha presentado un error`,
+          //         `No fue posible descargar el documento, estamos trabajando para resolver este error`
+          //       );
+          //       this.message.add(message_model);
+          //     }
+          //   });
         } else {
           let message_model: MessageModel = new MessageModel(
             'error',
@@ -270,29 +280,31 @@ export class ProcesosActivosComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if (res.status == 200) {
-            let listUrl = res.url.split('/');
-            this.urlFinal = environment.apiBaseDocs + res.url;
+            //let listUrl = res.url.split('/');
+            this.urlFinal = environment.apiBaseDocs + '/' + res.nameFile;
             this.spinner.hide();
 
-            fetch(this.urlFinal)
-              .then((response) => response.blob())
-              .then((blod) => {
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blod);
-                link.download = listUrl[2];
-                link.click();
-              })
-              .catch(console.error)
-              .then((error) => {
-                if (error != undefined) {
-                  let message_model: MessageModel = new MessageModel(
-                    'error',
-                    `Se ha presentado un error`,
-                    `No fue posible descargar el documento, estamos trabajando para resolver este error`
-                  );
-                  this.message.add(message_model);
-                }
-              });
+            window.open(this.urlFinal, '_blank');
+
+            // fetch(this.urlFinal)
+            //   .then((response) => response.blob())
+            //   .then((blod) => {
+            //     const link = document.createElement('a');
+            //     link.href = URL.createObjectURL(blod);
+            //     link.download = listUrl[2];
+            //     link.click();
+            //   })
+            //   .catch(console.error)
+            //   .then((error) => {
+            //     if (error != undefined) {
+            //       let message_model: MessageModel = new MessageModel(
+            //         'error',
+            //         `Se ha presentado un error`,
+            //         `No fue posible descargar el documento, estamos trabajando para resolver este error`
+            //       );
+            //       this.message.add(message_model);
+            //     }
+            //   });
           } else {
             let message_model: MessageModel = new MessageModel(
               'error',

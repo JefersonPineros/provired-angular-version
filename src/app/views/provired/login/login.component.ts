@@ -66,6 +66,8 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         if (error instanceof HttpErrorResponse) {
+          console.log(error);
+
           this.spinner.hide();
           let message_model: MessageModel = new MessageModel(
             'error',

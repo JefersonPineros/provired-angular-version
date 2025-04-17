@@ -35,6 +35,19 @@ export class EmailDespachosComponent implements OnInit {
   filterEmail(filterData?: HistorialProcesosModel, pageChange?: any) {
     this.spinner.show();
     let ses = this.sesion.getStorage('user', 'json');
+    this.filter.depto = filterData.depto !== null ? filterData.depto : null;
+    this.filter.municipio =
+      filterData.municipio !== null || filterData.municipio !== undefined
+        ? filterData.municipio
+        : null;
+    this.filter.corporacion =
+      filterData.corporacion !== null || filterData.corporacion !== undefined
+        ? filterData.corporacion
+        : null;
+    this.filter.despacho =
+      filterData.despacho !== null || filterData.despacho !== undefined
+        ? filterData.despacho
+        : null;
     this.filter.group_users = ses.data.group_users;
     this.filter.parent = ses.data.parent;
     if (pageChange) {

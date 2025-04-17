@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageService } from 'primeng/api';
 import { HistorialModel } from 'src/app/models/home/procesos/historialProcesos';
 import { HistorialProcesosModel } from 'src/app/models/home/procesos/historialProcesosFilter';
+import { MessageModel } from 'src/app/models/login/utils/messageModel';
 import { HistorialActuacion } from 'src/app/services/home/reportes/historial-actuación';
 import { HistorialProcesosService } from 'src/app/services/home/reportes/historial-procesos.service';
 import { BreadcrumbService } from 'src/app/services/utils/app.breadcrumb.service';
@@ -70,6 +71,14 @@ export class HistorialProcesosComponent implements OnInit {
 
     this.historialService.filterHistorial(this.filter).subscribe({
       next: (res) => {
+        if (res.data.length == 0) {
+          let message_model: MessageModel = new MessageModel(
+            'info',
+            `No hay registros disponibles`,
+            `${res.msg}`
+          );
+          this.message.add(message_model);
+        }
         this.listHistorico = res.data;
         this.totalItems = res.count_rows;
         this.spinner.hide();

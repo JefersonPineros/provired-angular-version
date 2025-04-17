@@ -57,7 +57,6 @@ export class HomeComponent implements OnInit {
   logOutEvent(): void {
     this.logOutSession.logOutSession().subscribe({
       next: (resp) => {
-        console.log(resp, 'Hola mundo');
         this.route.navigate(['provired/']);
       },
     });

@@ -114,7 +114,14 @@ export class EliminarProcesosComponent implements OnInit {
           this.spinner.hide();
         },
         error: (error) => {
-          console.log(error);
+          let message_model: MessageModel = new MessageModel(
+            'error',
+            `Se ha presentado un error: ${error.error.status}`,
+            `${error.error.msg}`
+          );
+          this.message.add(message_model);
+
+          console.log(error.error);
           this.spinner.hide();
         },
       });

@@ -188,25 +188,7 @@ export class AudienciaComponent implements OnInit {
           this.urlFinal = environment.apiBaseDocs + '/' + res.nameFile;
           this.spinner.hide();
 
-          fetch(this.urlFinal)
-            .then((response) => response.blob())
-            .then((blod) => {
-              const link = document.createElement('a');
-              link.href = URL.createObjectURL(blod);
-              //link.download = listUrl[2];
-              link.click();
-            })
-            .catch(console.error)
-            .then((error) => {
-              if (error != undefined) {
-                let message_model: MessageModel = new MessageModel(
-                  'error',
-                  `Se ha presentado un error`,
-                  `No fue posible descargar el documento, estamos trabajando para resolver este error`
-                );
-                this.message.add(message_model);
-              }
-            });
+          window.open(this.urlFinal, '_blank');
         } else {
           let message_model: MessageModel = new MessageModel(
             'error',

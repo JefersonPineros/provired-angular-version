@@ -4,13 +4,22 @@ export class RequestModel {
   public generateModel(
     controller: string,
     method: string,
-    params: any
+    params?: any
   ): UtilBaseRequest {
-    let request: UtilBaseRequest = {
-      controller: '',
-      method: '',
-      params: {},
-    };
+    let request: UtilBaseRequest;
+
+    if (params == null) {
+      request = {
+        controller: '',
+        method: '',
+      };
+    } else {
+      request = {
+        controller: '',
+        method: '',
+        params: {},
+      };
+    }
 
     request.controller = controller;
     request.method = method;

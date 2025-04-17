@@ -101,6 +101,14 @@ export class ConsultaProcesalComponent implements OnInit {
 
     this.impulsoService.getImpulsoProcesal(this.filterImpulso).subscribe({
       next: (res) => {
+        if (res.data.length == 0) {
+          let message_model: MessageModel = new MessageModel(
+            'info',
+            `No hay registros disponibles`,
+            `${res.msg}`
+          );
+          this.message.add(message_model);
+        }
         this.spinner.hide();
         this.listImpulso = res.data;
         this.totalItems = res.count_rows;
@@ -125,31 +133,10 @@ export class ConsultaProcesalComponent implements OnInit {
     this.impulsoService.generateDoc(this.filterImpulso).subscribe({
       next: (res) => {
         if (res.status == 200) {
-          let listUrl = res.url.split('/');
           this.urlFinal = environment.apiBaseDocs + res.url;
           this.spinner.hide();
-          fetch(this.urlFinal)
-            .then((response) => {
-              console.log(response);
-              return response.blob();
-            })
-            .then((blod) => {
-              const link = document.createElement('a');
-              link.href = URL.createObjectURL(blod);
-              link.download = listUrl[2];
-              link.click();
-            })
-            .catch(console.error)
-            .then((error) => {
-              if (error != undefined) {
-                let message_model: MessageModel = new MessageModel(
-                  'error',
-                  `Se ha presentado un error`,
-                  `No fue posible descargar el documento, estamos trabajando para resolver este error`
-                );
-                this.message.add(message_model);
-              }
-            });
+
+          window.open(this.urlFinal, '_blank');
         } else {
           let message_model: MessageModel = new MessageModel(
             'error',

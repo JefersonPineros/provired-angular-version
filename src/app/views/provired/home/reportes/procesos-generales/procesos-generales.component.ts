@@ -98,10 +98,17 @@ export class ProcesosGeneralesComponent implements OnInit {
       .getListProcesos(this.filterGeneral)
       .subscribe({
         next: (res) => {
+          if (res.data.length == 0) {
+            let message_model: MessageModel = new MessageModel(
+              'info',
+              `No hay registros disponibles`,
+              `${res.msg}`
+            );
+            this.message.add(message_model);
+          }
           this.loadingTable = false;
           this.listProceso = res.data;
           this.totalRecords = res.count_rows;
-          console.log(this.totalRecords);
         },
         error: (error) => {
           this.loadingTable = false;
@@ -167,29 +174,10 @@ export class ProcesosGeneralesComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if (res.status == 200) {
-            let listUrl = res.url.split('/');
-            this.urlFinal = environment.apiBaseDocs + res.url;
+            this.urlFinal = environment.apiBaseDocs + '/' + res.nameFile;
             this.spinner.hide();
 
-            fetch(this.urlFinal)
-              .then((response) => response.blob())
-              .then((blod) => {
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blod);
-                link.download = listUrl[2];
-                link.click();
-              })
-              .catch(console.error)
-              .then((error) => {
-                if (error != undefined) {
-                  let message_model: MessageModel = new MessageModel(
-                    'error',
-                    `Se ha presentado un error`,
-                    `No fue posible descargar el documento, estamos trabajando para resolver este error`
-                  );
-                  this.message.add(message_model);
-                }
-              });
+            window.open(this.urlFinal, '_blank');
           } else {
             let message_model: MessageModel = new MessageModel(
               'error',

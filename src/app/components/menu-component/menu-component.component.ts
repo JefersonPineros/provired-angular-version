@@ -38,7 +38,7 @@ export class MenuComponentComponent implements OnInit {
               this.model = res;
               break;
           }
-        }, 200);
+        }, 500);
       },
     });
   }

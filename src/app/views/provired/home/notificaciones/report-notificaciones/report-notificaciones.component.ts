@@ -81,6 +81,14 @@ export class ReportNotificacionesComponent implements OnInit {
       this.spinner.show();
       this.reporte.getReporteNotificaciones(this.modelFilter).subscribe({
         next: (res) => {
+          if (res.data.length == 0) {
+            let message_model: MessageModel = new MessageModel(
+              'info',
+              `No hay registros disponibles`,
+              `${res.msg}`
+            );
+            this.message.add(message_model);
+          }
           this.totalRecords = res.count_rows;
           this.listReport = res.data;
           this.spinner.hide();
@@ -193,6 +201,11 @@ export class ReportNotificacionesComponent implements OnInit {
     }
   }
 
+  /**
+   *
+   * Queda pendiente
+   */
+
   downloadDoc(url: string) {
     if (url) {
       let finalUrl = url.substring(0);
@@ -214,27 +227,29 @@ export class ReportNotificacionesComponent implements OnInit {
     this.reporte.getExcelNotificaciones(this.filterReport).subscribe({
       next: (res) => {
         if (res.status == 200) {
-          let listUrl = res.url.split('/');
+          //let listUrl = res.url.split('/');
           this.urlFinal = environment.apiBaseDocs + res.url;
           this.spinner.hide();
 
-          fetch(this.urlFinal)
-            .then((response) => response.blob())
-            .then((blod) => {
-              const link = document.createElement('a');
-              link.href = URL.createObjectURL(blod);
-              link.download = listUrl[2];
-              link.click();
-            })
-            .catch(console.error)
-            .then((error) => {
-              let message_model: MessageModel = new MessageModel(
-                'error',
-                `Se ha presentado un error`,
-                `No fue posible descargar el documento, estamos trabajando para resolver este error`
-              );
-              this.message.add(message_model);
-            });
+          window.open(this.urlFinal, '_blank');
+
+          // fetch(this.urlFinal)
+          //   .then((response) => response.blob())
+          //   .then((blod) => {
+          //     const link = document.createElement('a');
+          //     link.href = URL.createObjectURL(blod);
+          //     link.download = listUrl[2];
+          //     link.click();
+          //   })
+          //   .catch(console.error)
+          //   .then((error) => {
+          //     let message_model: MessageModel = new MessageModel(
+          //       'error',
+          //       `Se ha presentado un error`,
+          //       `No fue posible descargar el documento, estamos trabajando para resolver este error`
+          //     );
+          //     this.message.add(message_model);
+          //   });
         } else {
           let message_model: MessageModel = new MessageModel(
             'error',

@@ -2,16 +2,24 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { RequestModel } from 'src/app/utils/generateRequestModel';
+import { GeneralConst } from 'src/app/constans/general-const';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CorporacionesService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public getCorporaciones(): Observable<any> {
-    return this.http.get<any>(environment.apiBaseUrl + 'corporacion').pipe(
+    let generate = new RequestModel();
+
+    let req = generate.generateModel(
+      GeneralConst.CONTROLLERS_METHODS[10].controller,
+      GeneralConst.CONTROLLERS_METHODS[10].method
+    );
+
+    return this.http.post<any>(environment.apiBaseUrl + 'index', req).pipe(
       map((res: any) => {
         let status = res['status' as any];
         if (status == 200) {
@@ -24,7 +32,14 @@ export class CorporacionesService {
   }
 
   public getCorporacionesPorMunicipio(idMun: any): Observable<any> {
-    return this.http.get<any>(environment.apiBaseUrl + 'corporacion/mun/'+ idMun).pipe(
+    let generate = new RequestModel();
+
+    let req = generate.generateModel(
+      GeneralConst.CONTROLLERS_METHODS[11].controller,
+      GeneralConst.CONTROLLERS_METHODS[11].method,
+      { id: idMun }
+    );
+    return this.http.post<any>(environment.apiBaseUrl + 'index', req).pipe(
       map((res: any) => {
         let status = res['status' as any];
         if (status == 200) {
