@@ -1,19 +1,25 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilService } from 'src/app/services/core/util.service';
 
 @Component({
   selector: 'input-text',
   templateUrl: './input-text-component.component.html',
-  styleUrls: ['./input-text-component.component.scss']
+  styleUrls: ['./input-text-component.component.scss'],
 })
 export class InputTextComponentComponent implements OnInit, OnChanges {
-
   @Input() placeHolderActive: boolean = false;
 
   @Input() placeHolder: string = '';
 
-  @Input() model: string | undefined = '';
+  @Input() model: string | number | undefined = '';
 
   @Output() modelChange: EventEmitter<any> = new EventEmitter<any>();
 
@@ -33,11 +39,17 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
 
   @Input() patron: RegExp = new RegExp('');
 
-  @Input() styleInput: string = "float";
+  @Input() styleInput: string = 'float';
 
-  @Input() iconOrientation: string = "left";
+  @Input() iconOrientation: string = 'left';
 
-  @Input() icon: string = "pi-search";
+  @Input() icon: string = 'pi-search';
+
+  @Input() maxLength: number | undefined;
+
+  @Input() valorMaximo: number;
+
+  @Input() minLength: number | undefined;
 
   constructor(private fb: FormBuilder) {}
 
@@ -46,28 +58,28 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
     this.generarControl();
   }
 
-  ngOnChanges(change: any):void {
-    if(change.model) {
+  ngOnChanges(change: any): void {
+    if (change.model) {
       setTimeout(() => this.actualizarControl());
     }
 
-    if(this.grupo.status == 'INVALID') {
+    if (this.grupo.status == 'INVALID') {
       this.valid = true;
       this.validChange.emit(this.valid);
     }
   }
 
   generateFormat(): void {
-    if(!this.grupo) {
+    if (!this.grupo) {
       this.grupo = this.fb.group({});
     }
   }
 
   generarControl(): void {
-    if(this.grupo) {
-      if(!this.grupo.get(this.nombre )) {
+    if (this.grupo) {
+      if (!this.grupo.get(this.nombre)) {
         this.nombre = UtilService.getControlNombre();
-        this.grupo.addControl(this.nombre,this.fb.control({}));
+        this.grupo.addControl(this.nombre, this.fb.control({}));
       }
 
       this.grupo
@@ -89,6 +101,10 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
     if (this.validarRequerido()) {
       return { errorRequerido: true };
     }
+
+    if (this.validarMaximo()) {
+      return { errorMaximo: true };
+    }
     return null;
   }
 
@@ -96,7 +112,7 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
     return (
       this.patron != undefined &&
       this.model != null &&
-      !new RegExp(this.patron).test(this.model)
+      !new RegExp(this.patron).test(this.model.toString())
     );
   }
 
@@ -104,10 +120,17 @@ export class InputTextComponentComponent implements OnInit, OnChanges {
     return this.requerido && !String(this.model || '').trim();
   }
 
+  validarMaximo(): boolean {
+    return (
+      this.model &&
+      this.valorMaximo &&
+      Number(this.model) > Number(this.validarMaximo)
+    );
+  }
+
   actualizarControl(): void {
     if (this.grupo && this.grupo.get(this.nombre)) {
       this.grupo.get(this.nombre)?.setValue(this.model);
     }
   }
-
 }

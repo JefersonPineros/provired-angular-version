@@ -17,6 +17,10 @@ import { DepartamentosService } from 'src/app/services/utils/departamentos.servi
 import { MunicipiosService } from 'src/app/services/utils/municipios.service';
 import { CorporacionesService } from 'src/app/services/utils/corporaciones.service';
 import { DespachosService } from 'src/app/services/utils/despachos.service';
+import { ProcesosService } from 'src/app/services/home/procesos/procesos.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -36,13 +40,19 @@ import { DespachosService } from 'src/app/services/utils/despachos.service';
     CardComponentModule,
     ButtonComponentModule,
     InputTextComponentModule,
-    TextAreaModule
+    TextAreaModule,
+
+    ToastModule,
+    NgxSpinnerModule
+
   ],
   providers: [
     DepartamentosService,
     MunicipiosService,
     CorporacionesService,
-    DespachosService
+    DespachosService,
+    ProcesosService,
+    MessageService
   ]
 })
 export class ProcesosModule { }

@@ -9,8 +9,23 @@ import { DigitarNotificacionesComponent } from './digitar-notificaciones/digitar
 import { EditarNotificacionesComponent } from './editar-notificaciones/editar-notificaciones.component';
 import { EstadoElectronicoComponent } from './estado-electronico/estado-electronico.component';
 import { ReportNotificacionesComponent } from './report-notificaciones/report-notificaciones.component';
-import { ButtonComponentModule, CardComponentModule, CheckboxComponentModule, RadioButtonComponentModule, SideMenuModule } from 'src/app/components/components.module';
+import {
+  ButtonComponentModule,
+  CardComponentModule,
+  CheckboxComponentModule,
+  InputTextComponentModule,
+  ModalComponentModule,
+  RadioButtonComponentModule,
+  SideMenuModule,
+  TablaComponentModule,
+  TextAreaModule
+} from 'src/app/components/components.module';
 import { DatePickerModule } from 'src/app/components/date-picker/date-picker.module';
+import { ToastModule } from 'primeng/toast';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { MessageService } from 'primeng/api';
+import { ReporteNotificacionesService } from 'src/app/services/home/notificaciones/reporte-notificaciones.service';
+import { AudienciaService } from 'src/app/services/home/audiencia/audiencia.service';
 
 
 @NgModule({
@@ -32,7 +47,15 @@ import { DatePickerModule } from 'src/app/components/date-picker/date-picker.mod
     CheckboxComponentModule,
     RadioButtonComponentModule,
     DatePickerModule,
-    ButtonComponentModule
-  ]
+    ButtonComponentModule,
+    TablaComponentModule,
+    ModalComponentModule,
+    InputTextComponentModule,
+    TextAreaModule,
+
+    ToastModule,
+    NgxSpinnerModule
+  ],
+  providers: [MessageService, ReporteNotificacionesService, AudienciaService]
 })
 export class NotificacionesModule { }

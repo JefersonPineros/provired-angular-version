@@ -1,15 +1,23 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilService } from 'src/app/services/core/util.service';
 
 @Component({
   selector: 'app-text-area',
   templateUrl: './text-area.component.html',
-  styleUrls: ['./text-area.component.scss']
+  styleUrls: ['./text-area.component.scss'],
 })
 export class TextAreaComponent implements OnInit, OnChanges {
-
   @Input() tamanio: string = '200';
+
+  @Input() heightTamanio: string = '200px';
 
   @Input() placeholder: string = '';
 
@@ -31,6 +39,8 @@ export class TextAreaComponent implements OnInit, OnChanges {
 
   @Input() disabled: boolean = false;
 
+  @Input() rows: number = 5;
+
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -39,19 +49,19 @@ export class TextAreaComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: any): void {
-    if(changes.model){
+    if (changes.model) {
       setTimeout(() => this.actualizarControl());
     }
 
-    if(this.grupo.status == 'INVALID') {
+    if (this.grupo.status == 'INVALID') {
       this.valid = true;
       this.validChange.emit(this.valid);
     }
   }
 
   generarFormat(): void {
-    if(this.grupo) {
-      if(!this.grupo.get(this.nombre)) {
+    if (this.grupo) {
+      if (!this.grupo.get(this.nombre)) {
         this.nombre = UtilService.getControlNombre();
         this.grupo.addControl(this.nombre, this.fb.control({}));
       }
@@ -69,8 +79,8 @@ export class TextAreaComponent implements OnInit, OnChanges {
   }
 
   generarValidaciones() {
-    if(this.validarRequerido()) {
-      return { errorRequerido: true }
+    if (this.validarRequerido()) {
+      return { errorRequerido: true };
     }
     return null;
   }

@@ -1,126 +1,173 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageService } from 'primeng/api';
+import { HistorialModel } from 'src/app/models/home/procesos/historialProcesos';
+import { HistorialProcesosModel } from 'src/app/models/home/procesos/historialProcesosFilter';
+import { MessageModel } from 'src/app/models/login/utils/messageModel';
+import { HistorialActuacion } from 'src/app/services/home/reportes/historial-actuación';
+import { HistorialProcesosService } from 'src/app/services/home/reportes/historial-procesos.service';
 import { BreadcrumbService } from 'src/app/services/utils/app.breadcrumb.service';
 import { CorporacionesService } from 'src/app/services/utils/corporaciones.service';
 import { DepartamentosService } from 'src/app/services/utils/departamentos.service';
 import { DespachosService } from 'src/app/services/utils/despachos.service';
 import { MunicipiosService } from 'src/app/services/utils/municipios.service';
+import { SessionStorageService } from 'src/app/services/utils/session-storage.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-historial-procesos',
   templateUrl: './historial-procesos.component.html',
-  styleUrls: ['./historial-procesos.component.scss']
+  styleUrls: ['./historial-procesos.component.scss'],
 })
 export class HistorialProcesosComponent implements OnInit {
+  public filter: HistorialProcesosModel = new HistorialProcesosModel();
 
-  public ciudadModel: any;
+  public generalRows: number = 30;
 
-  public municipioModel: any;
+  public totalItems: number = 0;
 
-  public corporacionesModel: any;
+  public listHistorico: Array<HistorialModel> = new Array<HistorialModel>();
 
-  public despachosModel: any;
+  public listActuacion: Array<HistorialActuacion> =
+    new Array<HistorialActuacion>();
 
-  public fb: FormGroup = new FormGroup({});
+  public itemSelected: HistorialModel = new HistorialModel();
 
-  public listDepartamentos: Array<any> = [];
+  public showModal: boolean = false;
 
-  public listMunicipios: Array<any> = [];
+  public totalRows: number = 0;
 
-  public listCorporaciones: Array<any> = [];
+  public showDescriptionData: boolean = false;
 
-  public listDespachos: Array<any> = [];
+  public actuacionSelected: HistorialActuacion = new HistorialActuacion();
 
-  constructor(public breadCrumService: BreadcrumbService,
-    private departamentos: DepartamentosService,
-    private municipio: MunicipiosService,
-    private corporaciones: CorporacionesService,
-    private despacho: DespachosService) {
-
-  }
+  constructor(
+    public breadCrumService: BreadcrumbService,
+    public historialService: HistorialProcesosService,
+    public session: SessionStorageService,
+    private spinner: NgxSpinnerService,
+    private message: MessageService
+  ) {}
 
   ngOnInit(): void {
-    this.breadCrumService.setItems(
-      [
-        { label: 'Reportes' },
-        { label: 'Historial de procesos' }
-      ]
-    );
-
-    this.departamentos.getDepartamento().subscribe(
-      {
-        next: (res) => {
-          this.listDepartamentos = res;
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      }
-    );
+    this.breadCrumService.setItems([
+      { label: 'Reportes' },
+      { label: 'Historial de procesos' },
+    ]);
   }
 
-  departamentoChange(): void {
-    if (this.ciudadModel !== null) {
-      this.municipio.getMunicipioPorDep(this.ciudadModel.IdDep).subscribe(
-        {
-          next: (res) => {
-            this.listMunicipios = res;
-          },
-          error: (error) => {
-            console.log(error);
-          }
+  filterProceso(event: HistorialProcesosModel) {
+    console.log(event);
+
+    this.spinner.show();
+    this.filter = event;
+    let ses = this.session.getStorage('user', 'json');
+
+    this.filter.group_users = ses.data.group_users;
+    this.filter.parent = ses.data.parent;
+    this.filter.from = 0;
+    this.filter.rows = this.generalRows;
+
+    this.historialService.filterHistorial(this.filter).subscribe({
+      next: (res) => {
+        if (res.data.length == 0) {
+          let message_model: MessageModel = new MessageModel(
+            'info',
+            `No hay registros disponibles`,
+            `${res.msg}`
+          );
+          this.message.add(message_model);
         }
-      );
+        this.listHistorico = res.data;
+        this.totalItems = res.count_rows;
+        this.spinner.hide();
+      },
+      error: (error) => {
+        console.log(error);
+        this.spinner.hide();
+      },
+    });
+  }
+
+  changePage(event: any) {
+    this.spinner.show();
+    this.filter = event;
+    let ses = this.session.getStorage('user', 'json');
+
+    this.filter.group_users = ses.data.group_users;
+    this.filter.parent = ses.data.parent;
+    this.filter.from = event.first;
+    this.filter.rows = this.generalRows;
+
+    this.historialService.filterHistorial(this.filter).subscribe({
+      next: (res) => {
+        this.listHistorico = res.data;
+        this.totalItems = res.count_rows;
+        this.spinner.hide();
+      },
+      error: (error) => {
+        console.log(error);
+        this.spinner.hide();
+      },
+    });
+  }
+
+  consultarActuacion(event?: any, page?: any): void {
+    this.showDescriptionData = false;
+
+    let ses = this.session.getStorage('user', 'json');
+
+    this.itemSelected = event;
+
+    if (event) {
+      this.filter = new HistorialProcesosModel();
+      this.filter.group_users = ses.data.group_users;
+      this.filter.parent = ses.data.parent;
+      this.filter.despacho = this.itemSelected.despacho;
+      this.filter.radicacion = this.itemSelected.radicacion;
+      this.filter.codigo_23 = this.itemSelected.codigo_23;
+    }
+
+    if (page) {
+      this.filter.from = page.first;
     } else {
-      this.despachosModel = null;
-      this.corporacionesModel = null;
-      this.municipioModel = null;
-      this.listMunicipios = [];
-      this.listCorporaciones = [];
-      this.listDespachos = [];
+      this.filter.from = 0;
+    }
+
+    this.filter.rows = this.generalRows;
+
+    this.historialService.getActuacion(this.filter).subscribe({
+      next: (res) => {
+        this.listActuacion = res.data;
+        this.totalRows = res.count_rows;
+        console.log(this.listActuacion);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+    this.showModal = true;
+  }
+
+  downloadDoc(url: string) {
+    if (url) {
+      let finalUrl = url.substring(0);
+      window.open(environment.apiBaseDocs + '/autos/' + finalUrl);
     }
   }
 
-  municipioChange(): void {
-    if (this.municipioModel !== null) {
-      this.corporaciones.getCorporacionesPorMunicipio(this.municipioModel.IdMun).subscribe(
-        {
-          next: (res) => {
-            this.listCorporaciones = res
-          },
-          error: (error) => {
-            console.log(error);
-          }
-        }
-      );
-    } else {
-      this.corporacionesModel = null;
-      this.despachosModel = null;
-      this.listCorporaciones = [];
-      this.listDespachos = [];
+  showDescription(event?: any): void {
+    console.log(event);
+
+    if (event) {
+      this.actuacionSelected = event;
     }
-  }
 
-  corporacionesChange(): void {
-    if (this.corporacionesModel !== null) {
-      this.despacho.getDespachoPorCorp(this.corporacionesModel.IdCorp).subscribe(
-        {
-          next: (res) => {
-            this.listDespachos = res;
-          },
-          error: (error) => {
-            console.log(error);
-          }
-        }
-      );
+    if (this.showDescriptionData) {
+      this.showDescriptionData = false;
     } else {
-      this.despachosModel = null;
-      this.listDespachos = [];
+      this.showDescriptionData = true;
     }
-  }
-
-  consultarHistorial(event: any) {
-    console.log(this.ciudadModel);
-
   }
 }

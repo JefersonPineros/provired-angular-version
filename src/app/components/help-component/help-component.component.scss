@@ -1,0 +1,21 @@
+.speeddial-circle {
+    position: fixed;
+    right: 13vh;
+    top: 90vh;
+}
+
+.container-overlay {
+    width: 23vw;
+}
+.color-title {
+    color: rgb(204, 79, 41);
+}
+.message-container {
+    padding: 14px;
+    .message-error {
+        border-radius: 8px;
+        background-color: rgb(212, 183, 85);
+        color: white;
+    }
+}
+

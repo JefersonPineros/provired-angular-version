@@ -18,10 +18,13 @@
     }}</label>
     <input
       pInputText
+      [attr.maxlength]="maxLength"
+      [attr.minlength]="minLength"
       type="{{ tipo }}"
       [placeholder]="
         placeHolderActive ? (styleInput == 'help-text' ? placeHolder : '') : ''
       "
+      [attr.maxlength]="maxLength"
       [attr.id]="nombre"
       [disabled]="disabledInputText"
       [(ngModel)]="model"
@@ -48,3 +51,4 @@
     </small>
   </span>
 </div>
+<!-- <span> El numero de caracteres supera el  </span> -->

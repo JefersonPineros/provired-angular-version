@@ -1,8 +1,9 @@
 <p-button
-  label="{{nameButton}}"
-  styleClass="{{clase}}"
+  label="{{ nameButton }}"
+  styleClass="{{ clase }}"
   (click)="onEvent($event)"
-  [icon]="icon? iconClass: ''"
-  [pTooltip]="showTooltip? messageTooltip: ''"
-  >
+  [icon]="icon ? iconClass : ''"
+  [pTooltip]="showTooltip ? messageTooltip : ''"
+  [disabled]="disabled"
+>
 </p-button>

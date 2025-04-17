@@ -5,20 +5,21 @@ import { HomeComponent } from 'src/app/views/provired/home/home.component';
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.scss']
+  styleUrls: ['./topbar.component.scss'],
 })
 export class TopbarComponent {
-
   public user: string = '';
 
   public tipo: string = '';
 
-  constructor(public app: HomeComponent, private session: SessionStorageService) {
+  constructor(
+    public app: HomeComponent,
+    private session: SessionStorageService
+  ) {
     setTimeout(() => {
       let userLog = this.session.getStorage('user', 'json');
       this.user = userLog.data.nombre;
       this.tipo = userLog.tipousuario;
-    }, 500)
+    }, 500);
   }
-
 }

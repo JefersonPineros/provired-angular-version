@@ -3,66 +3,158 @@
   [columns]="cols"
   [value]="data"
   [paginator]="paginador"
-  [rows]="5"
-  [styleClass]="stripedTable? 'p-datatable-striped': ''"
-  [tableStyle]="fixStyleTable ? { 'min-width': '50rem' }: ''"
-  [ngClass]="[ stripedTable? 'p-datatable-striped': '']"
+  [rows]="rows"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="rowsPerPage"
+  [paginatorPosition]="paginationPosition"
+  [styleClass]="stripedTable ? 'p-datatable-striped' : ''"
+  [tableStyle]="fixStyleTable ? { 'min-width': '50rem' } : ''"
+  [ngClass]="[stripedTable ? 'p-datatable-striped' : '']"
   [(selection)]="selectedElement"
   [dataKey]="idElement"
+  [lazy]="lazy"
+  [scrollable]="true"
+  [loading]="loading"
+  (onPage)="onPageChange($event)"
   (selectionChange)="onRowSelect($event)"
-  [rowsPerPageOptions]="[5, 10, 15]"
-  [showCurrentPageReport]="true"
-  [sortMode]="multipleSort? 'multiple': 'single'"
+  [sortMode]="multipleSort ? 'multiple' : 'single'"
   [pSortableColumnDisabled]="true"
-  [totalRecords]="40"
-  >
+  [totalRecords]="totalRecords"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+>
   <ng-template pTemplate="caption">
-    <div class="flex flex-row-reverse flex-wrap" *ngIf="filtroGeneral">
-      <div>
-        <span class="p-input-icon-left ml-auto">
-          <i class="pi pi-search"></i>
-          <input pInputText type="text" (input)="tableGeneric.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword" />
-        </span>
+    <div class="grid">
+      <div class="col-6">
+        <div class="flex flex-initial mt-3" *ngIf="showTotalRecords">
+          Total registros: {{ totalRecords }}
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="flex flex-row-reverse flex-wrap" *ngIf="filtroGeneral">
+          <div>
+            <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                (input)="
+                  tableGeneric.filterGlobal(
+                    $any($event.target).value,
+                    'contains'
+                  )
+                "
+                placeholder="Buscar"
+              />
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
-      <tr>
-          <th style="width: 4rem" *ngIf="multiSelect">
-            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-          </th>
-          <th *ngIf="actionsShow">
-            Acciones
-          </th>
-          <th pSortableColumn="{{col.header}}" *ngFor="let col of columns">
-              {{ col.header }} <p-sortIcon *ngIf="isSortTable" [field]="col.header"></p-sortIcon>
-          </th>
-      </tr>
+    <tr>
+      <th style="width: 4rem" *ngIf="multiSelect">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th *ngIf="actionsShow">{{ nameActionsLeft }}</th>
+      <th pSortableColumn="{{ col.header }}" *ngFor="let col of columns">
+        <div *ngIf="!col.show">
+          {{ col.header }}
+          <p-sortIcon *ngIf="isSortTable" [field]="col.header"></p-sortIcon>
+        </div>
+      </th>
+      <th *ngIf="actionsRightShow">{{ nameActionsRight }}</th>
+    </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
-      <tr [pSelectableRow]="rowData">
-          <td *ngIf="multiSelect">
-            <p-tableCheckbox [value]="rowData" ></p-tableCheckbox>
-          </td>
-          <td *ngIf="actionsShow">
-            <ng-template [ngTemplateOutlet]="actions" [ngTemplateOutletContext]="{elemento: rowData}"></ng-template>
-          </td>
-          <td *ngFor="let col of columns">
-              <div *ngIf="!col.isFecha; else esFecha">
-                {{ rowData[col.field] }}
+    <tr [pSelectableRow]="rowData">
+      <td *ngIf="multiSelect">
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
+      <td *ngIf="actionsShow">
+        <ng-template
+          [ngTemplateOutlet]="actions"
+          [ngTemplateOutletContext]="{ elemento: rowData }"
+        ></ng-template>
+      </td>
+      <td
+        *ngFor="let col of columns"
+        style="max-width: 300px; word-wrap: break-word"
+      >
+        <div *ngIf="!col.show">
+          <div *ngIf="!col.esRadicacion; else esRadicacion">
+            <div *ngIf="!col.isFecha; else esFecha">
+              <div *ngIf="!col.tipoEX; else tipoEx">
+                {{
+                  rowData[col.field] == "" ||
+                  rowData[col.field] == null ||
+                  rowData[col.field] == undefined
+                    ? "N / A"
+                    : rowData[col.field]
+                }}
               </div>
-              <ng-template #esFecha>
-                <div >
-                  {{ rowData[col.field] | date: 'dd-MMM-yyyy' | titlecase}}
-                </div>
-              </ng-template>
-          </td>
-      </tr>
+            </div>
+          </div>
+        </div>
+        <ng-template #tipoEx>
+          {{ rowData[col.field] == 1 ? "NUEVO" : "EXPEDIENTE" }}
+        </ng-template>
+        <ng-template #esFecha>
+          <div>
+            {{ rowData[col.field] | date : "dd-MMM-yyyy" | titlecase }}
+          </div>
+        </ng-template>
+        <ng-template #esRadicacion>
+          <div>
+            <a
+              href="{{ rowData['expediente_digital'] }}"
+              *ngIf="
+                rowData['expediente_digital'] !== null &&
+                  rowData['expediente_digital'] !== '';
+                else noExpediente
+              "
+              target="_blank"
+            >
+              {{
+                formarRadicacion(
+                  rowData[col.field].length == 23
+                    ? rowData[col.field]
+                    : rowData["radicacion"]
+                )
+              }}
+            </a>
+            <ng-template #noExpediente>
+              {{
+                formarRadicacion(
+                  rowData[col.field].length == 23
+                    ? rowData[col.field]
+                    : rowData["radicacion"]
+                )
+              }}
+            </ng-template>
+          </div>
+        </ng-template>
+      </td>
+      <td *ngIf="actionsRightShow">
+        <ng-template
+          [ngTemplateOutlet]="actions_right"
+          [ngTemplateOutletContext]="{ elemento: rowData }"
+        ></ng-template>
+      </td>
+    </tr>
   </ng-template>
   <ng-template pTemplate="paginatorleft">
-      <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+    <p-button
+      type="button"
+      icon="pi pi-plus"
+      styleClass="p-button-text"
+    ></p-button>
   </ng-template>
   <ng-template pTemplate="paginatorright">
-      <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+    <p-button
+      type="button"
+      icon="pi pi-cloud"
+      styleClass="p-button-text"
+    ></p-button>
   </ng-template>
 </p-table>

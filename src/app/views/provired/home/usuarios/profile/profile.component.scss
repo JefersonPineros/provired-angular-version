@@ -1,0 +1,26 @@
+.user-i {
+  img {
+    border-radius: 50%;
+    width: 140px;
+  }
+}
+
+.user-d {
+  &--name {
+    color: #1567c3;
+    font-weight: 700;
+  }
+  &--email {
+    font-weight: 600;
+    overflow: hidden;
+    width: 15vw;
+    text-overflow: ellipsis;
+  }
+  &--vence{
+    font-weight: 600;
+  }
+}
+
+.title-pass {
+  color: #1567c3;
+}

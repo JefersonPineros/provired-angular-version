@@ -53,10 +53,9 @@
                 <div class="grid p-fluit">
                   <div class="col-12 xl:col-6 md:col-6">
                     <input-text
-                      placeHolder="Demandante/Demandado"
-                      [(model)]="formSearchProcess.demandante"
+                      placeHolder="Demandante / Demandado"
+                      [(model)]="filterGeneral.demandante_demandado"
                       [grupo]="fb"
-                      [requerido]="true"
                       styleInput="help-text"
                       [placeHolderActive]="false"
                       [disabledInputText]="false"
@@ -65,9 +64,8 @@
                   <div class="col-12 xl:col-6 md:col-6">
                     <input-text
                       placeHolder="Radicado"
-                      [(model)]="formSearchProcess.radicado"
+                      [(model)]="filterGeneral.radicacion"
                       [grupo]="fb"
-                      [requerido]="true"
                       styleInput="help-text"
                       [placeHolderActive]="false"
                       [disabledInputText]="false"
@@ -75,10 +73,9 @@
                   </div>
                   <div class="col-12 xl:col-6 md:col-6">
                     <input-text
-                      placeHolder="Etiquta"
-                      [(model)]="formSearchProcess.etiqueta"
+                      placeHolder="Etiqueta"
+                      [(model)]="filterGeneral.etiqueta"
                       [grupo]="fb"
-                      [requerido]="true"
                       styleInput="help-text"
                       [placeHolderActive]="false"
                       [disabledInputText]="false"
@@ -99,5 +96,151 @@
         </div>
       </div>
     </div>
+    <div class="grid">
+      <div class="col-12">
+        <app-card-component>
+          <ng-template pTemplate="content">
+            <div class="grid">
+              <div class="col-3">
+                <app-button-component
+                  nameButton="Generar a excel reporte notificaciones"
+                  [icon]="true"
+                  [showTooltip]="true"
+                  messageTooltip="Detalle"
+                  iconClass="pi pi-file-excel"
+                  clase="p-button-rounded p-button-success p-button-outlined"
+                  (eventEmiter)="downloadReport()"
+                ></app-button-component>
+              </div>
+            </div>
+            <div class="grid">
+              <div class="col-12">
+                <app-tabla-component
+                  [data]="listProceso"
+                  [cols]="[
+                    { field: 'name_ciudad', header: 'Ciudad' },
+                    { field: 'etiqueta_suscriptor', header: 'Etiqueta' },
+                    { field: 'nameDespacho', header: 'Despacho' },
+                    {
+                      field: 'codigo_23',
+                      header: 'Radicación',
+                      esRadicacion: true
+                    },
+                    { field: 'proceso', header: 'Tipo proceso' },
+                    { field: 'demandante', header: 'Demandante' },
+                    { field: 'demandado', header: 'Demandado' },
+                    { field: 'fecha_registro', header: 'Fecha', isFecha: true }
+                  ]"
+                  [totalRecords]="totalRecords"
+                  [actionsShow]="true"
+                  [paginador]="true"
+                  [lazy]="true"
+                  [fixStyleTable]="true"
+                  [stripedTable]="true"
+                  [rows]="30"
+                  nameActionsLeft="Editar"
+                  [filtroGeneral]="false"
+                  (onChangePage)="changePage($event)"
+                  [loading]="loadingTable"
+                  paginationPosition="both"
+                >
+                  <ng-template pTemplate="actions" let-rowData="elemento">
+                    <div class="grid p-fluit">
+                      <div class="col-12">
+                        <app-button-component
+                          [icon]="true"
+                          [showTooltip]="true"
+                          messageTooltip="Actualizar registro"
+                          iconClass="pi pi-file-edit"
+                          clase="p-button-rounded p-button-text"
+                          (eventEmiter)="registroSeleccionado(rowData)"
+                        ></app-button-component>
+                      </div>
+                    </div>
+                  </ng-template>
+                </app-tabla-component>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
   </div>
 </div>
+<modal-component [visible]="showModal" (closeModal)="showModal = false">
+  <ng-template pTemplate="title">
+    <h4>Editar registro.</h4>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="grid p-fluit">
+      <div class="col-12 xl:col-6 md:col-6">
+        <input-text
+          placeHolder="Demandante"
+          [(model)]="itemSelected.demandante"
+          [grupo]="fbUpdate"
+          [requerido]="true"
+          styleInput="help-text"
+          [placeHolderActive]="false"
+          [disabledInputText]="false"
+        ></input-text>
+      </div>
+      <div class="col-12 xl:col-6 md:col-6">
+        <input-text
+          placeHolder="Demandado"
+          [(model)]="itemSelected.demandado"
+          [grupo]="fbUpdate"
+          [requerido]="true"
+          styleInput="help-text"
+          [placeHolderActive]="false"
+          [disabledInputText]="false"
+        ></input-text>
+      </div>
+      <div class="col-12 xl:col-6 md:col-6">
+        <input-text
+          placeHolder="Etiqueta"
+          [(model)]="itemSelected.etiqueta_suscriptor"
+          [grupo]="fbUpdate"
+          styleInput="help-text"
+          [requerido]="true"
+          [placeHolderActive]="false"
+          [disabledInputText]="false"
+        ></input-text>
+      </div>
+      <div class="col-12 xl:col-6 md:col-6">
+        <input-text
+          placeHolder="Expediente Digital (URL)"
+          [(model)]="itemSelected.expediente_digital"
+          [grupo]="fbUpdate"
+          styleInput="help-text"
+          [placeHolderActive]="false"
+          [disabledInputText]="false"
+        ></input-text>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div style="text-align: end">
+      <app-button-component
+        nameButton="Editar"
+        (eventEmiter)="actualizarProceso()"
+      ></app-button-component>
+      <app-button-component
+        clase="p-button-danger"
+        nameButton="Cancelar"
+        (eventEmiter)="showModal = false"
+      ></app-button-component>
+    </div>
+  </ng-template>
+</modal-component>
+
+<p-toast></p-toast>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

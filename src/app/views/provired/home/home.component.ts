@@ -10,10 +10,10 @@ import { SessionStorageService } from 'src/app/services/utils/session-storage.se
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  configDialogActive:any;
+  configDialogActive: any;
 
   topbarItemClick: boolean | undefined;
 
@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit {
 
   overlayMenuMobileActive: boolean | undefined;
 
+  typeUser: string;
+
   constructor(
     private menuService: MenuService,
     private primengConfig: PrimeNGConfig,
@@ -39,27 +41,25 @@ export class HomeComponent implements OnInit {
     private session: SessionStorageService,
     private logOutSession: LogOutService,
     private route: Router
-    ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.userService.getUser().subscribe(
-      {
-        next: (res) => {
-          this.session.createStorage('user', JSON.stringify(res));
-        }
-      }
-    );
+    let ses = this.session.getSession();
+    this.typeUser = ses.tipousuario;
+
+    this.userService.getUser().subscribe({
+      next: (res) => {
+        this.session.createStorage('user', JSON.stringify(res));
+      },
+    });
   }
 
   logOutEvent(): void {
-    this.logOutSession.logOutSession().subscribe(
-      {
-        next: (resp) => {
-          console.log(resp, 'Hola mundo');
-          this.route.navigate(['provired/']);
-        }
-      }
-    );
+    this.logOutSession.logOutSession().subscribe({
+      next: (resp) => {
+        this.route.navigate(['provired/']);
+      },
+    });
   }
 
   onRippleChange(event: any) {
@@ -106,7 +106,18 @@ export class HomeComponent implements OnInit {
     event.preventDefault();
   }
 
-  onTopbarSubItemClick(event: any) {
+  onTopbarSubItemClick(event: any, type?: any) {
+    if (type) {
+      switch (type) {
+        case 'profile':
+          this.route.navigate(['provired/home-provired/home/usuarios/profile']);
+          break;
+
+        default:
+          break;
+      }
+    }
+
     event.preventDefault();
   }
 
@@ -153,5 +164,4 @@ export class HomeComponent implements OnInit {
   isHorizontal() {
     return this.app.layoutMode === 'horizontal';
   }
-
 }

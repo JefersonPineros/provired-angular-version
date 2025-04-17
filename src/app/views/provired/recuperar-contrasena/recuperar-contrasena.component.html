@@ -1,0 +1,147 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="grid">
+      <div
+        class="lg:col-4 md:col-4 sm:col-6 sm:col-offset-3 col-12 lg:col-offset-4 md:col-offset-4"
+      >
+        <div class="aling-box">
+          <app-card-component [footer]="true">
+            <ng-template pTemplate="header">
+              <div class="pt-5 pl-5">
+                <h2>Recuperación de contraseña.</h2>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="content">
+              <div class="grid">
+                <div class="col-12 p-2">
+                  <app-steps-component
+                    [items]="[
+                      { label: 'Validar correo' },
+                      { label: 'Confirmar token' },
+                      { label: 'Actualizar contraseña' }
+                    ]"
+                    [readonly]="true"
+                    [activeIndex]="itemActive"
+                  ></app-steps-component>
+                </div>
+              </div>
+              <div class="grid" *ngIf="itemActive == 0">
+                <div class="col-12">
+                  <div class="grid p-4">
+                    <div class="col-12">
+                      <input-text
+                        placeHolder="Usuario"
+                        [requerido]="true"
+                        styleInput="help-text"
+                        [placeHolderActive]="false"
+                        [(model)]="objectUpdate.user"
+                      >
+                      </input-text>
+                    </div>
+                  </div>
+                  <div class="grid">
+                    <div class="col-12 pr-5 pl-5">
+                      <app-button-component
+                        (eventEmiter)="validarCorreo()"
+                        nameButton="Validar correo"
+                      ></app-button-component>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="grid" *ngIf="itemActive == 1">
+                <div class="col-12">
+                  <div class="grid p-4">
+                    <div class="col-12 p-3 valid-text">
+                      A su correo fue enviado un mensaje, por favor valide su
+                      correo y digite el token suministrado.
+                    </div>
+                    <div class="col-12">
+                      <input-text
+                        placeHolder="Token"
+                        [requerido]="true"
+                        styleInput="help-text"
+                        [placeHolderActive]="false"
+                        [(model)]="objectUpdate.token"
+                      >
+                      </input-text>
+                    </div>
+                  </div>
+                  <div class="grid">
+                    <div class="col-12 pr-5 pl-5">
+                      <app-button-component
+                        (eventEmiter)="validarToken()"
+                        nameButton="Validar token"
+                      ></app-button-component>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="grid" *ngIf="itemActive == 2">
+                <div class="col-12">
+                  <div class="grid p-4">
+                    <div class="col-12">
+                      <h5>Actualizar contraseña.</h5>
+                    </div>
+                    <div class="col-12">
+                      <app-input-pass
+                        [(modelNew)]="objectUpdate.newPassword"
+                        [(modelConfirm)]="objectUpdate.newPasswordConfirm"
+                        [feedBackNew]="true"
+                        [feedBackConfirm]="false"
+                      ></app-input-pass>
+                    </div>
+                    <div class="col-12">
+                      <div class="flex justify-content-center">
+                        <re-captcha
+                          (errored)="expireCaptchat($event)"
+                          (resolved)="acceptedCaptcha($event)"
+                          siteKey="{{ siteKey }}"
+                        ></re-captcha>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="grid">
+                    <div class="col-12 pr-5 pl-5">
+                      <app-button-component
+                        (eventEmiter)="actualizarUsuario()"
+                        nameButton="Enviar nueva contraseña"
+                      ></app-button-component>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="grid">
+                <div class="col-12">
+                  <div class="flex flex-column-reverse">
+                    <div
+                      class="flex align-items-center justify-content-center mt-2"
+                    >
+                      <app-button-component
+                        (eventEmiter)="cancelarProceso()"
+                        nameButton="Cancelar"
+                        clase="p-button-danger p-button-text"
+                      ></app-button-component>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </app-card-component>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

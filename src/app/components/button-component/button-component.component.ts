@@ -23,7 +23,9 @@ export class ButtonComponentComponent implements OnInit {
 
   @Input() messageTooltip: string = '';
 
-  constructor() {}
+  @Input() disabled: boolean = false;
+
+  constructor() { }
 
   ngOnInit(): void {
 

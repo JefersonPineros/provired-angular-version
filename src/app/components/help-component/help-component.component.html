@@ -1,0 +1,79 @@
+<p-overlayPanel #op>
+  <ng-template pTemplate="content">
+    <div class="container-overlay">
+      <div class="grid">
+        <div class="col-12">
+          <h4 class="color-title">¿Ha ocurrido un error?</h4>
+        </div>
+      </div>
+      <div class="grid message-container">
+        <div class="col-12 message-error">
+          Si ha tenido problemas o inconvenientes con la plataforma, es
+          indispensable tener una evidencia grafica del error.
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-12">
+          <input-text
+            placeHolder="Asunto"
+            [(model)]="sendError.asusto"
+            [requerido]="true"
+          ></input-text>
+        </div>
+        <div class="col-12">
+          <app-text-area
+            placeholder="Danos una breve descripción"
+            [(model)]="sendError.descripcion"
+            [requerido]="true"
+          ></app-text-area>
+        </div>
+        <div class="col-12">
+          <div style="margin-left: 8px">
+            <p-fileUpload
+              mode="basic"
+              name="demo[]"
+              url="https://www.primefaces.org/cdn/api/upload.php"
+              accept="image/*"
+              [maxFileSize]="10000000"
+              [auto]="false"
+              (onSelect)="selectImage($event)"
+              chooseLabel="Seleccionar imagen"
+            ></p-fileUpload>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="flex flex-column-reverse">
+            <div class="flex align-items-center justify-content-center mt-2">
+              <app-button-component
+                clase="p-button-danger"
+                nameButton="Enviar problema"
+                (eventEmiter)="sendErrorEvent()"
+              ></app-button-component>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+<div style="height: 500px" class="speeddial-circle">
+  <p-speedDial
+    direction="down-right"
+    type="quarter-circle"
+    (onClick)="op.toggle($event)"
+    className="speeddial-left"
+    buttonClassName="p-button-danger"
+    showIcon="pi pi-exclamation-circle"
+    hideIcon="pi pi-times"
+  ></p-speedDial>
+</div>
+<p-toast></p-toast>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

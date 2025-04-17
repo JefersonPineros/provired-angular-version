@@ -101,52 +101,73 @@
             </div>
           </ng-template>
           <ng-template pTemplate="content">
-            <app-tabla-component
-              [cols]="[
-                { field: 'nameCiudad', header: 'Cidad' },
-                { field: 'nameDespacho', header: 'Despacho' },
-                { field: 'radicacion', header: 'Radicación' },
-                { field: 'proceso', header: 'Proceso' },
-                { field: 'demandante', header: 'Demandante' },
-                { field: 'demandado', header: 'Demandado' },
-                {
-                  field: 'descripcion_vence_terminos',
-                  header: 'Descripción del vencimiento'
-                },
-                { field: 'fecha_registro', header: 'Fecha', isFecha: true }
-              ]"
-              [data]="listAudiencias"
-              [fixStyleTable]="true"
-              [stripedTable]="true"
-              idElement="id_vencimiento"
-              [actionsShow]="true"
-              [paginador]="true"
-            >
-              <ng-template pTemplate="actions" let-rowData="elemento">
-                <div class="grid p-fluit">
-                  <div class="col-6">
-                    <app-button-component
-                      [icon]="true"
-                      [showTooltip]="true"
-                      messageTooltip="Eliminar registro"
-                      iconClass="pi pi-times"
-                      clase="p-button-rounded p-button-danger p-button-text"
-                      (eventEmiter)="eliminarRegistro(rowData)"
-                    ></app-button-component>
-                  </div>
-                  <div class="col-6">
-                    <app-button-component
-                      [icon]="true"
-                      [showTooltip]="true"
-                      messageTooltip="Actualizar registro"
-                      iconClass="pi pi-file-edit"
-                      clase="p-button-rounded p-button-text"
-                      (eventEmiter)="openRegistro(rowData)"
-                    ></app-button-component>
-                  </div>
-                </div>
-              </ng-template>
-            </app-tabla-component>
+            <div class="grid">
+              <div class="col-3">
+                <app-button-component
+                  nameButton="Generar a excel reporte notificaciones"
+                  [icon]="true"
+                  [showTooltip]="true"
+                  messageTooltip="Detalle"
+                  iconClass="pi pi-file-excel"
+                  clase="p-button-rounded p-button-success p-button-outlined"
+                  (eventEmiter)="downloadReport()"
+                ></app-button-component>
+              </div>
+            </div>
+            <div class="grid">
+              <div class="col-12">
+                <app-tabla-component
+                  [cols]="[
+                    { field: 'name_ciudad', header: 'Cidad' },
+                    { field: 'name_despacho', header: 'Despacho' },
+                    { field: 'radicacion', header: 'Radicación' },
+                    { field: 'proceso', header: 'Proceso' },
+                    { field: 'demandante', header: 'Demandante' },
+                    { field: 'demandado', header: 'Demandado' },
+                    {
+                      field: 'descripcion_vence_terminos',
+                      header: 'Descripción del vencimiento'
+                    },
+                    {
+                      field: 'fecha_vence_terminos',
+                      header: 'Fecha',
+                      isFecha: true
+                    }
+                  ]"
+                  [data]="listAudiencias"
+                  [fixStyleTable]="true"
+                  [stripedTable]="true"
+                  idElement="id_vencimiento"
+                  [actionsShow]="true"
+                  [paginador]="true"
+                >
+                  <ng-template pTemplate="actions" let-rowData="elemento">
+                    <div class="grid p-fluit">
+                      <div class="col-6">
+                        <app-button-component
+                          [icon]="true"
+                          [showTooltip]="true"
+                          messageTooltip="Eliminar registro"
+                          iconClass="pi pi-times"
+                          clase="p-button-rounded p-button-danger p-button-text"
+                          (eventEmiter)="eliminarRegistro(rowData)"
+                        ></app-button-component>
+                      </div>
+                      <div class="col-6">
+                        <app-button-component
+                          [icon]="true"
+                          [showTooltip]="true"
+                          messageTooltip="Actualizar registro"
+                          iconClass="pi pi-file-edit"
+                          clase="p-button-rounded p-button-text"
+                          (eventEmiter)="openRegistro(rowData)"
+                        ></app-button-component>
+                      </div>
+                    </div>
+                  </ng-template>
+                </app-tabla-component>
+              </div>
+            </div>
           </ng-template>
         </app-card-component>
       </div>
@@ -163,7 +184,7 @@
       <div class="col-12 lg:col-6 xl:col-6">
         <input-text
           placeHolder="Ciudad"
-          [(model)]="audiencia.nameCiudad"
+          [(model)]="audiencia.name_ciudad"
           (grupo)="(formAudiencia)"
           [requerido]="true"
           styleInput="help-text"
@@ -174,7 +195,7 @@
       <div class="col-12 lg:col-6 xl:col-6">
         <input-text
           placeHolder="Despacho"
-          [(model)]="audiencia.nameDespacho"
+          [(model)]="audiencia.name_despacho"
           (grupo)="(formAudiencia)"
           [requerido]="true"
           styleInput="help-text"

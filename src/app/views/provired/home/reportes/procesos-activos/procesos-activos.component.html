@@ -54,9 +54,8 @@
                   <div class="col-12 xl:col-6 md:col-6">
                     <input-text
                       placeHolder="Demandante/Demandado"
-                      [(model)]="formSearchProcess.demandante"
+                      [(model)]="genericFilter.demandante_demandado"
                       [grupo]="fb"
-                      [requerido]="true"
                       styleInput="help-text"
                       [placeHolderActive]="false"
                       [disabledInputText]="false"
@@ -65,9 +64,8 @@
                   <div class="col-12 xl:col-6 md:col-6">
                     <input-text
                       placeHolder="Radicado"
-                      [(model)]="formSearchProcess.radicado"
+                      [(model)]="genericFilter.radicacion"
                       [grupo]="fb"
-                      [requerido]="true"
                       styleInput="help-text"
                       [placeHolderActive]="false"
                       [disabledInputText]="false"
@@ -88,5 +86,745 @@
         </div>
       </div>
     </div>
+    <div class="grid">
+      <div class="col-12">
+        <app-card-component>
+          <ng-template pTemplate="content">
+            <div class="grid">
+              <div class="col-3">
+                <app-button-component
+                  nameButton="Generar a excel reporte notificaciones"
+                  [icon]="true"
+                  [showTooltip]="true"
+                  messageTooltip="Detalle"
+                  iconClass="pi pi-file-excel"
+                  clase="p-button-rounded p-button-success p-button-outlined"
+                  (eventEmiter)="downloadReport()"
+                ></app-button-component>
+              </div>
+            </div>
+            <div class="grid">
+              <div class="col-12">
+                <app-tabla-component
+                  [cols]="[
+                    { field: 'etiqueta_suscriptor', header: 'Etiqueta' },
+                    { field: 'name_ciudad', header: 'Ciudad' },
+                    { field: 'name_despacho', header: 'Despacho' },
+                    {
+                      field: 'codigo_23',
+                      header: 'Radicación',
+                      esRadicacion: true
+                    },
+                    { field: 'proceso', header: 'Tipo proceso' },
+                    { field: 'demandante', header: 'Demandante' },
+                    { field: 'demandado', header: 'Demandado' },
+                    {
+                      field: 'fecha_registro',
+                      header: 'Fecha de registro',
+                      isFecha: true
+                    }
+                  ]"
+                  [loading]="loadingTable"
+                  [data]="data"
+                  [paginador]="true"
+                  [filtroGeneral]="false"
+                  [totalRecords]="totalRecords"
+                  [lazy]="true"
+                  [fixStyleTable]="true"
+                  [stripedTable]="true"
+                  [rows]="30"
+                  [actionsShow]="true"
+                  nameActionsLeft="acciones"
+                  (onChangePage)="changePage($event)"
+                >
+                  <ng-template pTemplate="actions" let-value="elemento">
+                    <div class="grid p-fluit">
+                      <div class="col-4">
+                        <app-button-component
+                          [icon]="true"
+                          [showTooltip]="true"
+                          messageTooltip="Programar"
+                          iconClass="pi pi-calendar-plus"
+                          clase="p-button-rounded p-button-text"
+                          (eventEmiter)="programarProceso(value)"
+                        ></app-button-component>
+                      </div>
+                      <div class="col-4">
+                        <app-button-component
+                          [icon]="true"
+                          [showTooltip]="true"
+                          messageTooltip="Inf procesal"
+                          iconClass="pi pi-pencil"
+                          clase="p-button-rounded p-button-text"
+                          (eventEmiter)="openInformeProcesal(value)"
+                        ></app-button-component>
+                      </div>
+                      <div class="col-4">
+                        <app-button-component
+                          [icon]="true"
+                          [showTooltip]="true"
+                          messageTooltip="Eliminar registro"
+                          iconClass="pi pi-times"
+                          clase="p-button-rounded p-button-danger p-button-text"
+                          (eventEmiter)="deleteItem(value)"
+                        ></app-button-component>
+                      </div>
+                    </div>
+                  </ng-template>
+                </app-tabla-component>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
   </div>
 </div>
+
+<modal-component
+  [visible]="showModalInfo"
+  (closeModal)="showModalInfo = false"
+  tamanio="70vw"
+>
+  <ng-template pTemplate="title">
+    <h4 class="title-color">Informe procesal</h4>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="grid">
+      <div class="col-12">
+        <div class="grid p-5">
+          <div class="col-12">
+            <div class="grid">
+              <div class="col-6">
+                <h4>
+                  Despacho:
+                  <span style="color: green">{{ nameDespachoModal }}</span>
+                </h4>
+                <h4>
+                  Radicado: <span style="color: red">{{ radicadoModal }}</span>
+                </h4>
+              </div>
+              <div class="col-6">
+                <app-button-component
+                  nameButton="Generar a excel reporte notificaciones"
+                  [icon]="true"
+                  [showTooltip]="true"
+                  messageTooltip="Detalle"
+                  iconClass="pi pi-file-excel"
+                  clase="p-button-rounded p-button-success p-button-outlined"
+                  (eventEmiter)="downloadReportInfP()"
+                ></app-button-component>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 p-4">
+            <h4>FORMULARIO</h4>
+          </div>
+          <div
+            class="col-12 p-3"
+            *ngFor="let cmpInfo of infoProcesal.cmpInfoProcesal!; index as i"
+          >
+            <div class="grid" style="border-bottom: solid 1px gray">
+              <div class="col-4">
+                {{ cmpInfo.name_label }}
+              </div>
+              <div class="col-8">
+                <div class="grid">
+                  <div class="col-12">
+                    <ng-container [ngSwitch]="cmpInfo.type_cmp">
+                      <div *ngSwitchCase="1" class="col-12">
+                        <div
+                          *ngIf="cmpInfo.multi_data == 1; else elseInputText"
+                        >
+                          <div class="grid">
+                            <div class="col-12" style="text-align: end">
+                              <app-button-component
+                                [icon]="true"
+                                iconClass="pi pi-plus"
+                                clase="p-button-rounded mr-1"
+                                (eventEmiter)="
+                                  createMultiDataObject(cmpInfo.id!)
+                                "
+                              ></app-button-component>
+                            </div>
+                          </div>
+
+                          <div class="grid">
+                            <div class="col-12">
+                              <div
+                                *ngFor="
+                                  let multidata of infoProcesal.multiData;
+                                  index as iM
+                                "
+                              >
+                                <div
+                                  *ngIf="
+                                    multidata.id_cmp_informe_procesal ==
+                                    cmpInfo.id
+                                  "
+                                >
+                                  <div class="grid p-fluit">
+                                    <div class="col-11 pl-4">
+                                      <input-text
+                                        [(model)]="multidata.value"
+                                        [grupo]="formGroup.fbInfProcesal"
+                                        [valid]="formValid.vistaForm"
+                                        placeHolder="Ingrese el campo requerido"
+                                        styleInput="help-text"
+                                        [disabledInputText]="false"
+                                        [requerido]="cmpInfo.require_cmp == 1"
+                                      ></input-text>
+                                    </div>
+                                    <div
+                                      class="col-1"
+                                      style="padding-top: 25px"
+                                    >
+                                      <div *ngIf="!multidata.id">
+                                        <app-button-component
+                                          [icon]="true"
+                                          iconClass="pi pi-times"
+                                          clase="p-button-rounded p-button-danger"
+                                          (eventEmiter)="
+                                            deleteMultiDataObject(
+                                              iM,
+                                              multidata.id_cmp_informe_procesal
+                                            )
+                                          "
+                                        ></app-button-component>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <ng-template #elseInputText>
+                          <div class="grid p-fluit">
+                            <div class="col-12">
+                              <input-text
+                                [(model)]="infoProcesal.data![cmpInfo.name_cmp]"
+                                [grupo]="formGroup.fbInfProcesal"
+                                [valid]="formValid.vistaForm"
+                                placeHolder="Ingrese el campo requerido"
+                                styleInput="help-text"
+                                [disabledInputText]="false"
+                                [requerido]="cmpInfo.require_cmp == 1"
+                              ></input-text>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </div>
+                      <div *ngSwitchCase="2" class="col-12">
+                        <div
+                          *ngIf="
+                            cmpInfo.multi_data == 1;
+                            else elseInputTextLong
+                          "
+                        >
+                          <div class="grid">
+                            <div class="col-12" style="text-align: end">
+                              <app-button-component
+                                [icon]="true"
+                                iconClass="pi pi-plus"
+                                clase="p-button-rounded mr-1"
+                                (eventEmiter)="
+                                  createMultiDataObject(cmpInfo.id!)
+                                "
+                              ></app-button-component>
+                            </div>
+                          </div>
+                          <div class="grid">
+                            <div class="col-12">
+                              <div
+                                *ngFor="
+                                  let multidata of infoProcesal.multiData;
+                                  index as iM
+                                "
+                              >
+                                <div
+                                  *ngIf="
+                                    multidata.id_cmp_informe_procesal ==
+                                    cmpInfo.id
+                                  "
+                                >
+                                  <div class="grid p-fluit">
+                                    <div class="col-11 pl-4">
+                                      <app-text-area
+                                        [(model)]="multidata.value"
+                                        [grupo]="formGroup.fbInfProcesal"
+                                        heightTamanio="35px"
+                                        [valid]="formValid.vistaForm"
+                                        placeholder="Ingrese el registro requerido."
+                                        [requerido]="cmpInfo.require_cmp == 1"
+                                      ></app-text-area>
+                                    </div>
+                                    <div
+                                      class="col-1"
+                                      style="padding-top: 25px"
+                                    >
+                                      <div *ngIf="!multidata.id">
+                                        <app-button-component
+                                          [icon]="true"
+                                          iconClass="pi pi-times"
+                                          clase="p-button-rounded p-button-danger"
+                                          (eventEmiter)="
+                                            deleteMultiDataObject(
+                                              iM,
+                                              multidata.id_cmp_informe_procesal
+                                            )
+                                          "
+                                        ></app-button-component>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <ng-template #elseInputTextLong>
+                          <div class="grid p-fluit">
+                            <div class="col-12">
+                              <app-text-area
+                                [(model)]="infoProcesal.data![cmpInfo.name_cmp]"
+                                [grupo]="formGroup.fbInfProcesal"
+                                heightTamanio="35px"
+                                [valid]="formValid.vistaForm"
+                                placeholder="Ingrese el registro requerido."
+                                [requerido]="cmpInfo.require_cmp == 1"
+                              ></app-text-area>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </div>
+                      <div *ngSwitchCase="3" class="col-12">
+                        <div
+                          *ngIf="cmpInfo.multi_data == 1; else elseInputNumber"
+                        >
+                          <div class="grid">
+                            <div class="col-12" style="text-align: end">
+                              <app-button-component
+                                [icon]="true"
+                                iconClass="pi pi-plus"
+                                clase="p-button-rounded mr-1"
+                                (eventEmiter)="
+                                  createMultiDataObject(cmpInfo.id!)
+                                "
+                              ></app-button-component>
+                            </div>
+                          </div>
+
+                          <div class="grid">
+                            <div class="col-12">
+                              <div
+                                *ngFor="
+                                  let multidata of infoProcesal.multiData;
+                                  index as iM
+                                "
+                              >
+                                <div
+                                  *ngIf="
+                                    multidata.id_cmp_informe_procesal ==
+                                    cmpInfo.id
+                                  "
+                                >
+                                  <div class="grid p-fluit">
+                                    <div class="col-11 pl-4">
+                                      <input-text
+                                        [valid]="formValid.vistaForm"
+                                        [(model)]="multidata.value"
+                                        [grupo]="formGroup.fbInfProcesal"
+                                        placeHolder="Ingrese el registro requerido"
+                                        styleInput="help-text"
+                                        [disabledInputText]="false"
+                                        tipo="number"
+                                        [requerido]="cmpInfo.require_cmp == 1"
+                                      ></input-text>
+                                    </div>
+                                    <div
+                                      class="col-1"
+                                      style="padding-top: 25px"
+                                    >
+                                      <div *ngIf="!multidata.id">
+                                        <app-button-component
+                                          [icon]="true"
+                                          iconClass="pi pi-times"
+                                          clase="p-button-rounded p-button-danger"
+                                          (eventEmiter)="
+                                            deleteMultiDataObject(
+                                              iM,
+                                              multidata.id_cmp_informe_procesal
+                                            )
+                                          "
+                                        ></app-button-component>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <ng-template #elseInputNumber>
+                          <div class="grid p-fluit">
+                            <div class="col-12">
+                              <input-text
+                                [valid]="formValid.vistaForm"
+                                [(model)]="infoProcesal.data![cmpInfo.name_cmp]"
+                                placeHolder="Ingrese el registro requerido"
+                                [grupo]="formGroup.fbInfProcesal"
+                                styleInput="help-text"
+                                [disabledInputText]="false"
+                                tipo="number"
+                                [requerido]="cmpInfo.require_cmp == 1"
+                              ></input-text>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </div>
+                      <div *ngSwitchCase="4" class="col-12">
+                        <div
+                          *ngIf="cmpInfo.multi_data == 1; else elseMultiSelect"
+                        >
+                          <div class="grid">
+                            <div class="col-12" style="text-align: end">
+                              <app-button-component
+                                [icon]="true"
+                                iconClass="pi pi-plus"
+                                clase="p-button-rounded mr-1"
+                                (eventEmiter)="
+                                  createMultiDataObject(cmpInfo.id!)
+                                "
+                              ></app-button-component>
+                            </div>
+                          </div>
+
+                          <div class="grid">
+                            <div class="col-12">
+                              <div
+                                *ngFor="
+                                  let multidata of infoProcesal.multiData;
+                                  index as iM
+                                "
+                              >
+                                <div
+                                  *ngIf="
+                                    multidata.id_cmp_informe_procesal ==
+                                    cmpInfo.id
+                                  "
+                                >
+                                  <div class="grid p-fluid">
+                                    <div class="col-11 pl-4">
+                                      <app-dropdown-component
+                                        [options]="
+                                          convertToList(cmpInfo.value_cmp!)
+                                        "
+                                        [(model)]="multidata.value"
+                                        [grupo]="formGroup.fbInfProcesal"
+                                        selectLabel="Seleccione un item"
+                                        name="Seleccione un item"
+                                        placeholder="Seleccione un item"
+                                      ></app-dropdown-component>
+                                    </div>
+                                    <div
+                                      class="col-1"
+                                      style="padding-top: 25px"
+                                    >
+                                      <div *ngIf="!multidata.id">
+                                        <app-button-component
+                                          [icon]="true"
+                                          iconClass="pi pi-times"
+                                          clase="p-button-rounded p-button-danger"
+                                          (eventEmiter)="
+                                            deleteMultiDataObject(
+                                              iM,
+                                              multidata.id_cmp_informe_procesal
+                                            )
+                                          "
+                                        ></app-button-component>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <ng-template #elseMultiSelect>
+                          <div class="grid p-fluid">
+                            <div class="col-12">
+                              <app-dropdown-component
+                                [options]="convertToList(cmpInfo.value_cmp!)"
+                                [(model)]="infoProcesal.data![cmpInfo.name_cmp]"
+                                [grupo]="formGroup.fbInfProcesal"
+                                selectLabel="Seleccione un item"
+                                name="Seleccione un item"
+                                placeholder="Seleccione un item"
+                              ></app-dropdown-component>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </div>
+                      <div *ngSwitchCase="5">
+                        <div
+                          *ngIf="cmpInfo.multi_data == 1; else elseDatePicker"
+                        >
+                          <div class="grid">
+                            <div class="col-12" style="text-align: end">
+                              <app-button-component
+                                [icon]="true"
+                                iconClass="pi pi-plus"
+                                clase="p-button-rounded mr-1"
+                                (eventEmiter)="
+                                  createMultiDataObject(cmpInfo.id!)
+                                "
+                              ></app-button-component>
+                            </div>
+                          </div>
+                          <div class="grid">
+                            <div class="col-12">
+                              <div
+                                *ngFor="
+                                  let multidata of infoProcesal.multiData;
+                                  index as iM
+                                "
+                              >
+                                <div
+                                  *ngIf="
+                                    multidata.id_cmp_informe_procesal ==
+                                    cmpInfo.id
+                                  "
+                                >
+                                  <div class="grid p-fluit">
+                                    <div class="col-11 pl-4">
+                                      {{ infoProcesal.data![cmpInfo.name_cmp] }}
+                                      <app-date-picker
+                                        [valid]="formValid.vistaForm"
+                                        nombre="fechaDesde"
+                                        [(model)]="multidata.value"
+                                        [grupo]="formGroup.fbInfProcesal"
+                                        [showIcon]="true"
+                                        placeholder="yyyy-mm-dd"
+                                        [buttonBar]="true"
+                                        label="Fecha audiencia / Vencimiento "
+                                        [requerido]="cmpInfo.require_cmp == 1"
+                                        format="yy-mm-dd"
+                                      ></app-date-picker>
+                                    </div>
+                                    <div
+                                      class="col-1"
+                                      style="padding-top: 25px"
+                                    >
+                                      <div *ngIf="!multidata.id">
+                                        <app-button-component
+                                          [icon]="true"
+                                          iconClass="pi pi-times"
+                                          clase="p-button-rounded p-button-danger"
+                                          (eventEmiter)="
+                                            deleteMultiDataObject(
+                                              iM,
+                                              multidata.id_cmp_informe_procesal
+                                            )
+                                          "
+                                        ></app-button-component>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <ng-template #elseDatePicker>
+                          <div class="grid p-fluit">
+                            <div class="col-12 pl-4">
+                              {{ infoProcesal.data![cmpInfo.name_cmp] }}
+                              <app-date-picker
+                                [valid]="formValid.vistaForm"
+                                [(model)]="infoProcesal.data![cmpInfo.name_cmp]"
+                                [grupo]="formGroup.fbInfProcesal"
+                                nombre="fechaDesde"
+                                [showIcon]="true"
+                                placeholder="yyyy-mm-dd"
+                                [buttonBar]="true"
+                                label="Fecha audiencia / Vencimiento "
+                                [requerido]="cmpInfo.require_cmp == 1"
+                                format="yy-mm-dd"
+                              ></app-date-picker>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <app-button-component
+      clase="p-button-danger"
+      nameButton="Cancelar"
+      (eventEmiter)="showModalInfo = false"
+    ></app-button-component>
+    <app-button-component
+      clase="p-button-success"
+      nameButton="Guardar"
+      (eventEmiter)="sendDinamycForm()"
+    ></app-button-component>
+  </ng-template>
+</modal-component>
+
+<modal-component [visible]="showModalD" (closeModal)="showModalD = false">
+  <ng-template pTemplate="title">
+    <h4 class="title-color">Eliminar registro</h4>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="grid">
+      <div class="col-12">
+        <div class="flex justify-content-center">
+          <h4>Esta seguro de eliminar este registro?</h4>
+        </div>
+      </div>
+    </div>
+    <div class="grid mt-2">
+      <div class="col-12">
+        <div class="flex justify-content-center">
+          <re-captcha
+            (errored)="expireCaptchat($event)"
+            (resolved)="acceptedCaptcha($event)"
+            siteKey="{{ siteKey }}"
+          ></re-captcha>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <app-button-component
+      nameButton="Eliminar"
+      clase="p-button-danger"
+      (eventEmiter)="deleteProcesoActivo()"
+    ></app-button-component>
+    <app-button-component
+      nameButton="Cancelar"
+      (eventEmiter)="showModalD = false"
+    ></app-button-component>
+  </ng-template>
+</modal-component>
+
+<modal-component
+  [visible]="showModalProgramar"
+  (closeModal)="showModalProgramar = false"
+>
+  <ng-template pTemplate="title">
+    <h4 class="title-color">
+      PROGRAMAR AUDIENCIA / ALERTAR VENCIMIENTO DE TERMINO
+    </h4>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="grid">
+      <div class="col-12">
+        <div class="grid">
+          <div class="col-6">
+            <input-text
+              [(model)]="selectedItem.name_ciudad"
+              [grupo]="fbProgramar"
+              placeHolder="Ciudad"
+              styleInput="help-text"
+              [disabledInputText]="true"
+            ></input-text>
+          </div>
+          <div class="col-6">
+            <input-text
+              [(model)]="updateProceso.despacho"
+              [grupo]="fbProgramar"
+              placeHolder="Despacho"
+              styleInput="help-text"
+              [disabledInputText]="true"
+            ></input-text>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="col-6">
+            <input-text
+              [(model)]="updateProceso.radicacion"
+              [grupo]="fbProgramar"
+              placeHolder="Radicación"
+              styleInput="help-text"
+              [disabledInputText]="true"
+            ></input-text>
+          </div>
+          <div class="col-6">
+            <input-text
+              [(model)]="updateProceso.proceso"
+              [grupo]="fbProgramar"
+              placeHolder="Proceso"
+              styleInput="help-text"
+              [disabledInputText]="true"
+            ></input-text>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="col-6">
+            <input-text
+              [(model)]="updateProceso.demandante"
+              [grupo]="fbProgramar"
+              placeHolder="Demandante"
+              styleInput="help-text"
+              [disabledInputText]="true"
+            ></input-text>
+          </div>
+          <div class="col-6">
+            <input-text
+              [(model)]="updateProceso.demandado"
+              [grupo]="fbProgramar"
+              placeHolder="Demandado"
+              styleInput="help-text"
+              [disabledInputText]="true"
+            ></input-text>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="col-12">
+            <app-text-area
+              placeholder="Detalle Audiencia Vencimiento"
+              [(model)]="updateProceso.descripcion_vence_terminos"
+              [grupo]="fbProgramar"
+            ></app-text-area>
+          </div>
+          <div class="col-6">
+            <app-date-picker
+              [(model)]="updateProceso.fecha_vence_terminos"
+              placeholder="dd-mm-yy"
+              label="Fecha Audiencia / Vencimiento"
+              [showIcon]="true"
+            ></app-date-picker>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <app-button-component
+      nameButton="Programar"
+      (eventEmiter)="programarAudiencia()"
+    ></app-button-component>
+  </ng-template>
+</modal-component>
+
+<p-toast></p-toast>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

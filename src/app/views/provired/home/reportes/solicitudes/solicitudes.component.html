@@ -11,9 +11,9 @@
             </div>
           </ng-template>
           <ng-template pTemplate="content">
-            <div class="grid p-fluid">
+            <div class="grid p-fluit">
               <div class="col-12">
-                <div class="grid p-fluid">
+                <div class="grid p-fluit">
                   <app-side-menu
                     class="col-12 mt-2"
                     [itemsMenu]="[
@@ -36,82 +36,202 @@
           <ng-template pTemplate="header">
             <div class="flex flex-column-reverse">
               <div class="flex align-items-center justify-content-center mt-2">
-                <h4 class="title-color mt-3">
-                  Seleccione el proceso que desea consultar
-                </h4>
+                <h4 class="title-color mt-3">Mis solicitudes</h4>
               </div>
             </div>
           </ng-template>
           <ng-template pTemplate="content">
-            <div class="grid p-fluit mt-2">
-              <div class="col-12 xl:col-6 md:col-6">
-                <app-dropdown-component
-                  [(model)]="ciudadModel"
-                  [options]="listDepartamentos"
-                  (modelChange)="departamentoChange()"
-                  name="departamento"
-                  placeholder="Departamento"
-                  selectLabel="Seleccionar departamento"
-                  keyOptionName="departamento"
-                  (grupo)="(fb)"
-                  [showClear]="true"
-                ></app-dropdown-component>
-              </div>
-
-              <div class="col-12 xl:col-6 md:col-6">
-                <app-dropdown-component
-                  [(model)]="municipioModel"
-                  (grupo)="(fb)"
-                  [options]="listMunicipios"
-                  name="municipio"
-                  placeholder="Municipio"
-                  keyOptionName="municipio"
-                  selectLabel="Seleccionar municipio"
-                  [showClear]="true"
-                  (modelChange)="municipioChange()"
-                ></app-dropdown-component>
-              </div>
-            </div>
-            <div class="grid p-fluit mt-2">
-              <div class="col-12 xl:col-6 md:col-6">
-                <app-dropdown-component
-                  [(model)]="corporacionesModel"
-                  (grupo)="(fb)"
-                  [options]="listCorporaciones"
-                  name="corporacioes"
-                  placeholder="Corporacion por especialidad"
-                  keyOptionName="corporacion"
-                  selectLabel="Seleccionar corporacion"
-                  [showClear]="true"
-                  (modelChange)="corporacionesChange()"
-                ></app-dropdown-component>
-              </div>
-              <div class="col-12 xl:col-6 md:col-6">
-                <app-dropdown-component
-                  [(model)]="despachosModel"
-                  (grupo)="(fb)"
-                  [options]="listDespachos"
-                  name="despachos"
-                  placeholder="Despachos"
-                  keyOptionName="despacho"
-                  selectLabel="Seleccionar despacho"
-                  [showClear]="true"
-                  [filter]="true"
-                ></app-dropdown-component>
-              </div>
-            </div>
+            <app-filters-dinamics
+              [showRadicacion]="false"
+              [showRango]="false"
+              [userID]="userIDSession"
+              (eventFilter)="consultarSolicitudes($event)"
+            ></app-filters-dinamics>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+    <div class="grid p-fluit mt-2" *ngIf="listSolicitudes.length > 0">
+      <div class="col-12">
+        <app-card-component>
+          <ng-template pTemplate="content">
             <div class="grid">
-              <div class="col-12">
+              <div class="col-3">
                 <app-button-component
-                  nameButton="Consultar"
-                  (eventEmiter)="consultarSolicitudes($event)"
+                  nameButton="Generar a excel reporte mis solicitudes"
+                  [icon]="true"
+                  [showTooltip]="true"
+                  messageTooltip="Detalle"
+                  iconClass="pi pi-file-excel"
+                  clase="p-button-rounded p-button-success p-button-outlined"
+                  (eventEmiter)="downloadReport()"
                 ></app-button-component>
+              </div>
+            </div>
+            <div class="grid p-fluid p-2">
+              <div class="col-12">
+                <app-tabla-component
+                  [cols]="[
+                    { field: 'sp_tipo', header: 'Tipo', tipoEX: true },
+                    { field: 'depto', header: 'Departamento' },
+                    { field: 'mun', header: 'Ciudad' },
+                    { field: 'sp_id_despacho', header: 'Despacho' },
+                    { field: 'sp_radicacion', header: 'Radicado' },
+                    { field: 'sp_rad_23', header: 'Radicado (23)' },
+                    { field: 'sp_demandante', header: 'Demandante' },
+                    { field: 'sp_demandado', header: 'Demandado' },
+                    { field: 'sp_descripcion', header: 'Descripción' },
+                    {
+                      field: 'sp_fecha_ingreso',
+                      header: 'Fecha Ingreso',
+                      isFecha: true
+                    },
+                    {
+                      field: 'nameSuscriptor',
+                      header: 'Suscriptor',
+                      show: isParent ? false : true
+                    }
+                  ]"
+                  [data]="listSolicitudes"
+                  [actionsShow]="true"
+                  nameActionsLeft="Editar"
+                  [totalRecords]="totalItems"
+                  [showTotalRecords]="true"
+                >
+                  <ng-template pTemplate="actions" let-rowData="elemento">
+                    <div class="grid">
+                      <div class="col-12">
+                        <app-button-component
+                          [icon]="true"
+                          [showTooltip]="true"
+                          messageTooltip="Editar"
+                          iconClass="pi pi-file-edit"
+                          clase="p-button-rounded p-button-text"
+                          (eventEmiter)="showEditItem(rowData)"
+                        ></app-button-component>
+                      </div>
+                    </div>
+                  </ng-template>
+                </app-tabla-component>
               </div>
             </div>
           </ng-template>
         </app-card-component>
       </div>
     </div>
-    <div class="grid p-fluit mt-2"></div>
   </div>
 </div>
+<modal-component [visible]="showModal" (closeModal)="showModal = false">
+  <ng-template pTemplate="title">
+    <h4>Editar registro proceso</h4>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="grid">
+      <div class="col-12">
+        <div class="grid p-fluid">
+          <div class="col-6 p-2">
+            <input-text
+              [(model)]="itemSelected.depto"
+              [disabledInputText]="true"
+              placeHolder="Departamento"
+              [placeHolderActive]="false"
+              styleInput="help-text"
+            >
+            </input-text>
+          </div>
+          <div class="col-6 p-2">
+            <input-text
+              [(model)]="itemSelected.sp_radicacion"
+              [disabledInputText]="false"
+              placeHolder="Radicado"
+              [placeHolderActive]="false"
+              styleInput="help-text"
+              tipo="number"
+            >
+            </input-text>
+          </div>
+        </div>
+        <div class="grid p-fluid">
+          <div class="col-6 p-2">
+            <input-text
+              [(model)]="itemSelected.mun"
+              [disabledInputText]="true"
+              placeHolder="Departamento"
+              [placeHolderActive]="false"
+              styleInput="help-text"
+            >
+            </input-text>
+          </div>
+          <div class="col-6 p-2">
+            <input-text
+              [(model)]="itemSelected.sp_rad_23"
+              [disabledInputText]="false"
+              placeHolder="Radicado 23 digitos"
+              [placeHolderActive]="false"
+              styleInput="help-text"
+            >
+            </input-text>
+          </div>
+        </div>
+        <div class="grid p-fluid">
+          <div class="col-6">
+            <input-text
+              [(model)]="itemSelected.despacho"
+              [disabledInputText]="true"
+              placeHolder="Despacho"
+              [placeHolderActive]="true"
+              styleInput="help-text"
+            >
+            </input-text>
+          </div>
+        </div>
+        <div class="grid p-fluid">
+          <div class="col-6">
+            <input-text
+              [(model)]="itemSelected.sp_demandante"
+              [disabledInputText]="true"
+              placeHolder="Demandante"
+              [placeHolderActive]="true"
+              styleInput="help-text"
+            >
+            </input-text>
+          </div>
+        </div>
+        <div class="grid p-fluid">
+          <div class="col-6">
+            <input-text
+              [(model)]="itemSelected.sp_demandado"
+              [disabledInputText]="true"
+              placeHolder="Demandado"
+              [placeHolderActive]="true"
+              styleInput="help-text"
+            >
+            </input-text>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <app-button-component
+      clase="p-button-success"
+      nameButton="Editar"
+      (eventEmiter)="actualizarSolicitud()"
+    ></app-button-component>
+    <app-button-component
+      nameButton="Cancelar"
+      (eventEmiter)="showModal = false"
+    ></app-button-component>
+  </ng-template>
+</modal-component>
+<p-toast></p-toast>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

@@ -8,9 +8,9 @@ import {
   QueryList,
   ContentChildren,
   AfterContentInit,
-  LOCALE_ID
+  LOCALE_ID,
 } from '@angular/core';
-import localeEs from '@angular/common/locales/es'
+import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
 import { PrimeTemplate } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -20,9 +20,23 @@ registerLocaleData(localeEs);
   selector: 'app-tabla-component',
   templateUrl: './tabla-component.component.html',
   styleUrls: ['./tabla-component.component.scss'],
-  providers: [{provide:LOCALE_ID, useValue: 'es'}]
+  providers: [{ provide: LOCALE_ID, useValue: 'es' }],
 })
-export class TablaComponentComponent implements OnInit, OnChanges, AfterContentInit {
+export class TablaComponentComponent
+  implements OnInit, OnChanges, AfterContentInit
+{
+  @Input() rowsPerPage: Array<any> = [10, 20, 30];
+
+  @Input() totalRecords: number = 0;
+
+  @Input() rows: number = 10;
+
+  @Input() lazy: boolean = false;
+
+  /**
+   * @var posible values are top, botton or both
+   */
+  @Input() paginationPosition: string = 'bottom';
 
   @Input() isSortTable: boolean = false;
 
@@ -46,9 +60,23 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
 
   @Input() actionsShow: boolean = false;
 
+  @Input() nameActionsLeft: string = '';
+
+  @Input() actionsRightShow: boolean = false;
+
+  @Input() nameActionsRight: string = '';
+
+  @Input() loading: boolean = false;
+
+  @Input() showTotalRecords: boolean = false;
+
   @Output() selected: EventEmitter<any> = new EventEmitter<any>();
 
-  @ContentChildren(PrimeTemplate) plantillas: QueryList<PrimeTemplate> | undefined;
+  @Output() onChangePage: EventEmitter<any> = new EventEmitter<any>();
+
+  @ContentChildren(PrimeTemplate) plantillas:
+    | QueryList<PrimeTemplate>
+    | undefined;
 
   public selectedElement: Array<any> = [];
 
@@ -56,20 +84,19 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
 
   public actions: any;
 
+  public actions_right: any;
+
   constructor() {}
 
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(changes: any): void {
-
-    if(changes.selectedElement) {
+    if (changes.selectedElement) {
       this.selected.emit(this.selectedElement);
     }
   }
 
-  onRowSelect(event:any) {
+  onRowSelect(event: any) {
     this.selected.emit(this.selectedElement);
   }
 
@@ -78,6 +105,9 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
       switch (plantilla.getType()) {
         case 'actions':
           this.actions = plantilla.template;
+          break;
+        case 'actions-left':
+          this.actions_right = plantilla.template;
           break;
 
         default:
@@ -92,5 +122,24 @@ export class TablaComponentComponent implements OnInit, OnChanges, AfterContentI
 
   clear(table: Table) {
     table.clear();
-}
+  }
+
+  onPageChange(event: any) {
+    this.onChangePage.emit(event);
+  }
+
+  formarRadicacion(item: string): string {
+    let finalString;
+    if (item.length == 23) {
+      finalString =
+        item.substr(12, 4) +
+        '-' +
+        item.substr(16, 5) +
+        '-' +
+        item.substr(21, 2);
+    } else {
+      finalString = item;
+    }
+    return finalString;
+  }
 }

@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageService } from 'primeng/api';
 import { Proceso } from 'src/app/models/home/procesos/proceso';
+import { MessageModel } from 'src/app/models/login/utils/messageModel';
+import { ProcesosService } from 'src/app/services/home/procesos/procesos.service';
 import { BreadcrumbService } from 'src/app/services/utils/app.breadcrumb.service';
 import { CorporacionesService } from 'src/app/services/utils/corporaciones.service';
 import { DepartamentosService } from 'src/app/services/utils/departamentos.service';
 import { DespachosService } from 'src/app/services/utils/despachos.service';
 import { MunicipiosService } from 'src/app/services/utils/municipios.service';
+import { SessionStorageService } from 'src/app/services/utils/session-storage.service';
 
 @Component({
   selector: 'app-procesos',
@@ -40,7 +45,11 @@ export class ProcesosComponent implements OnInit {
     private departamentos: DepartamentosService,
     private municipio: MunicipiosService,
     private corporaciones: CorporacionesService,
-    private despacho: DespachosService
+    private despacho: DespachosService,
+    private procesoService: ProcesosService,
+    private sesion: SessionStorageService,
+    private spinner: NgxSpinnerService,
+    private message: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -63,11 +72,56 @@ export class ProcesosComponent implements OnInit {
   }
 
   crearProceso(eve: any): void {
-    console.log(this.ciudadModel, 'Hola mundo');
+    this.spinner.show();
+    this.newProceso.depto = this.ciudadModel.IdDep;
+    this.newProceso.municipio = this.municipioModel.IdMun;
+    this.newProceso.corporacion = this.corporacionesModel.IdCorp;
+    this.newProceso.despacho = this.despachosModel.IdDes;
+    this.newProceso.suscriptor = this.sesion.getSession().user;
+
+    this.procesoService.createProceso(this.newProceso).subscribe(
+      {
+        next: (res) => {
+          let message_model: MessageModel = new MessageModel('', '', '');
+          if (res.status == 200) {
+
+            message_model = new MessageModel(
+              'success',
+              `Creación exitosa`,
+              `${res.msg}`
+            );
+          } else if (res.status == 400) {
+            message_model = new MessageModel(
+              'error',
+              `El formulario está incompleto`,
+              `${res.msg}`
+            );
+          }
+
+          this.message.add(message_model);
+          this.spinner.hide();
+        },
+        error: (error) => {
+          this.spinner.hide();
+          let message_model: MessageModel = new MessageModel(
+            'error',
+            `El formulario está incompleto`,
+            `${error.error.msg}`
+          );
+          this.message.add(message_model);
+        }
+      }
+    )
   }
 
   clearFormulario(): void {
-    console.log('Limpiar formulario');
+    this.newProceso = new Proceso();
+    this.despachosModel = null;
+    this.corporacionesModel = null;
+    this.municipioModel = null;
+    this.listMunicipios = [];
+    this.listCorporaciones = [];
+    this.listDespachos = [];
   }
 
   departamentoChange(): void {

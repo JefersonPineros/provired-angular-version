@@ -14,10 +14,9 @@ import { TerminosService } from 'src/app/services/login/terminos.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  providers: [MessageService]
+  providers: [MessageService],
 })
 export class LoginComponent implements OnInit {
-
   public formLogin: FormGroup = new FormGroup({});
 
   public loginModel: Login = new Login();
@@ -26,7 +25,7 @@ export class LoginComponent implements OnInit {
 
   public showModalTerminos: boolean = false;
 
-  public messageTerminos: string = "";
+  public messageTerminos: string = '';
 
   public aceptarTerminos: boolean = false;
 
@@ -37,7 +36,7 @@ export class LoginComponent implements OnInit {
     private message: MessageService,
     private session: SessionStorageService,
     private terminos: TerminosService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.session.clearAllSession();
@@ -53,9 +52,7 @@ export class LoginComponent implements OnInit {
             this.route.navigate(['provired/home-provired']);
           }, 500);
         } else {
-
           if (!resp.terminos_ok) {
-            console.log(this.showModalTerminos);
             this.aceptarTerminos = true;
             this.showModalTerminos = true;
             this.messageTerminos = resp.msg!;
@@ -69,6 +66,8 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         if (error instanceof HttpErrorResponse) {
+          console.log(error);
+
           this.spinner.hide();
           let message_model: MessageModel = new MessageModel(
             'error',
@@ -77,9 +76,8 @@ export class LoginComponent implements OnInit {
           );
           this.message.add(message_model);
         }
-      }
-    }
-    );
+      },
+    });
   }
 
   actionAcept(): void {
@@ -96,7 +94,11 @@ export class LoginComponent implements OnInit {
       error: (error) => {
         console.log(error);
         this.spinner.hide();
-      }
+      },
     });
+  }
+
+  olvidoContrasena() {
+    this.route.navigate(['provired/recuperar-contrasena/update-pass']);
   }
 }

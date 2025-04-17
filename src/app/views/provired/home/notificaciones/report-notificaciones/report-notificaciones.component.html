@@ -5,7 +5,7 @@
         <app-card-component>
           <ng-template pTemplate="header">
             <div class="flex flex-column-reverse">
-              <div class="flex align-items-center justify-content-center mt-2">
+              <div class="flex align-items-center justify-content-center">
                 <h4 class="title-color mt-3">Servicios</h4>
               </div>
             </div>
@@ -15,7 +15,7 @@
               <div class="col-12">
                 <div class="grid p-fluid">
                   <app-side-menu
-                    class="col-12 mt-2"
+                    class="col-12"
                     [itemsMenu]="[
                       {
                         label: 'Autorizaciones',
@@ -40,7 +40,7 @@
         <app-card-component>
           <ng-template pTemplate="header">
             <div class="flex flex-column-reverse">
-              <div class="flex align-items-center justify-content-center mt-2">
+              <div class="flex align-items-center justify-content-center">
                 <h4 class="title-color mt-3">Reporte de notificaciones</h4>
               </div>
             </div>
@@ -49,28 +49,11 @@
             <div class="grid p-fluid">
               <div class="col-12">
                 <div class="grid p-fluid">
-                  <div class="col-12 mt-3">
-                    <div class="grid">
-                      <div class="col-12">
-                        <h5 class="ml-3">Ultimos:</h5>
-                      </div>
-                    </div>
-                    <div class="grid">
-                      <div class="col-12">
-                        <div class="flex p-3">
-                          <app-radio-button
-                            [listRadioButtons]="[
-                              { name: 'Mis procesos de hoy', key: 'T' },
-                              { name: 'Consultar a una fecha', key: 'D' }
-                            ]"
-                            [defaultValue]="1"
-                          ></app-radio-button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="grid p-fluit p-3">
+                  <div class="col-12">
+                    <div class="grid p-fluit pr-3 pl-3">
                       <div class="col-12 xl:col-6 md:col-6">
                         <app-date-picker
+                          [(model)]="fi"
                           nombre="fechaDesde"
                           [showIcon]="true"
                           placeholder="DD/MM/YY"
@@ -81,6 +64,7 @@
                       </div>
                       <div class="col-12 xl:col-6 md:col-6">
                         <app-date-picker
+                          [(model)]="ff"
                           nombre="fechaHasta"
                           [showIcon]="true"
                           placeholder="DD/MM/YY"
@@ -92,6 +76,7 @@
                       <div class="col-12">
                         <div>
                           <app-button-component
+                            (eventEmiter)="findReport()"
                             nameButton="Consultar"
                           ></app-button-component>
                         </div>
@@ -105,5 +90,413 @@
         </app-card-component>
       </div>
     </div>
+    <div class="grid" *ngIf="listReport.length > 0">
+      <div class="col-12">
+        <div class="mt-3">
+          <app-card-component>
+            <ng-template pTemplate="content">
+              <div class="row">
+                <div class="col-3">
+                  <div>
+                    <app-button-component
+                      nameButton="Exportar a excel reporte notificaciones"
+                      [icon]="true"
+                      [showTooltip]="true"
+                      messageTooltip="Detalle"
+                      iconClass="pi pi-file-excel"
+                      clase="p-button-rounded p-button-success p-button-outlined"
+                      (eventEmiter)="downloadReport()"
+                    ></app-button-component>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <app-tabla-component
+                    [cols]="[
+                      { field: 'etiqueta_suscriptor', header: 'Etiqueta' },
+                      { field: 'name_ciudad', header: 'Cidad' },
+                      { field: 'name_despacho', header: 'Despacho' },
+                      { field: 'name_notificacion', header: 'Notificación' },
+                      { field: 'radicacion', header: 'Radicación' },
+                      { field: 'demandante', header: 'Demandante' },
+                      { field: 'demandado', header: 'Demandado' },
+                      {
+                        field: 'descripcion',
+                        header: 'Descripción'
+                      },
+                      {
+                        field: 'fechapublicacion',
+                        header: 'Publicación',
+                        isFecha: true
+                      }
+                    ]"
+                    paginationPosition="both"
+                    [data]="listReport"
+                    [loading]="loadingTable"
+                    [fixStyleTable]="true"
+                    [stripedTable]="true"
+                    [filtroGeneral]="false"
+                    idElement="id_vencimiento"
+                    [actionsShow]="true"
+                    nameActionsLeft="Detalle / Programar"
+                    [paginador]="true"
+                    [lazy]="true"
+                    [rows]="30"
+                    (onChangePage)="changePageAction($event)"
+                    [totalRecords]="totalRecords"
+                    [actionsRightShow]="true"
+                    nameActionsRight="Acciones"
+                  >
+                    <ng-template pTemplate="actions" let-rowData="elemento">
+                      <div class="grid p-fluit">
+                        <div class="col-6">
+                          <app-button-component
+                            [icon]="true"
+                            [showTooltip]="true"
+                            messageTooltip="Detalle"
+                            iconClass="pi pi-file"
+                            clase="p-button-rounded p-button-danger p-button-text"
+                            (eventEmiter)="openDetail(rowData, 1)"
+                          ></app-button-component>
+                        </div>
+                        <div class="col-6">
+                          <app-button-component
+                            [icon]="true"
+                            [showTooltip]="true"
+                            messageTooltip="Programar"
+                            iconClass="pi
+                            pi-calendar-plus"
+                            clase="p-button-rounded p-button-text"
+                            (eventEmiter)="openDetail(rowData, 2)"
+                          ></app-button-component>
+                        </div>
+                      </div>
+                    </ng-template>
+
+                    <ng-template
+                      pTemplate="actions-left"
+                      let-rowData="elemento"
+                    >
+                      <div class="grid p-fluit">
+                        <div class="col-6">
+                          <app-button-component
+                            [icon]="true"
+                            [showTooltip]="true"
+                            messageTooltip="Autos"
+                            iconClass="pi {{
+                              rowData.ruta_auto !== ''
+                                ? 'pi-file-pdf'
+                                : 'pi-times'
+                            }} "
+                            clase="p-button-rounded p-button-danger p-button-text"
+                            (eventEmiter)="downloadDoc(rowData.ruta_auto)"
+                          ></app-button-component>
+                        </div>
+                        <div class="col-6">
+                          <app-button-component
+                            [icon]="true"
+                            [showTooltip]="true"
+                            messageTooltip="{{
+                              rowData.nota !== '' && rowData.nota !== null
+                                ? 'Nota'
+                                : 'No hay notas disponibles'
+                            }}"
+                            iconClass="pi {{
+                              rowData.nota !== '' && rowData.nota !== null
+                                ? 'pi-exclamation-triangle'
+                                : 'pi-times-circle'
+                            }}"
+                            clase="p-button-rounded  {{
+                              rowData.nota !== '' && rowData.nota !== null
+                                ? 'p-button-warning'
+                                : 'p-button-danger'
+                            }}  p-button-text"
+                            (eventEmiter)="openDetail(rowData, 3)"
+                          ></app-button-component>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </app-tabla-component>
+                </div>
+              </div>
+            </ng-template>
+          </app-card-component>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<modal-component [visible]="showModal" (closeModal)="showModal = false">
+  <ng-template pTemplate="title">
+    <h4>INFORMACIÓN DETALLADA</h4>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="grid mt-3">
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.name_ciudad"
+          placeHolder="Ciudad"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.despacho"
+          placeHolder="despacho"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.radicacion"
+          placeHolder="Radicación"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.name_notificacion"
+          placeHolder="Notificación"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.proceso"
+          placeHolder="Proceso"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+      <div class="col-12">
+        <app-text-area
+          [(model)]="detailModal.demandante"
+          placeholder="Demandante"
+          [disabled]="true"
+        ></app-text-area>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12">
+        <app-text-area
+          [(model)]="detailModal.demandado"
+          placeholder="Demandado"
+          [disabled]="true"
+        ></app-text-area>
+      </div>
+      <div class="col-12">
+        <app-text-area
+          [(model)]="detailModal.descripcion"
+          placeholder="Descripción"
+          [disabled]="true"
+        ></app-text-area>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.fechapublicacion"
+          placeHolder="Fecha publicación"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+      <div class="col-6 p-3">
+        Expediente digital:
+        <span
+          *ngIf="
+            detailModal.expediente_digital !== '' &&
+              detailModal.expediente_digital !== null;
+            else linknull
+          "
+        >
+          <a href="{{ detailModal.expediente_digital }}" target="_blank"
+            >Abrir Link</a
+          >
+        </span>
+      </div>
+      <ng-template #linknull>
+        <span>N/A</span>
+      </ng-template>
+    </div>
+  </ng-template>
+</modal-component>
+<modal-component [visible]="showModalNota" (closeModal)="showModalNota = false">
+  <ng-template pTemplate="title">
+    <h4>NOTA</h4>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="grid mt-3">
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.name_ciudad"
+          placeHolder="Ciudad"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.despacho"
+          placeHolder="despacho"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.radicacion"
+          placeHolder="Radicación"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.name_notificacion"
+          placeHolder="Notificación"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.proceso"
+          placeHolder="Proceso"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+      <div class="col-12">
+        <app-text-area
+          [(model)]="detailModal.demandante"
+          placeholder="Demandante"
+          [disabled]="true"
+        ></app-text-area>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12">
+        <app-text-area
+          [(model)]="detailModal.demandado"
+          placeholder="Demandado"
+          [disabled]="true"
+        ></app-text-area>
+      </div>
+      <div class="col-12">
+        <app-text-area
+          [(model)]="detailModal.nota"
+          placeholder="Nota"
+          [disabled]="true"
+        ></app-text-area>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-6">
+        <input-text
+          [(model)]="detailModal.fechapublicacion"
+          placeHolder="Fecha publicación"
+          [disabledInputText]="true"
+        ></input-text>
+      </div>
+    </div>
+  </ng-template>
+</modal-component>
+<modal-component [visible]="showModalEdit" (closeModal)="showModalEdit = false">
+  <ng-template pTemplate="title">
+    <h4>PROGRAMAR AUDIENCIA / ALERTAR VENCIMIENTO DE TERMINO</h4>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="grid">
+      <div class="col-12">
+        <div class="grid mt-3">
+          <div class="col-6">
+            <input-text
+              [(model)]="detailModal.name_ciudad"
+              placeHolder="Ciudad"
+              [disabledInputText]="true"
+            ></input-text>
+          </div>
+          <div class="col-6">
+            <input-text
+              [(model)]="detailModal.despacho"
+              placeHolder="despacho"
+              [disabledInputText]="true"
+            ></input-text>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="col-6">
+            <input-text
+              [(model)]="detailModal.radicacion"
+              placeHolder="Radicación"
+              [disabledInputText]="true"
+            ></input-text>
+          </div>
+          <div class="col-6">
+            <input-text
+              [(model)]="detailModal.proceso"
+              placeHolder="Proceso"
+              [disabledInputText]="true"
+            ></input-text>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="col-6">
+            <app-text-area
+              [(model)]="detailModal.demandante"
+              placeholder="Demandante"
+              [disabled]="true"
+            ></app-text-area>
+          </div>
+          <div class="col-6">
+            <app-text-area
+              [(model)]="detailModal.demandado"
+              placeholder="Demandado"
+              [disabled]="true"
+            ></app-text-area>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="col-12">
+            <app-text-area
+              [(model)]="audiencia.descripcion_vence_terminos"
+              placeholder="Detalle vencimiento audiencia"
+            ></app-text-area>
+          </div>
+        </div>
+        <div class="grid p-fluit">
+          <div class="col-6 ml-2">
+            <app-date-picker
+              [(model)]="audiencia.fecha_vence_terminos"
+              placeholder="Fecha Audiencia / Vencimiento"
+              [showIcon]="true"
+            ></app-date-picker>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <app-button-component
+      nameButton="Actualizar registro"
+      clase="p-button-outlined p-button-success"
+      (eventEmiter)="updateAudiencia()"
+    ></app-button-component>
+  </ng-template>
+</modal-component>
+
+<p-toast></p-toast>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

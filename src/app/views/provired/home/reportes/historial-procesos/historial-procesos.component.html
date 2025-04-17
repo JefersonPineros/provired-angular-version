@@ -43,75 +43,251 @@
             </div>
           </ng-template>
           <ng-template pTemplate="content">
-            <div class="grid p-fluit mt-2">
-              <div class="col-12 xl:col-6 md:col-6">
-                <app-dropdown-component
-                  [(model)]="ciudadModel"
-                  [options]="listDepartamentos"
-                  (modelChange)="departamentoChange()"
-                  name="departamento"
-                  placeholder="Departamento"
-                  selectLabel="Seleccionar departamento"
-                  keyOptionName="departamento"
-                  (grupo)="(fb)"
-                  [showClear]="true"
-                ></app-dropdown-component>
-              </div>
-
-              <div class="col-12 xl:col-6 md:col-6">
-                <app-dropdown-component
-                  [(model)]="municipioModel"
-                  (grupo)="(fb)"
-                  [options]="listMunicipios"
-                  name="municipio"
-                  placeholder="Municipio"
-                  keyOptionName="municipio"
-                  selectLabel="Seleccionar municipio"
-                  [showClear]="true"
-                  (modelChange)="municipioChange()"
-                ></app-dropdown-component>
-              </div>
-            </div>
-            <div class="grid p-fluit mt-2">
-              <div class="col-12 xl:col-6 md:col-6">
-                <app-dropdown-component
-                  [(model)]="corporacionesModel"
-                  (grupo)="(fb)"
-                  [options]="listCorporaciones"
-                  name="corporacioes"
-                  placeholder="Corporacion por especialidad"
-                  keyOptionName="corporacion"
-                  selectLabel="Seleccionar corporacion"
-                  [showClear]="true"
-                  (modelChange)="corporacionesChange()"
-                ></app-dropdown-component>
-              </div>
-              <div class="col-12 xl:col-6 md:col-6">
-                <app-dropdown-component
-                  [(model)]="despachosModel"
-                  (grupo)="(fb)"
-                  [options]="listDespachos"
-                  name="despachos"
-                  placeholder="Despachos"
-                  keyOptionName="despacho"
-                  selectLabel="Seleccionar despacho"
-                  [showClear]="true"
-                  [filter]="true"
-                ></app-dropdown-component>
-              </div>
-            </div>
+            <app-filters-dinamics
+              [showSuscriptores]="false"
+              [showRango]="false"
+              (eventFilter)="filterProceso($event)"
+            ></app-filters-dinamics>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+    <div class="grid p-fluit mt-2" *ngIf="listHistorico.length > 0">
+      <div class="col-12">
+        <app-card-component>
+          <ng-template pTemplate="content">
             <div class="grid">
               <div class="col-12">
-                <app-button-component
-                  nameButton="Consultar"
-                  (eventEmiter)="consultarHistorial($event)"
-                ></app-button-component>
+                <app-tabla-component
+                  [cols]="[
+                    { field: 'etiqueta_suscriptor', header: 'Etiqueta' },
+                    { field: 'municipio', header: 'Ciudad' },
+                    { field: 'despacho', header: 'Despacho' },
+                    { field: 'radicacion', header: 'Radicado' },
+                    { field: 'proceso', header: 'Tipo proceso' },
+                    { field: 'demandante', header: 'Demandante' },
+                    { field: 'demandado', header: 'Demandado' }
+                  ]"
+                  [multiSelect]="false"
+                  [data]="listHistorico"
+                  [paginador]="true"
+                  [filtroGeneral]="false"
+                  [lazy]="true"
+                  [fixStyleTable]="true"
+                  [stripedTable]="true"
+                  [rows]="generalRows"
+                  [totalRecords]="totalItems"
+                  [actionsRightShow]="true"
+                  nameActionsRight="Consultar"
+                  (onChangePage)="changePage($event)"
+                  paginationPosition="both"
+                >
+                  <ng-template pTemplate="actions-left" let-rowData="elemento">
+                    <app-button-component
+                      [icon]="true"
+                      [showTooltip]="true"
+                      messageTooltip="Nota"
+                      iconClass="pi pi-search"
+                      clase="p-button-rounded p-button-primary p-button-text"
+                      (eventEmiter)="consultarActuacion(rowData)"
+                    ></app-button-component>
+                  </ng-template>
+                </app-tabla-component>
               </div>
             </div>
           </ng-template>
         </app-card-component>
       </div>
     </div>
-    <div class="grid p-fluit mt-2"></div>
   </div>
 </div>
+
+<modal-component
+  [maximizable]="true"
+  [visible]="showModal"
+  tamanio="90vw"
+  (closeModal)="showModal = false"
+>
+  <ng-template pTemplate="title">
+    <div class="grid">
+      <div class="col-12">
+        <h4>Ultimas actuación</h4>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="grid p-2" *ngIf="!showDescriptionData; else showDecriptionForm">
+      <div class="col-12">
+        <app-tabla-component
+          [cols]="[
+            { field: 'despacho', header: 'Despacho' },
+            { field: 'notificacion', header: 'Notificación' },
+            { field: 'radicacion', header: 'Radicación' },
+            { field: 'proceso', header: 'Proceso' },
+            { field: 'demandante', header: 'Demandante' },
+            { field: 'demandado', header: 'Demandado' },
+            { field: 'descripcion', header: 'Descripción' },
+            { field: 'fechapublicacion', header: 'Publicación', isFecha: true }
+          ]"
+          [data]="listActuacion"
+          [totalRecords]="totalRows"
+          [actionsRightShow]="true"
+          nameActionsRight="Auto"
+          nameActionsLeft="Detalle"
+          [actionsShow]="true"
+          [paginador]="true"
+          [lazy]="true"
+          [rows]="generalRows"
+          paginationPosition="both"
+          (onChangePage)="consultarActuacion(undefined, $event)"
+        >
+          <ng-template pTemplate="actions" let-rowData="elemento">
+            <div class="grid">
+              <div class="col-12">
+                <app-button-component
+                  [icon]="true"
+                  [showTooltip]="true"
+                  messageTooltip="Consultar detalle"
+                  iconClass="pi pi-eye"
+                  clase="p-button-rounded p-button-primary p-button-text"
+                  (eventEmiter)="showDescription(rowData)"
+                ></app-button-component>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="actions-left" let-rowData="elemento">
+            <div class="grid">
+              <div class="col-12">
+                <app-button-component
+                  [icon]="true"
+                  [showTooltip]="true"
+                  messageTooltip="Autos"
+                  iconClass="pi {{
+                    rowData.ruta_auto !== '' ? 'pi-file-pdf' : 'pi-times'
+                  }} "
+                  clase="p-button-rounded p-button-danger p-button-text"
+                  (eventEmiter)="downloadDoc(rowData.ruta_auto)"
+                ></app-button-component>
+              </div>
+            </div>
+          </ng-template>
+        </app-tabla-component>
+      </div>
+    </div>
+    <ng-template #showDecriptionForm>
+      <div class="grid p-fluid">
+        <div class="col-12 p-2">
+          <h4>Consulta detalle</h4>
+        </div>
+      </div>
+      <div class="grid p-2">
+        <div class="col-6">
+          <input-text
+            [(model)]="actuacionSelected.despacho"
+            [disabledInputText]="true"
+            placeHolder="Despacho"
+            styleInput="help-text"
+          ></input-text>
+        </div>
+        <div class="col-6">
+          <input-text
+            [(model)]="actuacionSelected.radicacion"
+            [disabledInputText]="true"
+            placeHolder="Radicación"
+            styleInput="help-text"
+          ></input-text>
+        </div>
+      </div>
+      <div class="grid p-2">
+        <div class="col-6">
+          <input-text
+            [(model)]="actuacionSelected.notificacion"
+            [disabledInputText]="true"
+            placeHolder="Notificación"
+            styleInput="help-text"
+          ></input-text>
+        </div>
+        <div class="col-6">
+          <input-text
+            [(model)]="actuacionSelected.proceso"
+            [disabledInputText]="true"
+            placeHolder="Proceso"
+            styleInput="help-text"
+          ></input-text>
+        </div>
+      </div>
+      <div class="grid p-2">
+        <div class="col-6">
+          <app-text-area
+            styleInput="help-text"
+            placeholder="Demandante"
+            heightTamanio="100px"
+            [(model)]="actuacionSelected.demandante"
+            [disabled]="true"
+          ></app-text-area>
+        </div>
+        <div class="col-6">
+          <app-text-area
+            styleInput="help-text"
+            placeholder="Demandado"
+            heightTamanio="100px"
+            [(model)]="actuacionSelected.demandado"
+            [disabled]="true"
+          ></app-text-area>
+        </div>
+      </div>
+      <div class="grid p-2">
+        <div class="col-12">
+          <app-text-area
+            styleInput="help-text"
+            placeholder="Demandado"
+            heightTamanio="100px"
+            [(model)]="actuacionSelected.descripcion"
+            [disabled]="true"
+          ></app-text-area>
+        </div>
+      </div>
+      <div class="grid p-2">
+        <div class="col-6">
+          <input-text
+            [(model)]="actuacionSelected.fechapublicacion"
+            [disabledInputText]="true"
+            placeHolder="Fecha publicación"
+            styleInput="help-text"
+          ></input-text>
+        </div>
+        <div class="col-6">
+          <input-text
+            [(model)]="actuacionSelected.imagen"
+            [disabledInputText]="true"
+            placeHolder="Imagen"
+            styleInput="help-text"
+          ></input-text>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-12 p-2">
+          <app-button-component
+            nameButton="Retornar"
+            clase="p-button-rounded p-button-outlined p-button-success"
+            [icon]="true"
+            iconClass="pi pi-bell"
+            (eventEmiter)="showDescription()"
+          ></app-button-component>
+        </div>
+      </div>
+    </ng-template>
+  </ng-template>
+</modal-component>
+
+<p-toast></p-toast>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
