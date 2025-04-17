@@ -1,9 +1,10 @@
 {
   "name": "provired-angular-version",
-  "version": "0.0.0",
+  "version": "1.0.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start-host": "ng serve --host 127.0.0.1",
     "build": "ng build",
     "build-prod": "ng build --configuration production --output-path docs",
     "watch": "ng build --configuration development",
