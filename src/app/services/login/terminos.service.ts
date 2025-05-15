@@ -15,8 +15,8 @@ export class TerminosService {
     let generate = new RequestModel();
 
     let req = generate.generateModel(
-      GeneralConst.CONTROLLERS_METHODS[15].controller,
-      GeneralConst.CONTROLLERS_METHODS[15].method,
+      GeneralConst.CONTROLLERS_METHODS[41].controller,
+      GeneralConst.CONTROLLERS_METHODS[41].method,
       user
     );
 

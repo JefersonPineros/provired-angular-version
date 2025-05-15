@@ -75,6 +75,8 @@ export class ProcesosActivosComponent implements OnInit {
     vistaForm: false,
   };
 
+  public userSesion: any;
+
   public sendCaptcha: SendCaptcha = new SendCaptcha();
 
   constructor(
@@ -100,6 +102,7 @@ export class ProcesosActivosComponent implements OnInit {
       { label: 'Listado procesos activos' },
     ]);
     this.siteKey = Token.TOKEN_AUTHORIZATION.API_KEY;
+    this.userSesion = this.session.getStorage('user', 'json');
     this.searchActivos(this.startPage);
   }
 
@@ -109,8 +112,7 @@ export class ProcesosActivosComponent implements OnInit {
 
   searchActivos(page: any): void {
     this.loadingTable = true;
-    let ses = this.session.getStorage('user', 'json');
-
+    let ses = this.userSesion;
     this.genericFilter.from = page.first;
     this.genericFilter.group_users = ses.data.group_users;
     this.genericFilter.parent = ses.data.parent;

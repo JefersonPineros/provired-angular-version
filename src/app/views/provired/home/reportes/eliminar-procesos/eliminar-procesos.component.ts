@@ -110,6 +110,7 @@ export class EliminarProcesosComponent implements OnInit {
         next: (res) => {
           if (res.length > 0) {
             this.listEliminar = res;
+            
           }
           this.spinner.hide();
         },

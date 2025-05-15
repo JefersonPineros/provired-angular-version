@@ -24,27 +24,27 @@
   {
     "label": "Catalogos",
     "icon": "pi pi-fw pi-inbox",
-    "routerLink": ["notificaciones"],
+    "routerLink": ["catalogos"],
     "items": [
       {
         "label": "Departamentos",
         "icon": "pi pi-fw pi-file",
-        "routerLink": ["reportes/procesos_generales"]
+        "routerLink": ["catalogos/generico_departamentos"]
       },
       {
         "label": "Municipios",
         "icon": "pi pi-fw pi-file",
-        "routerLink": ["reportes/procesos_activos"]
+        "routerLink": ["catalogos/generico_municipios"]
       },
       {
         "label": "Corporacion",
         "icon": "pi pi-fw pi-trash",
-        "routerLink": ["reportes/eliminar_procesos"]
+        "routerLink": ["catalogos/generico_corporacion"]
       },
       {
         "label": "Despachos",
         "icon": "pi pi-fw pi-trash",
-        "routerLink": ["reportes/eliminar_procesos"]
+        "routerLink": ["catalogos/generico_despachos"]
       }
     ]
   },
