@@ -1,0 +1,143 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="grid">
+      <div class="col-12">
+        <app-card-component>
+          <ng-template pTemplate="header">
+            <div class="grid">
+              <div class="col-12">
+                <div
+                  class="flex align-items-center justify-content-center mt-2"
+                >
+                  <h4 class="title-color mt-3">Consulta departamentos</h4>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="grid">
+              <div class="col-4">
+                <app-button-component
+                  nameButton="Crear departamento"
+                  (eventEmiter)="showModal = true"
+                ></app-button-component>
+              </div>
+            </div>
+            <div class="grid mt-2">
+              <div class="col-12">
+                <app-tabla-component
+                  [cols]="[
+                    { field: 'IdDep', header: 'Id Departamento' },
+                    { field: 'departamento', header: 'Departamento' }
+                  ]"
+                  [data]="listDepartamentos"
+                  [fixStyleTable]="true"
+                  [stripedTable]="true"
+                  idElement="id_vencimiento"
+                  [actionsShow]="true"
+                  [paginador]="true"
+                  nameActionsLeft="Acciones"
+                >
+                  <ng-template pTemplate="actions" let-rowData="elemento">
+                    <div class="grid p-fluit">
+                      <div class="col-2">
+                        <app-button-component
+                          [icon]="true"
+                          [showTooltip]="true"
+                          messageTooltip="Eliminar registro"
+                          iconClass="pi pi-times"
+                          clase="p-button-rounded p-button-danger p-button-text"
+                        ></app-button-component>
+                      </div>
+                      <div class="col-2">
+                        <app-button-component
+                          [icon]="true"
+                          [showTooltip]="true"
+                          messageTooltip="Actualizar registro"
+                          iconClass="pi pi-file-edit"
+                          clase="p-button-rounded p-button-text"
+                        ></app-button-component>
+                      </div>
+                    </div>
+                  </ng-template>
+                </app-tabla-component>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-component>
+      </div>
+    </div>
+  </div>
+</div>
+
+<modal-component
+  [maximizable]="true"
+  [visible]="showModal"
+  tamanio="40vw"
+  (closeModal)="showModal = false"
+>
+  <ng-template pTemplate="title">
+    <div class="grid">
+      <div class="col-12">
+        <h4>Crear nuevo departamento</h4>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="grid">
+      <div class="col-12">
+        <div class="grid">
+          <div class="col-6">
+            <input-text
+              placeHolder="Id Departmento"
+              [(model)]="newDepartamento.IdDep"
+              (grupo)="(formDep)"
+              [requerido]="true"
+              styleInput="help-text"
+              [placeHolderActive]="false"
+            ></input-text>
+          </div>
+          <div class="col-6">
+            <input-text
+              placeHolder="Nombre Departamento"
+              [(model)]="newDepartamento.departamento"
+              (grupo)="(formDep)"
+              [requerido]="true"
+              styleInput="help-text"
+              [placeHolderActive]="false"
+            ></input-text>
+          </div>
+        </div>
+        <div class="grid mt-4">
+          <div class="col-12">
+            <div class="flex align-items-center justify-content-center mt-2">
+              <app-button-component
+                class="mr-3"
+                clase="p-button-success"
+                nameButton="Crear Departamento"
+                (eventEmiter)="crearDepartamento()"
+              ></app-button-component>
+              <app-button-component
+                clase="p-button-danger"
+                nameButton="Cancelar"
+                (eventEmiter)="showModal = false"
+              ></app-button-component>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</modal-component>
+
+<p-toast></p-toast>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

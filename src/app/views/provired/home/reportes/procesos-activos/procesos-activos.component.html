@@ -149,7 +149,10 @@
                           (eventEmiter)="programarProceso(value)"
                         ></app-button-component>
                       </div>
-                      <div class="col-4">
+                      <div
+                        class="col-4"
+                        *ngIf="userSesion.data.informe_procesal == 1"
+                      >
                         <app-button-component
                           [icon]="true"
                           [showTooltip]="true"

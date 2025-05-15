@@ -274,5 +274,10 @@ export class GeneralConst {
       controller: 'User',
       method: 'getTerminos',
     },
+    {
+      id: 41,
+      controller: 'User',
+      method: 'updateTerminos',
+    },
   ];
 }
