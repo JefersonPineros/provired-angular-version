@@ -17,9 +17,9 @@ export class TerminosService {
     let req = generate.generateModel(
       GeneralConst.CONTROLLERS_METHODS[41].controller,
       GeneralConst.CONTROLLERS_METHODS[41].method,
-      user
+      { user: user }
     );
 
-    return this.http.post(environment.apiBaseUrl + 'index', req);
+    return this.http.post(environment.apiBaseUrl + 'update_terminos', req);
   }
 }
