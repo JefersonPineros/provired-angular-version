@@ -216,7 +216,7 @@ export class ProcesosActivosComponent implements OnInit {
       next: (res) => {
         if (res.status == 200) {
           //let listUrl = res.url.split('/');
-          this.urlFinal = environment.apiBaseDocs + '/' + res.nameFile;
+          this.urlFinal = environment.apiBaseDocs + '/excelTmp/' + res.nameFile;
           this.spinner.hide();
 
           window.open(this.urlFinal, '_blank');

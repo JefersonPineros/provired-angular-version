@@ -174,7 +174,8 @@ export class ProcesosGeneralesComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if (res.status == 200) {
-            this.urlFinal = environment.apiBaseDocs + '/' + res.nameFile;
+            this.urlFinal =
+              environment.apiBaseDocs + '/excelTmp/' + res.nameFile;
             this.spinner.hide();
 
             window.open(this.urlFinal, '_blank');
