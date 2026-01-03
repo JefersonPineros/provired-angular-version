@@ -1,0 +1,59 @@
+<app-card-component>
+  <ng-template pTemplate="header">
+    <div class="grid">
+      <div class="col-12 text-center">
+        <h3 class="pt-3">Reporte Rama Judicial</h3>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12">
+        <div class="grid p-7">
+          <div class="col-6">
+            <app-card-component>
+              <ng-template pTemplate="header">
+                <div class="grid p-3">
+                  <div class="col-12 text-center">
+                    <h3 class="pt-3">Unificada</h3>
+                    <i class="pi pi-file"></i>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="content">
+                <div class="grid p-3">
+                  <div class="col-12 text-center mt-3">
+                    <app-button-component
+                      clase="p-button-rounded"
+                      nameButton="Download"
+                    ></app-button-component>
+                  </div>
+                </div>
+              </ng-template>
+            </app-card-component>
+          </div>
+          <div class="col-6">
+            <app-card-component>
+              <ng-template pTemplate="header">
+                <div class="grid p-3">
+                  <div class="col-12 text-center">
+                    <h3 class="pt-3">Samai</h3>
+                    <i class="pi pi-file"></i>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="content">
+                <div class="grid p-3">
+                  <div class="col-12 text-center mt-3">
+                    <app-button-component
+                      clase="p-button-rounded"
+                      nameButton="Download"
+                    ></app-button-component>
+                  </div>
+                </div>
+              </ng-template>
+            </app-card-component>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</app-card-component>

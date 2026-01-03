@@ -37,6 +37,7 @@ import { EliminarProcesosService } from 'src/app/services/home/reportes/eliminar
 import { HistorialProcesosService } from 'src/app/services/home/reportes/historial-procesos.service';
 import { SolicitudesService } from 'src/app/services/home/reportes/solicitudes.service';
 import { ImpulsoProcesalService } from 'src/app/services/home/reportes/impulso-procesal.service';
+import { RamaJucialComponent } from './rama-jucial/rama-jucial.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { ImpulsoProcesalService } from 'src/app/services/home/reportes/impulso-p
     EliminarProcesosComponent,
     HistorialProcesosComponent,
     SolicitudesComponent,
-    ConsultaProcesalComponent
+    ConsultaProcesalComponent,
+    RamaJucialComponent
   ],
   imports: [
     CommonModule,
