@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 
 import { ReportesRoutingModule } from './reportes-routing.module';
 import { ReportesComponent } from './reportes.component';
@@ -19,7 +19,7 @@ import {
   ModalComponentModule,
   SideMenuModule,
   TablaComponentModule,
-  TextAreaModule
+  TextAreaModule,
 } from 'src/app/components/components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DespachosService } from 'src/app/services/utils/despachos.service';
@@ -37,7 +37,8 @@ import { EliminarProcesosService } from 'src/app/services/home/reportes/eliminar
 import { HistorialProcesosService } from 'src/app/services/home/reportes/historial-procesos.service';
 import { SolicitudesService } from 'src/app/services/home/reportes/solicitudes.service';
 import { ImpulsoProcesalService } from 'src/app/services/home/reportes/impulso-procesal.service';
-
+import { RamaJucialComponent } from './rama-jucial/rama-jucial.component';
+import { RamaJudicialService } from 'src/app/services/home/reportes/rama-judicial.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ImpulsoProcesalService } from 'src/app/services/home/reportes/impulso-p
     EliminarProcesosComponent,
     HistorialProcesosComponent,
     SolicitudesComponent,
-    ConsultaProcesalComponent
+    ConsultaProcesalComponent,
+    RamaJucialComponent,
   ],
   imports: [
     CommonModule,
@@ -71,7 +73,7 @@ import { ImpulsoProcesalService } from 'src/app/services/home/reportes/impulso-p
     ToastModule,
     NgxSpinnerModule,
     RecaptchaModule,
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
   ],
   providers: [
     DepartamentosService,
@@ -84,7 +86,8 @@ import { ImpulsoProcesalService } from 'src/app/services/home/reportes/impulso-p
     EliminarProcesosService,
     HistorialProcesosService,
     SolicitudesService,
-    ImpulsoProcesalService
-  ]
+    ImpulsoProcesalService,
+    RamaJudicialService,
+  ],
 })
-export class ReportesModule { }
+export class ReportesModule {}

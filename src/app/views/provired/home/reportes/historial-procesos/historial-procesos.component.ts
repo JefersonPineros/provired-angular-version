@@ -58,8 +58,6 @@ export class HistorialProcesosComponent implements OnInit {
   }
 
   filterProceso(event: HistorialProcesosModel) {
-    console.log(event);
-
     this.spinner.show();
     this.filter = event;
     let ses = this.session.getStorage('user', 'json');
@@ -71,16 +69,17 @@ export class HistorialProcesosComponent implements OnInit {
 
     this.historialService.filterHistorial(this.filter).subscribe({
       next: (res) => {
-        if (res.data.length == 0) {
+        if (res.data == null || res.data.length == 0) {
           let message_model: MessageModel = new MessageModel(
             'info',
             `No hay registros disponibles`,
             `${res.msg}`
           );
           this.message.add(message_model);
+        } else {
+          this.listHistorico = res.data;
+          this.totalItems = res.count_rows;
         }
-        this.listHistorico = res.data;
-        this.totalItems = res.count_rows;
         this.spinner.hide();
       },
       error: (error) => {

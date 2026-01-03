@@ -279,5 +279,15 @@ export class GeneralConst {
       controller: 'User',
       method: 'updateTerminos',
     },
+    {
+      id: 42,
+      controller: 'reportes/RamaJudicial',
+      method: 'exportExcel',
+    },
+  ];
+
+  public static REPORTE_RAMA_JUDICIAL = [
+    { id: '1', value: 'Unificada' },
+    { id: '2', value: 'Samai' },
   ];
 }

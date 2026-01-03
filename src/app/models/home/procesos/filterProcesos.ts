@@ -10,6 +10,8 @@ export class FilterProceso {
     public etiqueta?: string,
     public from?: number,
     public rows?: number,
-    public despacho?: string
+    public despacho?: string,
+    public type_report?: string,
+    public tipousuario?: string
   ) {}
 }

@@ -6,36 +6,41 @@ import { EliminarProcesosComponent } from './eliminar-procesos/eliminar-procesos
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { ConsultaProcesalComponent } from './consulta-procesal/consulta-procesal.component';
 import { HistorialProcesosComponent } from './historial-procesos/historial-procesos.component';
+import { RamaJucialComponent } from './rama-jucial/rama-jucial.component';
 
 const routes: Routes = [
   {
     path: 'procesos_generales',
-    component: ProcesosGeneralesComponent
+    component: ProcesosGeneralesComponent,
   },
   {
     path: 'procesos_activos',
-    component: ProcesosActivosComponent
+    component: ProcesosActivosComponent,
   },
   {
     path: 'eliminar_procesos',
-    component: EliminarProcesosComponent
+    component: EliminarProcesosComponent,
   },
   {
     path: 'historial_procesos',
-    component: HistorialProcesosComponent
+    component: HistorialProcesosComponent,
   },
   {
     path: 'mis_solicitudes',
-    component: SolicitudesComponent
+    component: SolicitudesComponent,
   },
   {
     path: 'consulta_procesal',
-    component: ConsultaProcesalComponent
-  }
+    component: ConsultaProcesalComponent,
+  },
+  {
+    path: 'rama_judicial',
+    component: RamaJucialComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ReportesRoutingModule { }
+export class ReportesRoutingModule {}

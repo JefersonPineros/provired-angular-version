@@ -44,6 +44,11 @@
         "label": "Consulta impulso procesal",
         "icon": "pi pi-fw pi-question-circle",
         "routerLink": ["reportes/consulta_procesal"]
+      },
+      {
+        "label": "Reporte rama judicial",
+        "icon": "pi pi-fw pi-shield",
+        "routerLink": ["reportes/rama_judicial"]
       }
     ]
   },
