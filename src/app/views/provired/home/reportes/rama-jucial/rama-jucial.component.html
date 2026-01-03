@@ -23,7 +23,12 @@
                   <div class="col-12 text-center mt-3">
                     <app-button-component
                       clase="p-button-rounded"
-                      nameButton="Download"
+                      nameButton="Descargar reporte Unificada"
+                      (eventEmiter)="
+                        dowunloadReportRamaJudicial(
+                          generalConst.REPORTE_RAMA_JUDICIAL[0].value
+                        )
+                      "
                     ></app-button-component>
                   </div>
                 </div>
@@ -45,7 +50,12 @@
                   <div class="col-12 text-center mt-3">
                     <app-button-component
                       clase="p-button-rounded"
-                      nameButton="Download"
+                      nameButton="Descargar reporte samai"
+                      (eventEmiter)="
+                        dowunloadReportRamaJudicial(
+                          generalConst.REPORTE_RAMA_JUDICIAL[1].value
+                        )
+                      "
                     ></app-button-component>
                   </div>
                 </div>
