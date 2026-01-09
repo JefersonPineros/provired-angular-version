@@ -44,6 +44,8 @@ export class EliminarProcesosComponent implements OnInit {
 
   public userSelected: UserTranfer = new UserTranfer();
 
+  public totalItems: number = 0;
+
   constructor(
     public breadCrumService: BreadcrumbService,
     private session: SessionStorageService,
@@ -80,6 +82,7 @@ export class EliminarProcesosComponent implements OnInit {
         next: (res) => {
           if (res.length > 0) {
             this.listEliminar = res;
+            this.totalItems = res.length;
           }
           this.spinner.hide();
         },
@@ -110,7 +113,6 @@ export class EliminarProcesosComponent implements OnInit {
         next: (res) => {
           if (res.length > 0) {
             this.listEliminar = res;
-            
           }
           this.spinner.hide();
         },

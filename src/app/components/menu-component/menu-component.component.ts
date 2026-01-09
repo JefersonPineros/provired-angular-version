@@ -47,7 +47,7 @@ export class MenuComponentComponent implements OnInit {
     let ses = this.session.getStorage('user', 'json');
     let menuItem: MenuItem[] = jsonObject as MenuItem[];
 
-    if (ses.data.misprocesosauto == 0) {
+    if (ses.data.historialprocesos == 0) {
       for (let item of menuItem) {
         if (item.label == 'Reportes') {
           let indexItem = item.items

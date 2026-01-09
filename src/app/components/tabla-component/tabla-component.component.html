@@ -82,20 +82,37 @@
         style="max-width: 300px; word-wrap: break-word"
       >
         <div *ngIf="!col.show">
-          <div *ngIf="!col.esRadicacion; else esRadicacion">
-            <div *ngIf="!col.isFecha; else esFecha">
-              <div *ngIf="!col.tipoEX; else tipoEx">
-                {{
-                  rowData[col.field] == "" ||
-                  rowData[col.field] == null ||
-                  rowData[col.field] == undefined
-                    ? "N / A"
-                    : rowData[col.field]
-                }}
+          <div *ngIf="!col.esUrl; else esUrl">
+            <div *ngIf="!col.esRadicacion; else esRadicacion">
+              <div *ngIf="!col.isFecha; else esFecha">
+                <div *ngIf="!col.tipoEX; else tipoEx">
+                  {{
+                    rowData[col.field] == "" ||
+                    rowData[col.field] == null ||
+                    rowData[col.field] == undefined
+                      ? "N / A"
+                      : rowData[col.field]
+                  }}
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <ng-template #esUrl>
+          <div
+            *ngIf="
+              rowData[col.typeUrl] == null || rowData[col.typeUrl] == '';
+              else existUrl
+            "
+          >
+            {{ rowData[col.field] }}
+          </div>
+        </ng-template>
+        <ng-template #existUrl>
+          <a href="{{ rowData[col.typeUrl] }}" target="_blank">
+            {{ rowData[col.field] }}
+          </a>
+        </ng-template>
         <ng-template #tipoEx>
           {{ rowData[col.field] == 1 ? "NUEVO" : "EXPEDIENTE" }}
         </ng-template>
