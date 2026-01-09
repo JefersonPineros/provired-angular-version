@@ -116,9 +116,18 @@
                     [cols]="[
                       { field: 'etiqueta_suscriptor', header: 'Etiqueta' },
                       { field: 'name_ciudad', header: 'Cidad' },
-                      { field: 'name_despacho', header: 'Despacho' },
+                      {
+                        field: 'name_despacho',
+                        header: 'Despacho',
+                        esUrl: true,
+                        typeUrl: 'url_microservicio'
+                      },
                       { field: 'name_notificacion', header: 'Notificación' },
-                      { field: 'radicacion', header: 'Radicación' },
+                      {
+                        field: 'codigo_23',
+                        header: 'Radicación',
+                        esRadicacion: true
+                      },
                       { field: 'demandante', header: 'Demandante' },
                       { field: 'demandado', header: 'Demandado' },
                       {

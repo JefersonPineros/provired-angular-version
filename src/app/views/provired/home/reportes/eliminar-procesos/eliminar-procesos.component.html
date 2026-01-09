@@ -115,7 +115,7 @@
                   [cols]="[
                     { field: 'name_departamento', header: 'Ciudad' },
                     { field: 'name_despacho', header: 'Despacho' },
-                    { field: 'radicacion', header: 'Radicación' },
+                    { field: 'codigo_23', header: 'Radicación' },
                     { field: 'proceso', header: 'Tipo proceso' },
                     { field: 'demandante', header: 'Demandante' },
                     { field: 'demandado', header: 'Demandado' },
@@ -138,6 +138,8 @@
                   [rows]="30"
                   [actionsShow]="false"
                   nameActionsLeft="acciones"
+                  [showTotalRecords]="true"
+                  [totalRecords]="totalItems"
                 >
                 </app-tabla-component>
               </div>
